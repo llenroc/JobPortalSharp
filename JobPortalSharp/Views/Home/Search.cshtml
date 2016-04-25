@@ -1,0 +1,24 @@
+﻿@model JobPortalSharp.Models.SearchViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<label>Search</label>
+<form action="/">
+    @Html.TextBoxFor(x => x.search, new { placeholder = "Search Job", type = "text" })
+</form>
+
+@if (Model.Posts.Count() > 0)
+{
+    foreach (var post in Model.Posts)
+    {
+        <div>
+            <h4>@post.Name</h4>
+            <p>USD @post.Salary</p>
+        </div>
+    }
+}
+else
+{
+    <p>0 results</p>
+}
