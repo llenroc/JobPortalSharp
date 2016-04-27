@@ -13,7 +13,9 @@
     foreach (var post in Model.Posts)
     {
         <div>
+            <hr />
             <h4>@post.Name</h4>
+            <p style="font-style: oblique">@post.Employer.Name</p>
             <p>USD @post.Salary</p>
         </div>
     }
