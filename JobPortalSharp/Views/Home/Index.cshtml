@@ -1,4 +1,5 @@
-﻿@{
+﻿@model JobPortalSharp.Models.SearchViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -6,3 +7,13 @@
 <form action="/">
     <input name="search" placeholder="Search Job" type="text" />
 </form>
+@foreach (var post in Model.Posts)
+{
+    <div>
+        <hr />
+        <h4>@post.Name</h4>
+        <p style="font-style: oblique">@post.Employer.Name</p>
+        <p>USD @post.Salary</p>
+        @Html.ActionLink("Apply", "Apply", "Jobs", new { Id = post.Id }, null)
+    </div>
+}

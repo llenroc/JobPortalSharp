@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using JobPortalSharp.Models;
+using JobPortalSharp.Data;
 
 namespace JobPortalSharp.Controllers
 {
@@ -17,6 +18,8 @@ namespace JobPortalSharp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private JobPortalSharpDbContext db = new JobPortalSharpDbContext();
 
         public AccountController()
         {
@@ -156,6 +159,9 @@ namespace JobPortalSharp.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    db.Applicants.Add(new Applicant() { SystemId = user.Id });
+                    db.SaveChanges();
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

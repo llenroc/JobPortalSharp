@@ -17,6 +17,7 @@ namespace JobPortalSharp.Controllers
         {
             if (model.search == null)
             {
+                model.Posts = db.JobPosts.Include(x => x.Employer).OrderByDescending(x => x.CreateDate);
                 return View(model);
             }
             else

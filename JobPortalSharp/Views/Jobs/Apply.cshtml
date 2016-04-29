@@ -1,0 +1,17 @@
+﻿@model JobPortalSharp.Data.JobPost
+@{
+    ViewBag.Title = "Apply";
+}
+
+<h2>Apply</h2>
+
+
+@using (Html.BeginForm("Apply", "Jobs", routeValues: Model, method: FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.Id)
+    <h4>@Model.Name</h4>
+    <p>@Model.Employer.Name</p>
+    <p>@Model.Details</p>
+    <input type="submit" value="Apply" />
+}
+    
