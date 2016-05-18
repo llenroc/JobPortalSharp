@@ -3,17 +3,33 @@
     ViewBag.Title = "Home Page";
 }
 
-<label>Search</label>
-<form action="/">
-    <input name="search" placeholder="Search Job" type="text" />
-</form>
-@foreach (var post in Model.Posts)
-{
-    <div>
-        <hr />
-        <h4>@post.Name</h4>
-        <p style="font-style: oblique">@post.Employer.Name</p>
-        <p>USD @post.Salary</p>
-        @Html.ActionLink("Apply", "Apply", "Jobs", new { Id = post.Id }, null)
+<style type="text/css">
+    .search-box {
+        background-color: lightblue;
+    }
+    .search-box input {
+        width: 100%;
+        max-width: none;
+        font-size: 2em;
+    }
+
+    .search-box > div {
+        margin-top: .5em;
+        margin-bottom: .5em;
+    }
+</style>
+
+<form action="/Home/Search" class="search-box row" style="margin-top:100px">
+    <div class="col-md-4">
+        <input name="q" placeholder="keywords e.g. nurse" type="text" />
     </div>
-}
+    <div class="col-md-3">
+        <input name="l1" placeholder="location 1" type="text" />
+    </div>
+    <div class="col-md-3">
+        <input name="l2" placeholder="location 2" type="text" />
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary btn-lg" style="width:100%;max-width:none" type="submit">Search</button>
+    </div>
+</form>

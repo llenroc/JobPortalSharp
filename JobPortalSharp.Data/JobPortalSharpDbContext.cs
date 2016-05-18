@@ -12,7 +12,6 @@ namespace JobPortalSharp.Data
         public JobPortalSharpDbContext() : base("JobPortalSharpDbContext") { }
         public JobPortalSharpDbContext(string connStr) : base(connStr) { }
 
-        public DbSet<Applicant> Applicants { get; set; }
         public DbSet<JobApplication> Applications { get; set; }
         public DbSet<Employer> Employers { get; set; }
         public DbSet<JobPost> JobPosts { get; set; }

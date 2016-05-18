@@ -159,9 +159,6 @@ namespace JobPortalSharp.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                    db.Applicants.Add(new Applicant() { SystemId = user.Id });
-                    db.SaveChanges();
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

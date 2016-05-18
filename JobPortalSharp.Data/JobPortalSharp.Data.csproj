@@ -48,18 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applicant.cs" />
     <Compile Include="JobApplication.cs" />
     <Compile Include="Employer.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="JobPortalSharpDbContext.cs" />
     <Compile Include="JobPost.cs" />
+    <Compile Include="Migrations\201605180552528_RemoveApplicantModel.cs" />
+    <Compile Include="Migrations\201605180552528_RemoveApplicantModel.Designer.cs">
+      <DependentUpon>201605180552528_RemoveApplicantModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605180552528_RemoveApplicantModel.resx">
+      <DependentUpon>201605180552528_RemoveApplicantModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

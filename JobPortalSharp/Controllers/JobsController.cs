@@ -22,13 +22,8 @@ namespace JobPortalSharp.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public ActionResult Apply(JobPost job)
         {
-            var applicant = db.Applicants.ToList().Single(x => x.SystemId == User.Identity.GetUserId());
-            db.Applications.Add(new JobApplication { ApplicantId = applicant.Id, ApplicationDate = DateTime.Now, JobPostId = job.Id });
-            db.SaveChanges();
-
             return View("ApplySuccess");
         }
     }

@@ -13,18 +13,23 @@ namespace JobPortalSharp.Controllers
     {
         public JobPortalSharpDbContext db = new JobPortalSharpDbContext();
 
-        public ActionResult Index(SearchViewModel model)
+        public ActionResult Index()
         {
-            if (model.search == null)
+            return View();
+        }
+
+        public ActionResult Search(string q, string l1, string l2)
+        {
+            var model = new SearchViewModel
             {
-                model.Posts = db.JobPosts.Include(x => x.Employer).OrderByDescending(x => x.CreateDate);
-                return View(model);
-            }
-            else
-            {
-                model.Posts = db.JobPosts.Include(x => x.Employer).Where(x => x.Name.Contains(model.search) || x.Details.Contains(model.search)).ToList();
-                return View("Search", model);
-            }
+                search = q,
+                Posts = db.JobPosts.Include(p => p.Employer)
+            };
+
+            //todo: get user's location
+            //todo: search jobs based on user's location sorted by distance
+            
+            return View(model);
         }
 
         public ActionResult About()
