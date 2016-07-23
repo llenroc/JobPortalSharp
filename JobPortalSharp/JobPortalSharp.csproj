@@ -204,12 +204,73 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\style.css">
+      <DependentUpon>style.less</DependentUpon>
+    </Content>
+    <Content Include="Content\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="Images\12365888_10200950183152433_6466535702338873428_o.jpg" />
+    <Content Include="Images\banner-2.jpg" />
+    <Content Include="Images\banner-3.jpg" />
+    <Content Include="Images\blank.gif" />
+    <Content Include="Images\companies who want you-companies who want to hire youc.png" />
+    <Content Include="Images\companies who want you-ellipse 2 copy 2c.png" />
+    <Content Include="Images\companies who want you-ellipse 2 copyc.png" />
+    <Content Include="Images\companies who want you-ellipse 2c.png" />
+    <Content Include="Images\companies who want you-find the right job from top companies around the globec.png" />
+    <Content Include="Images\companies who want you-layer 10c.png" />
+    <Content Include="Images\companies who want you-layer 9c.jpg" />
+    <Content Include="Images\companies who want you-rectangle 10 copy 2c.png" />
+    <Content Include="Images\companies who want you-shape 5 copy 2c.png" />
+    <Content Include="Images\companies who want you-shape 5 copy 2c2.png" />
+    <Content Include="Images\do you have inquiries-call- 1 800 000 5000c.png" />
+    <Content Include="Images\do you have inquiries-hey, do you have any inquiries-c.png" />
+    <Content Include="Images\do you have inquiries-lorem ipsum dolor sit amet, consectetur adipiscing elit. aliquac.png" />
+    <Content Include="Images\do you have inquiries-rectangle 11c.png" />
+    <Content Include="Images\do you have inquiries-shape 1c.png" />
+    <Content Include="Images\easiest way to use-create profilec.png" />
+    <Content Include="Images\easiest way to use-easiest way to usec.png" />
+    <Content Include="Images\easiest way to use-forma 1c.png" />
+    <Content Include="Images\easiest way to use-forma 1c2.png" />
+    <Content Include="Images\easiest way to use-forma 1c3.png" />
+    <Content Include="Images\easiest way to use-forma 1c4.png" />
+    <Content Include="Images\easiest way to use-get hiredc.png" />
+    <Content Include="Images\easiest way to use-registerc.png" />
+    <Content Include="Images\easiest way to use-shape 5 copy 3c.png" />
+    <Content Include="Images\easiest way to use-shape 5 copy 4c.png" />
+    <Content Include="Images\easiest way to use-upload resumec.png" />
+    <Content Include="Images\find jobs easily-get startedc.png" />
+    <Content Include="Images\find jobs easily-layer 8c.jpg" />
+    <Content Include="Images\find jobs easily-lorem ipsum dolor sit amet, consectetur adipiscing elit. aliquac.png" />
+    <Content Include="Images\find jobs easily-rectangle 10 copyc.png" />
+    <Content Include="Images\find jobs easily-rectangle 5 copy 6c.png" />
+    <Content Include="Images\find jobs easily-shape 5 copyc.png" />
+    <Content Include="Images\find jobs easily-shape 5c.png" />
+    <Content Include="Images\find jobs easily-we’ll always match you up with the right opportunities.c.png" />
+    <Content Include="Images\job portal mock up-advanced search job copyc.png" />
+    <Content Include="Images\job portal mock up-features jobs copyc.png" />
+    <Content Include="Images\job portal mock up-jobportalc.png" />
+    <Content Include="Images\loading.gif" />
+    <Content Include="Images\u2365-r.png" />
+    <Content Include="Images\u2365.png" />
+    <Content Include="Images\u2377-r.png" />
+    <Content Include="Images\u2377.png" />
+    <Content Include="Images\u2389-r.png" />
+    <Content Include="Images\u2389.png" />
+    <Content Include="Images\u2395-r.png" />
+    <Content Include="Images\u2395.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\style.less" />
+    <Content Include="Content\style.css.map">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\riversecret.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

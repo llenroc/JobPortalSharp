@@ -1,0 +1,222 @@
+#buttonu2394
+{
+	border-color: #787878;
+	background-color: transparent;
+}
+
+#buttonu2394:hover
+{
+	background-color: #545454;
+}
+
+#u2395
+{
+	vertical-align: top;
+	background: transparent url("../images/u2395.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#buttonu2394:hover #u2395
+{
+	background: transparent url("../images/u2395-r.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#buttonu2364
+{
+	border-color: #787878;
+	background-color: transparent;
+}
+
+#buttonu2364:hover
+{
+	background-color: #545454;
+}
+
+#u2365
+{
+	vertical-align: top;
+	background: transparent url("../images/u2365.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#buttonu2364:hover #u2365
+{
+	background: transparent url("../images/u2365-r.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#buttonu2376
+{
+	border-color: #787878;
+	background-color: transparent;
+}
+
+#buttonu2376:hover
+{
+	background-color: #545454;
+}
+
+#u2377
+{
+	vertical-align: top;
+	background: transparent url("../images/u2377.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#buttonu2376:hover #u2377
+{
+	background: transparent url("../images/u2377-r.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#buttonu2388
+{
+	border-color: #787878;
+	background-color: transparent;
+}
+
+#buttonu2388:hover
+{
+	background-color: #545454;
+}
+
+#u2389
+{
+	vertical-align: top;
+	background: transparent url("../images/u2389.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#buttonu2388:hover #u2389
+{
+	background: transparent url("../images/u2389-r.png") no-repeat 0px 0px;
+	background-size: contain;
+}
+
+#u2148-4
+{
+	border-width: 0px;
+	border-color: transparent;
+	background-color: #FFFFFF;
+	text-align: center;
+	line-height: 20px;
+	font-family: Georgia, Palatino, Palatino Linotype, Times, Times New Roman, serif;
+}
+
+#u2148
+{
+	color: #999999;
+}
+
+#u2149-4
+{
+	border-width: 0px;
+	border-color: transparent;
+	background-color: #FFFFFF;
+	color: #999999;
+	text-align: center;
+	line-height: 20px;
+	font-family: Georgia, Palatino, Palatino Linotype, Times, Times New Roman, serif;
+}
+
+.SSFirstButton,.SSPreviousButton,.SSNextButton,.SSLastButton,.SSSlideLink,.SSCloseButton /* slideshowFreeStyle */
+{
+	cursor: pointer;
+}
+
+.SSSlideLoading /* slideshowFreeStyle */
+{
+	background: url("../images/loading.gif") no-repeat center center;
+}
+
+#u2148-4:hover,#u2149-4:hover,#u2410
+{
+	background-color: #333333;
+}
+
+#u2971
+{
+	background-color: #CCCCCC;
+}
+
+#u2697
+{
+	-webkit-transition-duration: 0s;
+	-webkit-transition-delay: 0s;
+	transition-duration: 0s;
+	transition-delay: 0s;
+	background-image: url("../images/blank.gif");
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: transparent;
+	border-radius: 150px;
+}
+
+#u2700
+{
+	-webkit-transition-duration: 0s;
+	-webkit-transition-delay: 0s;
+	transition-duration: 0s;
+	transition-delay: 0s;
+	background-image: url("../images/blank.gif");
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: transparent;
+	border-radius: 150px;
+}
+
+#u2703
+{
+	-webkit-transition-duration: 0s;
+	-webkit-transition-delay: 0s;
+	transition-duration: 0s;
+	transition-delay: 0s;
+	background-image: url("../images/blank.gif");
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: transparent;
+	border-radius: 150px;
+}
+
+#u2706
+{
+	-webkit-transition-duration: 0s;
+	-webkit-transition-delay: 0s;
+	transition-duration: 0s;
+	transition-delay: 0s;
+	background-image: url("../images/blank.gif");
+	border-style: solid;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: transparent;
+	border-radius: 150px;
+}
+
+#u2697:hover,#u2700:hover,#u2703:hover,#u2706:hover
+{
+	-webkit-transition-duration: 0.3s;
+	-webkit-transition-delay: 0.1s;
+	-webkit-transition-timing-function: ease;
+	transition-duration: 0.3s;
+	transition-delay: 0.1s;
+	transition-timing-function: ease;
+	background-color: #333333;
+}
+
+#u2155,#u2254,#u2983,#u2508,#u2938,#u2744
+{
+	border-width: 0px;
+	border-color: transparent;
+	background-color: transparent;
+}
+
+#u2314,#buttonu2394.ButtonSelected,#buttonu2364.ButtonSelected,#buttonu2376.ButtonSelected,#buttonu2388.ButtonSelected,#u2150,#u2274,#u2415,#u2452,#u2445,#u2487,#u2480,#u2501,#u2494,#u2473,#u2466,#u2459,#u2583,#u2569,#u2576,#u2597,#u2590,#u2548,#u2541,#u2562,#u2555,#u2639,#u2632,#u2924,#u2917,#u2910,#u2903,#u2896,#u2889,#u2931,#u2882,#u2875,#u2868,#u2737,#u2730,#u2723,#u2716,#u2709
+{
+	background-color: transparent;
+}
+
+

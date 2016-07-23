@@ -3,10 +3,22 @@
     ViewBag.Title = "Home Page";
 }
 
-<label>Search</label>
-<form action="/">
-    @Html.TextBoxFor(x => x.search, new { placeholder = "Search Job", type = "text" })
-</form>
+<div style="background-color: white; padding: 20px;">
+    <form action="/Home/Search" class="search-box row">
+        <div class="col-md-4">
+            <input name="q" placeholder="keywords e.g. nurse" type="text" />
+        </div>
+        <div class="col-md-3">
+            <input name="l1" placeholder="location 1" type="text" />
+        </div>
+        <div class="col-md-3">
+            <input name="l2" placeholder="location 2" type="text" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" style="width:100%;line-height:3em">Find Job</button>
+        </div>
+    </form>
+</div>
 
 @if (Model.Posts.Count() > 0)
 {
