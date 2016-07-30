@@ -20,10 +20,12 @@ namespace JobPortalSharp.Controllers
 
         public ActionResult Search(string q, string l1, string l2)
         {
+            var posts = db.JobPosts.Include(p => p.Employer).Where(p => p.Name.Contains(q) || p.Employer.Name.Contains(q));
             var model = new SearchViewModel
             {
-                search = q,
-                Posts = db.JobPosts.Include(p => p.Employer)
+                Keywords = q,
+                ResultCount = posts.Count(),
+                Posts = posts
             };
 
             //todo: get user's location

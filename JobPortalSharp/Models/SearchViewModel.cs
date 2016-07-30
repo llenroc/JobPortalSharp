@@ -8,7 +8,8 @@ namespace JobPortalSharp.Models
 {
     public class SearchViewModel
     {
-        public string search { get; set; }
+        public string Keywords { get; set; }
+        public int ResultCount { get; set; }
         public IEnumerable<JobPost> Posts { get; set; }
     }
 }

@@ -17,6 +17,7 @@
     <link href="~/Content/style.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("HeadScripts", false)
     <!-- Other scripts -->
     <script type="text/javascript">
         document.documentElement.className = document.documentElement.className.replace(/\bnojs\b/g, 'js');
@@ -118,7 +119,6 @@
             } catch (e) { if (e && 'function' == typeof e.notify) e.notify(); else Muse.Assert.fail('Error calling selector function:' + e); }
         });
     </script>
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("FooterScripts", false)
 </body>
 </html>
