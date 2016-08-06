@@ -33,7 +33,7 @@ namespace JobPortalSharp.Controllers
 
             //todo: get user's location
             //todo: search jobs based on user's location sorted by distance
-
+            
             
             return View(model);
         }

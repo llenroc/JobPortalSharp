@@ -32,6 +32,7 @@
 
 @if (Model.Posts.Count() > 0)
 {
+    <p>@Model.ResultCount results</p>
     foreach (var post in Model.Posts)
     {
         <div>

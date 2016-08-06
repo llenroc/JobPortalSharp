@@ -219,56 +219,156 @@
     <Content Include="Content\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Include="Images\12365888_10200950183152433_6466535702338873428_o.jpg" />
-    <Content Include="Images\banner-2.jpg" />
-    <Content Include="Images\banner-3.jpg" />
-    <Content Include="Images\blank.gif" />
-    <Content Include="Images\companies who want you-companies who want to hire youc.png" />
-    <Content Include="Images\companies who want you-ellipse 2 copy 2c.png" />
-    <Content Include="Images\companies who want you-ellipse 2 copyc.png" />
-    <Content Include="Images\companies who want you-ellipse 2c.png" />
-    <Content Include="Images\companies who want you-find the right job from top companies around the globec.png" />
-    <Content Include="Images\companies who want you-layer 10c.png" />
-    <Content Include="Images\companies who want you-layer 9c.jpg" />
-    <Content Include="Images\companies who want you-rectangle 10 copy 2c.png" />
-    <Content Include="Images\companies who want you-shape 5 copy 2c.png" />
-    <Content Include="Images\companies who want you-shape 5 copy 2c2.png" />
-    <Content Include="Images\do you have inquiries-call- 1 800 000 5000c.png" />
-    <Content Include="Images\do you have inquiries-hey, do you have any inquiries-c.png" />
-    <Content Include="Images\do you have inquiries-lorem ipsum dolor sit amet, consectetur adipiscing elit. aliquac.png" />
-    <Content Include="Images\do you have inquiries-rectangle 11c.png" />
-    <Content Include="Images\do you have inquiries-shape 1c.png" />
-    <Content Include="Images\easiest way to use-create profilec.png" />
-    <Content Include="Images\easiest way to use-easiest way to usec.png" />
-    <Content Include="Images\easiest way to use-forma 1c.png" />
-    <Content Include="Images\easiest way to use-forma 1c2.png" />
-    <Content Include="Images\easiest way to use-forma 1c3.png" />
-    <Content Include="Images\easiest way to use-forma 1c4.png" />
-    <Content Include="Images\easiest way to use-get hiredc.png" />
-    <Content Include="Images\easiest way to use-registerc.png" />
-    <Content Include="Images\easiest way to use-shape 5 copy 3c.png" />
-    <Content Include="Images\easiest way to use-shape 5 copy 4c.png" />
-    <Content Include="Images\easiest way to use-upload resumec.png" />
-    <Content Include="Images\find jobs easily-get startedc.png" />
-    <Content Include="Images\find jobs easily-layer 8c.jpg" />
-    <Content Include="Images\find jobs easily-lorem ipsum dolor sit amet, consectetur adipiscing elit. aliquac.png" />
-    <Content Include="Images\find jobs easily-rectangle 10 copyc.png" />
-    <Content Include="Images\find jobs easily-rectangle 5 copy 6c.png" />
-    <Content Include="Images\find jobs easily-shape 5 copyc.png" />
-    <Content Include="Images\find jobs easily-shape 5c.png" />
-    <Content Include="Images\find jobs easily-we’ll always match you up with the right opportunities.c.png" />
-    <Content Include="Images\job portal mock up-advanced search job copyc.png" />
-    <Content Include="Images\job portal mock up-features jobs copyc.png" />
-    <Content Include="Images\job portal mock up-jobportalc.png" />
-    <Content Include="Images\loading.gif" />
-    <Content Include="Images\u2365-r.png" />
-    <Content Include="Images\u2365.png" />
-    <Content Include="Images\u2377-r.png" />
-    <Content Include="Images\u2377.png" />
-    <Content Include="Images\u2389-r.png" />
-    <Content Include="Images\u2389.png" />
-    <Content Include="Images\u2395-r.png" />
-    <Content Include="Images\u2395.png" />
+    <Content Include="Images\12365888_10200950183152433_6466535702338873428_o.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\banner-2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\banner-3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\blank.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-companies who want to hire youc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-ellipse 2 copy 2c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-ellipse 2 copyc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-ellipse 2c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-find the right job from top companies around the globec.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-layer 10c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-layer 9c.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-rectangle 10 copy 2c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-shape 5 copy 2c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\companies who want you-shape 5 copy 2c2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\do you have inquiries-call- 1 800 000 5000c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\do you have inquiries-hey, do you have any inquiries-c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\do you have inquiries-lorem ipsum dolor sit amet, consectetur adipiscing elit. aliquac.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\do you have inquiries-rectangle 11c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\do you have inquiries-shape 1c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-create profilec.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-easiest way to usec.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-forma 1c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-forma 1c2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-forma 1c3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-forma 1c4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-get hiredc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-registerc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-shape 5 copy 3c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-shape 5 copy 4c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\easiest way to use-upload resumec.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-get startedc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-layer 8c.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-lorem ipsum dolor sit amet, consectetur adipiscing elit. aliquac.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-rectangle 10 copyc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-rectangle 5 copy 6c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-shape 5 copyc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-shape 5c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\find jobs easily-we’ll always match you up with the right opportunities.c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\job portal mock up-advanced search job copyc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\job portal mock up-features jobs copyc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\job portal mock up-jobportalc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\loading.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2365-r.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2365.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2377-r.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2377.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2389-r.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2389.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2395-r.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\u2395.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -286,6 +386,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.geocomplete.js" />
+    <Content Include="Scripts\jquery.geocomplete.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
