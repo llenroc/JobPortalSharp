@@ -1,6 +1,16 @@
-﻿@model JobPortalSharp.Models.SearchViewModel
+﻿@using X.PagedList.Mvc;
+@using X.PagedList;
+@model JobPortalSharp.Models.SearchViewModel
 @{
     ViewBag.Title = "Home Page";
+}
+
+@section StyleSheets {
+    <style type="text/css">
+        .btn-apply {
+            padding: 10px;
+        }
+    </style>
 }
 
 <div style="background-color: white; padding: 20px;">
@@ -28,9 +38,12 @@
             <hr />
             <h4>@post.Name</h4>
             <p style="font-style: oblique">@post.Employer.Name</p>
-            <p>USD @post.Salary</p>
+            <p>USD @post.Details</p>
+            <button class="btn-apply">Apply</button>
         </div>
     }
+    @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("Search", 
+        new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, page = page }))
 }
 else
 {

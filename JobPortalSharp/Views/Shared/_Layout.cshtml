@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html class="nojs html" lang="en-US">
 <head>
-
     <script type="text/javascript">
         if (typeof Muse == "undefined") window.Muse = {}; window.Muse.assets = { "required": ["jquery-1.8.3.min.js", "museutils.js", "jquery.musepolyfill.bgsize.js", "webpro.js", "musewpslideshow.js", "jquery.museoverlay.js", "touchswipe.js", "jquery.watch.js", "index.css"], "outOfDate": [] };
     </script>
@@ -17,10 +16,12 @@
     <link href="~/Content/style.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <!-- Other scripts -->
+    <link href="~/Content/bootstrap-switch/bootstrap3/bootstrap-switch.min.css" rel="stylesheet" />
+    @RenderSection("StyleSheets", false)
     <script type="text/javascript">
         document.documentElement.className = document.documentElement.className.replace(/\bnojs\b/g, 'js');
     </script>
+    @RenderSection("HeaderScripts", false)
 </head>
 <body>
     <div class="clearfix borderbox" id="page">
@@ -120,5 +121,7 @@
     </script>
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")*@
+    <script src="~/Scripts/bootstrap-switch.min.js"></script>
+    @RenderSection("FooterScripts", false)
 </body>
 </html>

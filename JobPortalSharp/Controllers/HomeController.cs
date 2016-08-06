@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using JobPortalSharp.Data;
 using JobPortalSharp.Models;
+using X.PagedList;
 
 namespace JobPortalSharp.Controllers
 {
@@ -18,16 +19,21 @@ namespace JobPortalSharp.Controllers
             return View();
         }
 
-        public ActionResult Search(string q, string l1, string l2)
+        public ActionResult Search(string q, string l1, string l2, int? page)
         {
+            var pageNumber = page ?? 1;
+
             var model = new SearchViewModel
             {
-                search = q,
-                Posts = db.JobPosts.Include(p => p.Employer)
+                q = q,
+                l1 = l1,
+                l2 = l2,
+                Posts = db.JobPosts.Include(p => p.Employer).ToPagedList(pageNumber, 25)
             };
 
             //todo: get user's location
             //todo: search jobs based on user's location sorted by distance
+
             
             return View(model);
         }
