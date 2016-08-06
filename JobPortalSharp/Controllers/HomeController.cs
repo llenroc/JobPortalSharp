@@ -22,13 +22,19 @@ namespace JobPortalSharp.Controllers
         public ActionResult Search(string q, string l1, string l2, int? page)
         {
             var pageNumber = page ?? 1;
+            var query = db.JobPosts.Include(x => x.Employer);
+            if (string.IsNullOrWhiteSpace(q) == false)
+            {
+                query = query.Where(x => x.Name.Contains(q) || x.Employer.Name.Contains(q));
+            }
 
             var model = new SearchViewModel
             {
                 q = q,
                 l1 = l1,
                 l2 = l2,
-                Posts = db.JobPosts.Include(p => p.Employer).ToPagedList(pageNumber, 25)
+                Posts = query.OrderBy(x => x.CreateDate).ToPagedList(pageNumber, 25),
+                ResultCount = query.Count()
             };
 
             //todo: get user's location

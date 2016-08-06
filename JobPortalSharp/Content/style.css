@@ -1,12 +1,21 @@
-﻿body .search-box input {
+﻿html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+button {
+  background-color: #303030 !important;
+  color: white;
+}
+.search-box input {
   border: 1px solid lightgray;
   width: 100%;
   line-height: 3em;
   padding-left: 1em;
   max-width: none;
 }
-button {
-  background-color: #303030 !important;
-  color: white;
+.result-row {
+  margin-top: 10px;
 }
 /*# sourceMappingURL=style.css.map */

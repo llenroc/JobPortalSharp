@@ -15,5 +15,6 @@ namespace JobPortalSharp.Data
         public DbSet<JobApplication> Applications { get; set; }
         public DbSet<Employer> Employers { get; set; }
         public DbSet<JobPost> JobPosts { get; set; }
+        public DbSet<Applicant> Applicants { get; set; }
     }
 }

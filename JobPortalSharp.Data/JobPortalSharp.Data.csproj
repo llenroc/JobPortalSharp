@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applicant.cs" />
     <Compile Include="JobApplication.cs" />
     <Compile Include="Employer.cs" />
     <Compile Include="Entity.cs" />
@@ -56,6 +57,14 @@
     <Compile Include="Migrations\201605180552528_RemoveApplicantModel.cs" />
     <Compile Include="Migrations\201605180552528_RemoveApplicantModel.Designer.cs">
       <DependentUpon>201605180552528_RemoveApplicantModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608061236560_AddApplicantTable.cs" />
+    <Compile Include="Migrations\201608061236560_AddApplicantTable.Designer.cs">
+      <DependentUpon>201608061236560_AddApplicantTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608061328169_ApplicationUserId.cs" />
+    <Compile Include="Migrations\201608061328169_ApplicationUserId.Designer.cs">
+      <DependentUpon>201608061328169_ApplicationUserId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +76,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605180552528_RemoveApplicantModel.resx">
       <DependentUpon>201605180552528_RemoveApplicantModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608061236560_AddApplicantTable.resx">
+      <DependentUpon>201608061236560_AddApplicantTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608061328169_ApplicationUserId.resx">
+      <DependentUpon>201608061328169_ApplicationUserId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

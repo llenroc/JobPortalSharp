@@ -1,18 +1,27 @@
 ﻿@button-color: rgb(48,48,48);
+@grey-border: gray;
 
-body {
-    .search-box {
-        input {
-            border: 1px solid lightgray;
-            width: 100%;
-            line-height: 3em;
-            padding-left: 1em;
-            max-width: none;
-        }
-    }
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
 }
 
 button {
     background-color: @button-color !important;
     color: white;
+}
+
+.search-box {
+    input {
+        border: 1px solid lightgray;
+        width: 100%;
+        line-height: 3em;
+        padding-left: 1em;
+        max-width: none;
+    }
+}
+
+.result-row {
+    margin-top: 10px;
 }

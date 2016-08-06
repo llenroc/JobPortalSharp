@@ -12,6 +12,7 @@ namespace JobPortalSharp.Models
         public string l1 { get; set; }
         public string l2 { get; set; }
         public int? page { get; set; }
+        public int ResultCount { get; set; }
         public IEnumerable<JobPost> Posts { get; set; }
     }
 }

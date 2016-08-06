@@ -24,6 +24,17 @@
     @RenderSection("HeaderScripts", false)
 </head>
 <body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div style="text-align:right">
+            <p>Hi @User.Identity.Name</p>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+            {
+                <input type="submit" value="Log Out" />
+            }
+        </div>
+    }
+
     <div class="clearfix borderbox" id="page">
         <!-- column -->
         <div class="position_content" id="page_position_content">
@@ -31,42 +42,52 @@
                 <!-- group -->
                 <div class="clip_frame grpelem" id="u2314">
                     <!-- image -->
-                    <img class="block" id="u2314_img" src="~/images/job%20portal%20mock%20up-jobportalc.png" alt="" data-image-width="152" data-image-height="18" />
+                    <a href="~/">
+                        <img class="block" id="u2314_img" src="~/images/job%20portal%20mock%20up-jobportalc.png" alt="" data-image-width="152" data-image-height="18" />
+                    </a>
                 </div>
-                <div class="Button clearfix grpelem" id="buttonu2394">
-                    <!-- container box -->
-                    <div class="museBGSize grpelem" id="u2395">
-                        <!-- state-based BG images -->
-                        <a href="~/jobseekers">
+                @*<div class="Button clearfix grpelem" id="buttonu2394">
+                        <!-- container box -->
+                        <div class="museBGSize grpelem" id="u2395">
+                            <!-- state-based BG images -->
+                            <a href="~/jobseekers">
+                                <div class="fluid_height_spacer"></div>
+                                <img alt="Jobseekers" src="~/images/blank.gif" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="Button clearfix grpelem" id="buttonu2364">
+                        <!-- container box -->
+                        <div class="museBGSize grpelem" id="u2365">
+                            <!-- state-based BG images -->
                             <div class="fluid_height_spacer"></div>
-                            <img alt="Jobseekers" src="~/images/blank.gif" />
+                            <img alt="Employers" src="~/images/blank.gif" />
+                        </div>
+                    </div>*@
+                @if (User.Identity.IsAuthenticated == false)
+                {
+                    <div class="Button clearfix grpelem" id="buttonu2376">
+                        <!-- container box -->
+                        <a href="~/account/register">
+                            <div class="museBGSize grpelem" id="u2377">
+                                <!-- state-based BG images -->
+                                <div class="fluid_height_spacer"></div>
+                                <img alt="Register" src="~/images/blank.gif" />
+                            </div>
                         </a>
                     </div>
-                </div>
-                <div class="Button clearfix grpelem" id="buttonu2364">
-                    <!-- container box -->
-                    <div class="museBGSize grpelem" id="u2365">
-                        <!-- state-based BG images -->
-                        <div class="fluid_height_spacer"></div>
-                        <img alt="Employers" src="~/images/blank.gif" />
+                    <div class="Button clearfix grpelem" id="buttonu2388">
+                        <!-- container box -->
+                        <a href="~/account/login">
+                            <div class="museBGSize grpelem" id="u2389">
+                                <!-- state-based BG images -->
+                                <div class="fluid_height_spacer"></div>
+                                <img alt="Log In" src="~/images/blank.gif" />
+                            </div>
+                        </a>
                     </div>
-                </div>
-                <div class="Button clearfix grpelem" id="buttonu2376">
-                    <!-- container box -->
-                    <div class="museBGSize grpelem" id="u2377">
-                        <!-- state-based BG images -->
-                        <div class="fluid_height_spacer"></div>
-                        <img alt="Register" src="~/images/blank.gif" />
-                    </div>
-                </div>
-                <div class="Button clearfix grpelem" id="buttonu2388">
-                    <!-- container box -->
-                    <div class="museBGSize grpelem" id="u2389">
-                        <!-- state-based BG images -->
-                        <div class="fluid_height_spacer"></div>
-                        <img alt="Log In" src="~/images/blank.gif" />
-                    </div>
-                </div>
+                }
+
             </div>
             @RenderBody()
             <div class="verticalspacer"></div>
