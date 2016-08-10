@@ -7,13 +7,13 @@ namespace JobPortalSharp.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ApplicationUserId : IMigrationMetadata
+    public sealed partial class migration1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ApplicationUserId));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(migration1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608061328169_ApplicationUserId"; }
+            get { return "201608101754476_migration1"; }
         }
         
         string IMigrationMetadata.Source

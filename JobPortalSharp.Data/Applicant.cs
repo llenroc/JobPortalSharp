@@ -15,6 +15,7 @@ namespace JobPortalSharp.Data
     public class Applicant : Entity
     {
         public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

@@ -7,13 +7,13 @@ namespace JobPortalSharp.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddApplicantTable : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddApplicantTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608061236560_AddApplicantTable"; }
+            get { return "201608101751294_initial"; }
         }
         
         string IMigrationMetadata.Source

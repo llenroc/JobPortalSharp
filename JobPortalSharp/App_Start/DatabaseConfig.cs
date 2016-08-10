@@ -13,7 +13,6 @@ namespace JobPortalSharp
         public static void RegisterDatabase()
         {
             Database.SetInitializer<JobPortalSharpDbContext>(new MigrateDatabaseToLatestVersion<JobPortalSharpDbContext, JobPortalSharp.Data.Migrations.Configuration>());
-            Database.SetInitializer<JobPortalSharpIdentityDbContext>(new MigrateDatabaseToLatestVersion<JobPortalSharpIdentityDbContext, JobPortalSharp.Migrations.Configuration>());
         }
     }
 }
