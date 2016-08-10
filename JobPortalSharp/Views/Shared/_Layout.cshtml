@@ -56,16 +56,19 @@
                             </a>
                         </div>
                     </div>
-                    <div class="Button clearfix grpelem" id="buttonu2364">
-                        <!-- container box -->
-                        <div class="museBGSize grpelem" id="u2365">
-                            <!-- state-based BG images -->
-                            <div class="fluid_height_spacer"></div>
-                            <img alt="Employers" src="~/images/blank.gif" />
-                        </div>
-                    </div>*@
+                    >*@
                 @if (User.Identity.IsAuthenticated == false)
                 {
+                    <div class="Button clearfix grpelem" id="buttonu2364">
+                        <!-- container box -->
+                        <a href="~/account/employerlogin">
+                            <div class="museBGSize grpelem" id="u2365">
+                                <!-- state-based BG images -->
+                                <div class="fluid_height_spacer"></div>
+                                <img alt="Employers" src="~/images/blank.gif" />
+                            </div>
+                        </a>
+                    </div>
                     <div class="Button clearfix grpelem" id="buttonu2376">
                         <!-- container box -->
                         <a href="~/account/register">

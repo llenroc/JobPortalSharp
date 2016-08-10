@@ -64,6 +64,13 @@ namespace JobPortalSharp.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult EmployerLogin(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -141,6 +148,12 @@ namespace JobPortalSharp.Controllers
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult EmployerRegister()
         {
             return View();
         }
