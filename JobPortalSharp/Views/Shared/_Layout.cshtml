@@ -22,76 +22,66 @@
         document.documentElement.className = document.documentElement.className.replace(/\bnojs\b/g, 'js');
     </script>
     @RenderSection("HeaderScripts", false)
+    <style type="text/css">
+        a:link {
+            text-decoration: none !important;
+        }
+        a.btn {
+            color: #ffffff;
+        }
+        input.logout {
+            background-color: transparent;
+        }
+    </style>
 </head>
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-        <div style="text-align:right">
-            <p>Hi @User.Identity.Name</p>
-            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
-            {
-                <input type="submit" value="Log Out" />
-            }
-        </div>
-    }
-
-    <div class="clearfix borderbox" id="page">
-        <!-- column -->
-        <div class="position_content" id="page_position_content">
-            <div class="clearfix colelem" id="pu2314">
-                <!-- group -->
-                <div class="clip_frame grpelem" id="u2314">
-                    <!-- image -->
-                    <a href="~/">
-                        <img class="block" id="u2314_img" src="~/images/job%20portal%20mock%20up-jobportalc.png" alt="" data-image-width="152" data-image-height="18" />
-                    </a>
-                </div>
-                @*<div class="Button clearfix grpelem" id="buttonu2394">
-                        <!-- container box -->
-                        <div class="museBGSize grpelem" id="u2395">
-                            <!-- state-based BG images -->
-                            <a href="~/jobseekers">
-                                <div class="fluid_height_spacer"></div>
-                                <img alt="Jobseekers" src="~/images/blank.gif" />
-                            </a>
-                        </div>
-                    </div>
-                    >*@
-                @if (User.Identity.IsAuthenticated == false)
+        <nav class="navbar navbar-fixed-top navbar-inverse navbar-right">
+            <div class="container">
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { style = "display: inline", @class = "navbar-right" }))
                 {
-                    <div class="Button clearfix grpelem" id="buttonu2364">
-                        <!-- container box -->
-                        <a href="~/account/employerlogin">
-                            <div class="museBGSize grpelem" id="u2365">
-                                <!-- state-based BG images -->
-                                <div class="fluid_height_spacer"></div>
-                                <img alt="Employers" src="~/images/blank.gif" />
-                            </div>
-                        </a>
-                    </div>
-                    <div class="Button clearfix grpelem" id="buttonu2376">
-                        <!-- container box -->
-                        <a href="~/account/register">
-                            <div class="museBGSize grpelem" id="u2377">
-                                <!-- state-based BG images -->
-                                <div class="fluid_height_spacer"></div>
-                                <img alt="Register" src="~/images/blank.gif" />
-                            </div>
-                        </a>
-                    </div>
-                    <div class="Button clearfix grpelem" id="buttonu2388">
-                        <!-- container box -->
-                        <a href="~/account/login">
-                            <div class="museBGSize grpelem" id="u2389">
-                                <!-- state-based BG images -->
-                                <div class="fluid_height_spacer"></div>
-                                <img alt="Log In" src="~/images/blank.gif" />
-                            </div>
-                        </a>
+                    <div class="form-group">
+                        <input type="submit" value="Log Out" class="navbar-text logout" />
                     </div>
                 }
-
+                <span class="navbar-text navbar-right"> | </span>
+                <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">@User.Identity.Name</a></p>
             </div>
+
+        </nav>
+    }
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="~/">JobPortalSharp</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li><a href="~/">Home</a></li>
+                    @if (User.Identity.IsAuthenticated == false)
+                    {
+                        <li><a href="~/account/employerlogin">Employer</a></li>
+                        <li><a href="~/account/register">Register</a></li>
+                        <li><a href="~/account/login">Login</a></li>
+                    }
+                    else if (User.IsInRole("Employer"))
+                    {
+                        <li><a href="~/jobposts">My Posts</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="clearfix borderbox" id="page">
+        <div class="position_content" id="page_position_content">
             @RenderBody()
             <div class="verticalspacer"></div>
         </div>

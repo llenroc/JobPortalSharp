@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
+using JobPortalSharp.Data.Entities;
 
 namespace JobPortalSharp.Data
 {
@@ -22,5 +23,7 @@ namespace JobPortalSharp.Data
         public DbSet<Employer> Employers { get; set; }
         public DbSet<JobPost> JobPosts { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
+        public DbSet<Industry> Industries { get; set; }
+        public DbSet<EmploymentType> EmploymentTypes { get; set; }
     }
 }

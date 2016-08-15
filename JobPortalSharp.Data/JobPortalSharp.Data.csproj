@@ -84,20 +84,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applicant.cs" />
-    <Compile Include="ApplicationUser.cs" />
-    <Compile Include="JobApplication.cs" />
-    <Compile Include="Employer.cs" />
-    <Compile Include="Entity.cs" />
+    <Compile Include="Dto\EmployeeDto.cs" />
+    <Compile Include="Dto\JobPostDto.cs" />
+    <Compile Include="Entities\Applicant.cs" />
+    <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\EmploymentType.cs" />
+    <Compile Include="Entities\Industry.cs" />
+    <Compile Include="Entities\JobApplication.cs" />
+    <Compile Include="Entities\Employer.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="JobPortalSharpDbContext.cs" />
-    <Compile Include="JobPost.cs" />
-    <Compile Include="Migrations\201608101751294_initial.cs" />
-    <Compile Include="Migrations\201608101751294_initial.Designer.cs">
-      <DependentUpon>201608101751294_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608101754476_migration1.cs" />
-    <Compile Include="Migrations\201608101754476_migration1.Designer.cs">
-      <DependentUpon>201608101754476_migration1.cs</DependentUpon>
+    <Compile Include="Entities\JobPost.cs" />
+    <Compile Include="Migrations\201608151550151_migration1.cs" />
+    <Compile Include="Migrations\201608151550151_migration1.Designer.cs">
+      <DependentUpon>201608151550151_migration1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,11 +107,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608101751294_initial.resx">
-      <DependentUpon>201608101751294_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608101754476_migration1.resx">
-      <DependentUpon>201608101754476_migration1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608151550151_migration1.resx">
+      <DependentUpon>201608151550151_migration1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

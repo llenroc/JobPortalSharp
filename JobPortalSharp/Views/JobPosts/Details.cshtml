@@ -1,0 +1,84 @@
+﻿@model JobPortalSharp.Data.JobPost
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JobPost</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Job Title
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Employment Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmploymentType.Name)
+        </dd>
+
+        <dt>
+            Industry
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Industry.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Details)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Details)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Salary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Salary)
+        </dd>
+
+        <dt>
+            From
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalaryRangeFrom)
+        </dd>
+
+        <dt>
+            To
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalaryRangeTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpirationDate)
+        </dt>
+
+        <dd>
+            @if (Model.ExpirationDate.HasValue)
+            {
+                <span>@Model.ExpirationDate.Value.ToString("yyyy-MM-dd")</span>
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

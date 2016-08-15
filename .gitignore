@@ -3,3 +3,7 @@
 ################################################################################
 
 /JobPortalSharp.Data/bin
+/JobPortalSharp.Data/obj
+/packages
+/JobPortalSharp/bin
+/JobPortalSharp/obj

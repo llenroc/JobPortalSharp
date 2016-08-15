@@ -13,12 +13,12 @@ namespace JobPortalSharp.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201608101754476_migration1"; }
+            get { return "201608151550151_migration1"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

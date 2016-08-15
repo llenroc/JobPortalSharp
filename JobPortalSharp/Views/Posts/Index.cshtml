@@ -1,0 +1,15 @@
+﻿@model IEnumerable<JobPortalSharp.Data.JobPost>
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <h4>@item.Name</h4>
+        <p>@item.Details</p>
+    }
+} else {
+    <p>You have no job posts yet. <a href="~/posts/add">Post a Job</a></p>
+}

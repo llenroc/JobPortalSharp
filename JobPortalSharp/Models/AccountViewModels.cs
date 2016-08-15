@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using JobPortalSharp.Data;
+using JobPortalSharp.Data.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace JobPortalSharp.Models
@@ -62,7 +64,7 @@ namespace JobPortalSharp.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class EmployerRegisterViewModel
     {
         [Required]
         [EmailAddress]
@@ -79,6 +81,35 @@ namespace JobPortalSharp.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Company Name")]
+        public string CompanyName { get; set; }
+
+        [Required]
+        [Display(Name = "Company Description")]
+        public string CompanyDescription { get; set; } //information about the company
+
+        [Required]
+        [Display(Name = "Company Address 1")]
+        public string CompanyAddress1 { get; set; }
+
+        [Display(Name = "Company Address 2")]
+        public string CompanyAddress2 { get; set; }
+
+        [Display(Name = "Industry")]
+        public int IndustryId { get; set; }
+
+        [Display(Name = "Number of Employees")]
+        public NumberOfEmployees NumberOfEmployees { get; set; }
+
+        public ICollection<Industry> Industries { get; set; }
     }
 
     public class ResetPasswordViewModel

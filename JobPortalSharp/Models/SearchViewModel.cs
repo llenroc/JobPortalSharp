@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using JobPortalSharp.Data;
+using JobPortalSharp.Data.Dto;
 
 namespace JobPortalSharp.Models
 {
@@ -13,6 +14,6 @@ namespace JobPortalSharp.Models
         public string l2 { get; set; }
         public int? page { get; set; }
         public int ResultCount { get; set; }
-        public IEnumerable<JobPost> Posts { get; set; }
+        public IEnumerable<JobPostDto> Posts { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Data.Entity;
 using JobPortalSharp.Data;
 using JobPortalSharp.Models;
 using X.PagedList;
+using JobPortalSharp.Data.Dto;
 
 namespace JobPortalSharp.Controllers
 {
@@ -28,12 +29,25 @@ namespace JobPortalSharp.Controllers
                 query = query.Where(x => x.Name.Contains(q) || x.Employer.Name.Contains(q));
             }
 
+            var query2 = query.OrderByDescending(x => x.PostDate).Select(x => new JobPostDto
+            {
+                Details = x.Details,
+                EmployerName = x.Employer.Name,
+                EmploymentTypeName = x.EmploymentType.Name,
+                IndustryName = x.Industry.Name,
+                Id = x.Id,
+                Name = x.Name,
+                Salary = x.Salary,
+                SalaryRangeFrom = x.SalaryRangeFrom,
+                SalaryRangeTo = x.SalaryRangeTo
+            });
+
             var model = new SearchViewModel
             {
                 q = q,
                 l1 = l1,
                 l2 = l2,
-                Posts = query.OrderBy(x => x.CreateDate).ToPagedList(pageNumber, 25),
+                Posts = query2.ToPagedList(pageNumber, 25),
                 ResultCount = query.Count()
             };
 
