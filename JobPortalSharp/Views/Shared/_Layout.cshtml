@@ -21,16 +21,28 @@
     <script type="text/javascript">
         document.documentElement.className = document.documentElement.className.replace(/\bnojs\b/g, 'js');
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&key=AIzaSyCX_MP1Cua0YlkhoIjxtt3QOTq26F_eaQQ"></script>
     @RenderSection("HeaderScripts", false)
     <style type="text/css">
         a:link {
             text-decoration: none !important;
         }
+
         a.btn {
             color: #ffffff;
         }
+
         input.logout {
             background-color: transparent;
+        }
+
+        .pac-container:after {
+            /* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+            background-image: none !important;
+            height: 0;
+            padding: 0;
+            margin: 0;
+
         }
     </style>
 </head>
@@ -60,7 +72,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="~/">JobPortalSharp</a>
+                <a class="navbar-brand" href="~/">MyJobPortal</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
@@ -68,8 +80,8 @@
                     @if (User.Identity.IsAuthenticated == false)
                     {
                         <li><a href="~/account/employerlogin">Employer</a></li>
-                        <li><a href="~/account/register">Register</a></li>
-                        <li><a href="~/account/login">Login</a></li>
+                        @*<li><a href="~/account/register">Register</a></li>*@
+                        @*<li><a href="~/account/login">Login</a></li>*@
                     }
                     else if (User.IsInRole("Employer"))
                     {

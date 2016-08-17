@@ -17,6 +17,7 @@ namespace JobPortalSharp.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId");
             return View();
         }
 
