@@ -13,6 +13,36 @@
     </style>
 }
 
+@section FooterScripts {
+    <script type="text/javascript">
+        $('.btn-apply').click(function () {
+            var jobPostId = $(this).closest('.result-row')[0].id;
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            }).find('form').attr('action', '/jobposts/apply/' + jobPostId);
+        })
+
+        function sendApplication() {
+            var $form = $('#myModal form');
+            if ($form.valid()) {
+                var formData = new FormData($('#myModal form')[0]);
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                            $('#myModal').modal('toggle');
+                    }
+                });
+            }
+        }
+    </script>
+}
+
 <div style="background-color: white; padding: 20px;">
     <form action="/Home/Search" class="search-box row">
         <div class="col-md-4">
@@ -35,7 +65,7 @@
     <p>@Model.ResultCount results</p>
     foreach (var post in Model.Posts)
     {
-        <div class="row result-row">
+        <div class="row result-row" id="@post.Id">
             <div class="col-md-1 col-1">
                 <input type="checkbox" />
             </div>
@@ -53,10 +83,40 @@
             <hr />
         </div>
     }
-    @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("Search", 
+    @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("Search",
         new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, page = page }))
 }
 else
 {
     <p>0 results</p>
 }
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Apply</h4>
+            </div>
+            <form class="modal-body" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <label class="col-sm-4">Your Email Address</label>
+                    <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" />
+                </div>
+                <div class="row">
+                    <label class="col-sm-4">CV</label>
+                    <input class="col-sm-8 cv" type="file" id="CV" name="CV" required="required" />
+                </div>
+                <div class="row">
+                    <label class="col-sm-4">Cover letter (Optional)</label>
+                    <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="sendApplication()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>

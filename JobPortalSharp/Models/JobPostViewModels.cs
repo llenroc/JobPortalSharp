@@ -34,4 +34,11 @@ namespace JobPortalSharp.Models
         public int IndustryId { get; set; }
         public ICollection<Industry> Industries { get; set; }
     }
+
+    public class ApplyJobPost
+    {
+        public string EmailAddress { get; set; }
+        public HttpPostedFileBase CV { get; set; }
+        public HttpPostedFileBase CoverLetter { get; set; }
+    }
 }

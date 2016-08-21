@@ -17,6 +17,9 @@ namespace JobPortalSharp.Data
 
     public class JobPost : Entity
     {
+        [Display(Name = "Job Title")]
+        public override string Name { get; set; }
+
         public string Details { get; set; }
         public decimal Salary { get; set; }
 
@@ -27,6 +30,8 @@ namespace JobPortalSharp.Data
         public decimal SalaryRangeTo { get; set; }
 
         public DateTime? PostDate { get; set; }
+
+        [Display(Name = "Expiration Date")]
         public DateTime? ExpirationDate { get; set; }
         public int EmployerId { get; set; }
         public Employer Employer { get; set; }

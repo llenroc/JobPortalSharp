@@ -17,4 +17,16 @@ namespace JobPortalSharp.Data
         public bool Withdrawn { get; set; }
         public DateTime? WithdrawnDate { get; set; }
     }
+
+    public class JobApplication2
+    {
+        public int Id { get; set; }
+        public int JobPostId { get; set; }
+        public JobPost JobPost { get; set; }
+        public DateTime? ApplicationDate { get; set; }
+        public string CvFileName { get; set; }
+        public string CvSystemFileName { get; set; }
+        public string CoverLetterFileName { get; set; }
+        public string CoverLetterSystemFileName { get; set; }
+    }
 }

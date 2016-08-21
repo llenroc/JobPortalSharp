@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using JobPortalSharp.Data;
 using Microsoft.AspNet.Identity;
 using JobPortalSharp.Services;
+using JobPortalSharp.Models;
+using System.IO;
 
 namespace JobPortalSharp.Controllers
 {
@@ -152,6 +154,34 @@ namespace JobPortalSharp.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public ActionResult Apply(int id, [System.Web.Http.FromBody] ApplyJobPost model)
+        {
+            var obj = new JobApplication2();
+            obj.JobPostId = id;
+
+            var appDataPath = Server.MapPath("~/App_Data");
+            if (model.CV != null)
+            {
+                var cvSystemName = Guid.NewGuid().ToString() + ".dat";
+                model.CV.SaveAs(appDataPath + "/" + cvSystemName);
+                obj.CvSystemFileName = cvSystemName;
+                obj.CvFileName = Path.GetFileName(model.CV.FileName);
+            }
+
+            if (model.CoverLetter != null)
+            {
+                var coverLetterSystemFileName = Guid.NewGuid().ToString() + ".dat";
+                model.CoverLetter.SaveAs(appDataPath + "/" + coverLetterSystemFileName);
+                obj.CoverLetterSystemFileName = coverLetterSystemFileName;
+                obj.CoverLetterFileName = Path.GetFileName(model.CoverLetter.FileName);
+            }
+
+            db.JobApplications.Add(obj);
+            db.SaveChanges();
+            return new EmptyResult();
         }
     }
 }

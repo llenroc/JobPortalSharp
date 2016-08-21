@@ -18,4 +18,14 @@ button {
 .result-row {
   margin-top: 10px;
 }
+label.error {
+  color: red;
+}
+.modal button.close {
+  background-color: transparent !important;
+}
+input[type=text] {
+  border-width: 1px;
+  border-color: gray;
+}
 /*# sourceMappingURL=style.css.map */
