@@ -17,6 +17,7 @@ namespace JobPortalSharp.Data.Migrations
         {
             AutomaticMigrationsEnabled = true; //todo: remove this
             AutomaticMigrationDataLossAllowed = true; //todo: remove this
+            
         }
 
         protected override void Seed(JobPortalSharp.Data.JobPortalSharpDbContext context)

@@ -24,6 +24,7 @@ namespace JobPortalSharp.Data
         public int JobPostId { get; set; }
         public JobPost JobPost { get; set; }
         public DateTime? ApplicationDate { get; set; }
+        public string EmailAddress { get; set; }
         public string CvFileName { get; set; }
         public string CvSystemFileName { get; set; }
         public string CoverLetterFileName { get; set; }

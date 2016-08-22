@@ -35,7 +35,8 @@
                     contentType: false,
                     processData: false,
                     success: function () {
-                            $('#myModal').modal('toggle');
+                        $('#myModal').modal('toggle');
+                        $('#myModal form')[0].reset();
                     }
                 });
             }
@@ -102,7 +103,7 @@ else
             <form class="modal-body" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <label class="col-sm-4">Your Email Address</label>
-                    <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" />
+                    <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" style="border: 1px solid lightgray" />
                 </div>
                 <div class="row">
                     <label class="col-sm-4">CV</label>

@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using JobPortalSharp.Services;
 using JobPortalSharp.Models;
 using System.IO;
+using JobPortalSharp.Data.Dto;
 
 namespace JobPortalSharp.Controllers
 {
@@ -22,7 +23,27 @@ namespace JobPortalSharp.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            var jobPosts = db.JobPosts.Include(j => j.Employer).Include(j => j.EmploymentType).Include(j => j.Industry).Where(j => j.Employer.ApplicationUserId == userId);
+            var jobPosts = db.JobPosts
+                .Include(j => j.Employer)
+                .Include(j => j.EmploymentType)
+                .Include(j => j.Industry)
+                .Include(j => j.Applications)
+                .Where(j => j.Employer.ApplicationUserId == userId)
+                .ToList()
+                .Select(j => new JobPostDto
+                {
+                    Details = j.Details,
+                    EmployerName = j.Employer.Name,
+                    EmploymentTypeName = j.EmploymentType.Name,
+                    ExpirationDate = j.ExpirationDate,
+                    Id = j.Id,
+                    IndustryName = j.Industry.Name,
+                    Name = j.Name,
+                    NumOfApplications = j.Applications.Count,
+                    Salary = j.Salary,
+                    SalaryRangeFrom = j.SalaryRangeFrom,
+                    SalaryRangeTo = j.SalaryRangeTo
+                });
             return View(jobPosts.ToList());
         }
 
@@ -161,6 +182,7 @@ namespace JobPortalSharp.Controllers
         {
             var obj = new JobApplication2();
             obj.JobPostId = id;
+            obj.ApplicationDate = DateTime.Now;
 
             var appDataPath = Server.MapPath("~/App_Data");
             if (model.CV != null)
