@@ -102,6 +102,14 @@ else
             </div>
             <form class="modal-body" method="post" enctype="multipart/form-data">
                 <div class="row">
+                    <label class="col-sm-4">First Name</label>
+                    <input class="col-sm-8" type="text" required="required" id="FirstName" name="FirstName" style="border: 1px solid lightgray" />
+                </div>
+                <div class="row">
+                    <label class="col-sm-4">Last Name</label>
+                    <input class="col-sm-8" type="text" required="required" id="LastName" name="LastName" style="border: 1px solid lightgray" />
+                </div>
+                <div class="row">
                     <label class="col-sm-4">Your Email Address</label>
                     <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" style="border: 1px solid lightgray" />
                 </div>
@@ -113,6 +121,7 @@ else
                     <label class="col-sm-4">Cover letter (Optional)</label>
                     <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
                 </div>
+                
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
