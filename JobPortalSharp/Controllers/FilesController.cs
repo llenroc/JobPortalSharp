@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using JobPortalSharp.Data;
+using System.IO;
 
 namespace JobPortalSharp.Controllers
 {
@@ -27,6 +28,13 @@ namespace JobPortalSharp.Controllers
                 throw new Exception("File not found.");
             }
 
+        }
+
+        public ActionResult EmployerLogo(int id)
+        {
+            var emp = db.Employers.Single(e => e.Id == id);
+            var path = Server.MapPath("~/App_Data/employer_logo") + "/" + emp.CompanyLogoSystemFileName;
+            return File(path, "application/octet-stream", emp.CompanyLogoFileName);
         }
     }
 }

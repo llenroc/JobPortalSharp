@@ -38,6 +38,9 @@ namespace JobPortalSharp.Data
         public string CompanyAddress1 { get; set; }
         public string CompanyAddress2 { get; set; }
         public NumberOfEmployees NumberOfEmployees { get; set; }
+        public string CompanyLogoFileName { get; set; }
+        public string CompanyLogoSystemFileName { get; set; }
+
         public ICollection<JobPost> JobPosts { get; set; }
     }
 }

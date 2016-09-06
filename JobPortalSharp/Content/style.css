@@ -7,6 +7,7 @@ body {
 button {
   background-color: #303030 !important;
   color: white;
+  border: none;
 }
 .search-box input {
   border: 1px solid lightgray;
@@ -28,4 +29,12 @@ input[type=text] {
   border-width: 1px;
   border-color: gray;
 }
-/*# sourceMappingURL=style.css.map */
+.carousel-inner {
+  border: 2px solid black;
+}
+.carousel-inner .item {
+  background-color: black;
+}
+.carousel-inner .item img {
+  margin: 0 auto;
+}

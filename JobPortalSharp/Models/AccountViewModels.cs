@@ -2,6 +2,7 @@
 using JobPortalSharp.Data.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace JobPortalSharp.Models
 {
@@ -108,6 +109,9 @@ namespace JobPortalSharp.Models
 
         [Display(Name = "Number of Employees")]
         public NumberOfEmployees NumberOfEmployees { get; set; }
+
+        [Display(Name = "Company Logo")]
+        public HttpPostedFileBase CompanyLogo { get; set; }
 
         public ICollection<Industry> Industries { get; set; }
     }

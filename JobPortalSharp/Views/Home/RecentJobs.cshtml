@@ -1,0 +1,28 @@
+﻿@model IEnumerable<JobPortalSharp.Data.JobPost>
+
+
+<table id="recent-jobs" class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Logo</td>
+            <td>Name</td>
+            <td>Details</td>
+            <td>Location</td>
+            <td>Type</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="/files/employerlogo/@item.EmployerId" style="height: 50px" />
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Details</td>
+                <td>Sydney</td>
+                <td>@item.EmploymentType.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

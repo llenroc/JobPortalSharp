@@ -33,6 +33,7 @@ namespace JobPortalSharp.Controllers
             var query2 = query.OrderByDescending(x => x.PostDate).Select(x => new JobPostDto
             {
                 Details = x.Details,
+                EmployerId = x.EmployerId,
                 EmployerName = x.Employer.Name,
                 EmploymentTypeName = x.EmploymentType.Name,
                 IndustryName = x.Industry.Name,
@@ -71,6 +72,12 @@ namespace JobPortalSharp.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult RecentJobs()
+        {
+            var jobs = db.JobPosts.Include(j => j.EmploymentType).OrderByDescending(j => j.PostDate);
+            return PartialView(jobs);
         }
     }
 }

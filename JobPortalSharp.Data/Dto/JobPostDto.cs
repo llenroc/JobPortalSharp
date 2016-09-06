@@ -12,6 +12,7 @@ namespace JobPortalSharp.Data.Dto
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public int EmployerId { get; set; }
         [Display(Name="Employer Name")]
         public string EmployerName { get; set; }
         public string Details { get; set; }

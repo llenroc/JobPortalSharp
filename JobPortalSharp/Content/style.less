@@ -10,6 +10,7 @@ html, body {
 button {
     background-color: @button-color !important;
     color: white;
+    border: none;
 }
 
 .search-box {
@@ -38,4 +39,16 @@ label.error {
 input[type=text] {
     border-width: 1px;
     border-color: gray;
+}
+
+.carousel-inner {
+    border: 2px solid black;
+
+    .item {
+        background-color: black;
+
+        img {
+            margin: 0 auto;
+        }
+    }
 }

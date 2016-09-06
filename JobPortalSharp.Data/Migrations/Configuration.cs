@@ -129,11 +129,11 @@ namespace JobPortalSharp.Data.Migrations
             if (context.Employers.Count() == 0)
             {
                 context.Employers.AddOrUpdate(
-                new Employer { Name = "IBM", CompanyDescription = lorem },
-                new Employer { Name = "Microsoft", CompanyDescription = lorem },
-                new Employer { Name = "Google", CompanyDescription = lorem },
-                new Employer { Name = "Facebook", CompanyDescription = lorem },
-                new Employer { Name = "Amazon", CompanyDescription = lorem });
+                new Employer { Name = "IBM", CompanyDescription = lorem, CompanyLogoFileName = "ibm.jpg", CompanyLogoSystemFileName = "ibm.jpg" },
+                new Employer { Name = "Microsoft", CompanyDescription = lorem, CompanyLogoFileName = "microsoft.jpg", CompanyLogoSystemFileName = "microsoft.jpg" },
+                new Employer { Name = "Google", CompanyDescription = lorem, CompanyLogoFileName = "google.jpg", CompanyLogoSystemFileName = "google.jpg" },
+                new Employer { Name = "Facebook", CompanyDescription = lorem, CompanyLogoFileName = "facebook.jpg", CompanyLogoSystemFileName = "facebook.jpg" },
+                new Employer { Name = "Amazon", CompanyDescription = lorem, CompanyLogoFileName = "amazon.jpg", CompanyLogoSystemFileName = "amazon.jpg" });
                 context.SaveChanges();
 
                 var industryId = context.Industries.FirstOrDefault(x => x.Name == "Information Technology").Id;

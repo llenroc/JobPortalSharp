@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using JobPortalSharp.Models;
 using JobPortalSharp.Data;
 using JobPortalSharp.Services;
+using System.IO;
 
 namespace JobPortalSharp.Controllers
 {
@@ -196,7 +197,7 @@ namespace JobPortalSharp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EmployerRegister(EmployerRegisterViewModel model)
+        public async Task<ActionResult> EmployerRegister([System.Web.Http.FromBody] EmployerRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -204,13 +205,20 @@ namespace JobPortalSharp.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var appDataPath = Server.MapPath("~/App_Data/employer_logo");
+
+                    var logoSystemName = Guid.NewGuid().ToString() + ".dat";
+                    model.CompanyLogo.SaveAs(appDataPath + "/" + logoSystemName);
+
                     db.Employers.Add(new Employer
                     {
                         ApplicationUserId = user.Id,
                         CompanyAddress1 = model.CompanyAddress1,
                         CompanyAddress2 = model.CompanyAddress2,
                         CompanyDescription = model.CompanyDescription,
-                        Name = model.CompanyName
+                        Name = model.CompanyName,
+                        CompanyLogoFileName = Path.GetFileName(model.CompanyLogo.FileName),
+                        CompanyLogoSystemFileName = logoSystemName
                     });
                     await db.SaveChangesAsync();
 
