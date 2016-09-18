@@ -47,6 +47,12 @@ namespace JobPortalSharp.Controllers
             return View(jobPosts.ToList());
         }
 
+        [Route("jobpost/{id:int}")]
+        public ActionResult ViewJobPost(int id)
+        {
+            return View();
+        }
+
         // GET: JobPosts/Details/5
         public ActionResult Details(int? id)
         {

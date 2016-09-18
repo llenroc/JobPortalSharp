@@ -681,6 +681,8 @@
     <Content Include="Views\JobPosts\Edit.cshtml" />
     <Content Include="Views\JobPosts\Index.cshtml" />
     <Content Include="Views\Home\RecentJobs.cshtml" />
+    <Content Include="Views\Jobs\Index.cshtml" />
+    <Content Include="Views\JobPosts\ViewJobPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Files\" />

@@ -100,6 +100,10 @@
     <Compile Include="Migrations\201608290318586_CompanyLogo.Designer.cs">
       <DependentUpon>201608290318586_CompanyLogo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609100828186_migration1.cs" />
+    <Compile Include="Migrations\201609100828186_migration1.Designer.cs">
+      <DependentUpon>201609100828186_migration1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -110,6 +114,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608290318586_CompanyLogo.resx">
       <DependentUpon>201608290318586_CompanyLogo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609100828186_migration1.resx">
+      <DependentUpon>201609100828186_migration1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

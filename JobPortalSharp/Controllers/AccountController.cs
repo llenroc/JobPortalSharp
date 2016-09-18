@@ -246,7 +246,7 @@ namespace JobPortalSharp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(EmployerRegisterViewModel model)
+        public async Task<ActionResult> Register(ApplicantRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -254,6 +254,21 @@ namespace JobPortalSharp.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    db.Applicants.Add(new Applicant
+                    {
+                        Address = model.Address,
+                        ApplicationUserId = user.Id,
+                        Birthdate = model.BirthDate,
+                        CreatedDate = DateTime.Now,
+                        ExpectedSalary = model.ExpectedSalary,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        MiddleName = model.MiddleName,
+                        MobileNumber = model.MobileNumber,
+                        PhoneNumber = model.PhoneNumber,
+                        Sex = model.Sex
+                    });
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

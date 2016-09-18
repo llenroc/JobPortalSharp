@@ -41,7 +41,7 @@
                     @if (User.Identity.IsAuthenticated == false)
                     {
                         <li><a href="~/account/employerlogin">Employer</a></li>
-                        @*<li><a href="~/account/register">Register</a></li>*@
+                        <li><a href="~/account/login">Job Seeker</a></li>
                         @*<li><a href="~/account/login">Login</a></li>*@
                     }
                     else if (User.IsInRole("Employer"))
