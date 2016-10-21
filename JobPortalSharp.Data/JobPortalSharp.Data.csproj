@@ -89,6 +89,7 @@
     <Compile Include="Entities\Applicant.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\AreaClasses.cs" />
+    <Compile Include="Entities\EmployerType.cs" />
     <Compile Include="Entities\EmploymentType.cs" />
     <Compile Include="Entities\Industry.cs" />
     <Compile Include="Entities\JobApplication.cs" />
@@ -96,13 +97,9 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="JobPortalSharpDbContext.cs" />
     <Compile Include="Entities\JobPost.cs" />
-    <Compile Include="Migrations\201608290318586_CompanyLogo.cs" />
-    <Compile Include="Migrations\201608290318586_CompanyLogo.Designer.cs">
-      <DependentUpon>201608290318586_CompanyLogo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609100828186_migration1.cs" />
-    <Compile Include="Migrations\201609100828186_migration1.Designer.cs">
-      <DependentUpon>201609100828186_migration1.cs</DependentUpon>
+    <Compile Include="Migrations\201610170848359_initial.cs" />
+    <Compile Include="Migrations\201610170848359_initial.Designer.cs">
+      <DependentUpon>201610170848359_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,11 +109,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608290318586_CompanyLogo.resx">
-      <DependentUpon>201608290318586_CompanyLogo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609100828186_migration1.resx">
-      <DependentUpon>201609100828186_migration1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610170848359_initial.resx">
+      <DependentUpon>201610170848359_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -34,7 +34,7 @@ namespace JobPortalSharp.Data
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public string CompanyDescription { get; set; } //information about the company
-        public int CompanyName { get; set; }
+        public int CompanyName { get; set; } //todo: delete this
         public string CompanyAddress1 { get; set; }
         public string CompanyAddress2 { get; set; }
         public NumberOfEmployees NumberOfEmployees { get; set; }

@@ -45,20 +45,21 @@
 }
 
 <div style="background-color: white; padding: 20px;">
-    <form action="/Home/Search" class="search-box row">
+    @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "search-box row" }))
+    {
         <div class="col-md-4">
-            <input name="q" placeholder="keywords e.g. nurse" type="text" />
+            @Html.TextBoxFor(model => model.q, new { placeholder = "keywords e.g. nurse" })
         </div>
         <div class="col-md-3">
-            <input name="l1" placeholder="location 1" type="text" />
+            @Html.TextBoxFor(model => model.l1, new { placeholder = "location 1" })
         </div>
         <div class="col-md-3">
-            <input name="l2" placeholder="location 2" type="text" />
+            @Html.TextBoxFor(model => model.l2, new { placeholder = "location 2" })
         </div>
         <div class="col-md-2">
             <button type="submit" style="width:100%;line-height:3em">Find Job</button>
         </div>
-    </form>
+    }
 </div>
 
 @if (Model.Posts.Count() > 0)
@@ -68,13 +69,13 @@
     {
         <div class="row result-row" id="@post.Id">
             <div class="col-md-1 col-1">
-                <input type="checkbox" />
+                @*<input type="checkbox" />*@
             </div>
             <div class="col-md-7 col-2">
                 <h4>@post.Name</h4>
-                <img src="/files/employerlogo/@post.EmployerId" style="height: 50px" />
+                @*<img src="/files/employerlogo/@post.EmployerId" style="height: 50px" />*@
                 <span style="font-style: oblique; line-height: 50px">@post.EmployerName</span>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                <p>@post.Details</p>
             </div>
             <div class="col-md-4 col-3">
                 <p>Sydney</p>

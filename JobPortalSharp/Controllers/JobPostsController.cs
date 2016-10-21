@@ -186,7 +186,7 @@ namespace JobPortalSharp.Controllers
         [HttpPost]
         public ActionResult Apply(int id, [System.Web.Http.FromBody] ApplyJobPost model)
         {
-            var obj = new JobApplication2();
+            var obj = new JobApplication();
             obj.JobPostId = id;
             obj.ApplicationDate = DateTime.Now;
 
@@ -211,5 +211,6 @@ namespace JobPortalSharp.Controllers
             db.SaveChanges();
             return new EmptyResult();
         }
+
     }
 }

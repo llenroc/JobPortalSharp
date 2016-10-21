@@ -18,7 +18,7 @@ namespace JobPortalSharp.Controllers.api
         private JobPortalSharpDbContext db = new JobPortalSharpDbContext();
 
         // GET: api/JobApplications
-        public IQueryable<JobApplication2> GetApplications()
+        public IQueryable<JobApplication> GetApplications()
         {
             var userId = User.Identity.GetUserId();
             var employerId = db.Employers.Single(x => x.ApplicationUserId == userId).Id;

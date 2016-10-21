@@ -10,8 +10,8 @@ namespace JobPortalSharp.Data.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public double Lattitude { get; set; }
-        public double Longitude { get; set; }
+        public double? Lattitude { get; set; }
+        public double? Longitude { get; set; }
     }
 
     public class State : Location
@@ -21,7 +21,7 @@ namespace JobPortalSharp.Data.Entities
 
     public class Suburb : Location
     {
-        public int StateId { get; set; }
+        public int? StateId { get; set; }
         public State State { get; set; }
     }
 }

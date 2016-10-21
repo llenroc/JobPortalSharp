@@ -38,3 +38,14 @@ input[type=text] {
 .carousel-inner .item img {
   margin: 0 auto;
 }
+.job-categories {
+  text-align: center;
+}
+.job-categories li {
+  list-style-type: none;
+  display: inline;
+}
+.job-categories li + li:before {
+  content: '|';
+}
+/*# sourceMappingURL=style.css.map */

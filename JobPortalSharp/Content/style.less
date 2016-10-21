@@ -52,3 +52,18 @@ input[type=text] {
         }
     }
 }
+
+.job-categories {
+    text-align: center;
+
+    li {
+        list-style-type: none;
+        display: inline;
+    }
+
+    li + li {
+        &:before {
+            content: '|';
+        }
+    }
+}

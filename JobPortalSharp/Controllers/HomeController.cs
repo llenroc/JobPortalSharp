@@ -18,19 +18,37 @@ namespace JobPortalSharp.Controllers
         public ActionResult Index()
         {
             ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId");
-            return View();
+            ViewBag.Industries = db.Industries.ToList();
+
+            var model = new SearchViewModel();
+
+            model.EmployerTypes = db.EmployerTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            model.EmploymentTypes = db.EmploymentTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            return View(model);
         }
 
-        public ActionResult Search(string q, string l1, string l2, int? page)
+        public ActionResult Search(SearchViewModel model)
         {
-            var pageNumber = page ?? 1;
+            var pageNumber = model.p ?? 1;
+            var pageSize = model.p ?? 10;
             var query = db.JobPosts.Include(x => x.Employer);
-            if (string.IsNullOrWhiteSpace(q) == false)
+            if (string.IsNullOrWhiteSpace(model.q) == false)
             {
-                query = query.Where(x => x.Name.Contains(q) || x.Employer.Name.Contains(q));
+                query = query.Where(x => x.Name.Contains(model.q) || x.Employer.Name.Contains(model.q));
             }
 
-            var query2 = query.OrderByDescending(x => x.PostDate).Select(x => new JobPostDto
+            model.ResultCount = query.Count();
+            model.Posts = query.OrderByDescending(x => x.PostDate).Select(x => new JobPostDto
             {
                 Details = x.Details,
                 EmployerId = x.EmployerId,
@@ -42,20 +60,24 @@ namespace JobPortalSharp.Controllers
                 Salary = x.Salary,
                 SalaryRangeFrom = x.SalaryRangeFrom,
                 SalaryRangeTo = x.SalaryRangeTo
-            });
+            }).ToPagedList(pageNumber, pageSize);
 
-            var model = new SearchViewModel
-            {
-                q = q,
-                l1 = l1,
-                l2 = l2,
-                Posts = query2.ToPagedList(pageNumber, 25),
-                ResultCount = query.Count()
-            };
+            
 
             //todo: get user's location
             //todo: search jobs based on user's location sorted by distance
-            
+
+            model.EmployerTypes = db.EmployerTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            model.EmploymentTypes = db.EmploymentTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
             
             return View(model);
         }

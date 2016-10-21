@@ -44,6 +44,6 @@ namespace JobPortalSharp.Data
         public int IndustryId { get; set; }
         public Industry Industry { get; set; }
 
-        public ICollection<JobApplication2> Applications { get; set; }
+        public ICollection<JobApplication> Applications { get; set; }
     }
 }

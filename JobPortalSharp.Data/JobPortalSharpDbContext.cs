@@ -19,7 +19,6 @@ namespace JobPortalSharp.Data
             return new JobPortalSharpDbContext();
         }
 
-        public DbSet<JobApplication> Applications { get; set; }
         public DbSet<Employer> Employers { get; set; }
         public DbSet<JobPost> JobPosts { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
@@ -27,6 +26,7 @@ namespace JobPortalSharp.Data
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Suburb> Suburbs { get; set; }
-        public DbSet<JobApplication2> JobApplications { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
+        public DbSet<EmployerType> EmployerTypes { get; set; }
     }
 }
