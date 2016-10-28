@@ -7,4 +7,5 @@
     $('.datepicker-closing-before').datepicker({
         startDate: $.format.date(new Date(), 'MM/dd/yyyy')
     });
+    $('.multiselect').multiselect();
 })

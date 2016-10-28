@@ -8,6 +8,7 @@ using JobPortalSharp.Data;
 using JobPortalSharp.Models;
 using X.PagedList;
 using JobPortalSharp.Data.Dto;
+using Microsoft.AspNet.Identity;
 
 namespace JobPortalSharp.Controllers
 {
@@ -78,6 +79,9 @@ namespace JobPortalSharp.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             }).ToList();
+
+            var userId = User.Identity.GetUserId();
+            ViewBag.JobSelectionCount = db.JobSelections.Where(x => x.CreatedById == userId).Count();
             
             return View(model);
         }

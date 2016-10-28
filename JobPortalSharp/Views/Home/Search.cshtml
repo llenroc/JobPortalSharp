@@ -15,18 +15,27 @@
 
 @section FooterScripts {
     <script type="text/javascript">
+        $(function () {
+            $('.result-row input[type=checkbox]').change(function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                return false;
+            });
+            refreshJobCart();
+        })
+
         $('.btn-apply').click(function () {
             var jobPostId = $(this).closest('.result-row')[0].id;
-            $('#myModal').modal({
+            $('#modalJobApply').modal({
                 backdrop: 'static',
                 keyboard: false
             }).find('form').attr('action', '/jobposts/apply/' + jobPostId);
         })
 
         function sendApplication() {
-            var $form = $('#myModal form');
+            var $form = $('#modalJobApply form');
             if ($form.valid()) {
-                var formData = new FormData($('#myModal form')[0]);
+                var formData = new FormData($('#modalJobApply form')[0]);
                 $.ajax({
                     url: $form.attr('action'),
                     type: 'POST',
@@ -35,12 +44,51 @@
                     contentType: false,
                     processData: false,
                     success: function () {
-                        $('#myModal').modal('toggle');
-                        $('#myModal form')[0].reset();
+                        $('#modalJobApply').modal('toggle');
+                        $('#modalJobApply form')[0].reset();
                     }
                 });
             }
         }
+
+        function addToCart(id) {
+            $.post('/api/jobcart/add/' + id, function (e) {
+                $('#' + id).find('.selection').prop('checked', true);
+                var count = parseInt($('.job-cart .count').html()) + 1;
+                $('.job-cart .count').html(count);
+                refreshJobCart();
+            });
+        }
+
+        function removeFromCart(id) {
+            $.post('/api/jobcart/remove/' + id, function (e) {
+                $('#' + id).find('.selection').prop('checked', false);
+                var count = parseInt($('.job-cart .count').html()) - 1;
+                $('.job-cart .count').html(count);
+                refreshJobCart();
+            });
+        }
+
+        function refreshJobCart() {
+            var $jobCart = $('.job-cart');
+            
+            if ($jobCart.find('.count').html() == '' || $jobCart.find('.count').html() == '0') {
+                $jobCart.hide();
+            } else {
+                $jobCart.show();
+            }
+        }
+
+        $('.result-row .selection').click(function (e) {
+            var id = $(this).closest('.result-row')[0].id;
+            if ($(this).is(':checked')) {
+                addToCart(id);
+            } else {
+                removeFromCart(id);
+            }
+            return false;
+        });
+
     </script>
 }
 
@@ -62,6 +110,14 @@
     }
 </div>
 
+<div class="job-cart">
+    <span class="count">@ViewBag.JobSelectionCount</span>
+    <span>Job(s) selected</span>
+    <button class="btn btn-default" data-toggle="modal" data-target="#modalJobApply">
+        <span class="glyphicon glyphicon-send"></span> Send Application
+    </button>
+</div>
+
 @if (Model.Posts.Count() > 0)
 {
     <p>@Model.ResultCount results</p>
@@ -69,7 +125,7 @@
     {
         <div class="row result-row" id="@post.Id">
             <div class="col-md-1 col-1">
-                @*<input type="checkbox" />*@
+                <input type="checkbox" class="selection" />
             </div>
             <div class="col-md-7 col-2">
                 <h4>@post.Name</h4>
@@ -95,7 +151,7 @@ else
 }
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modalJobApply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -123,7 +179,7 @@ else
                     <label class="col-sm-4">Cover letter (Optional)</label>
                     <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
                 </div>
-                
+
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>

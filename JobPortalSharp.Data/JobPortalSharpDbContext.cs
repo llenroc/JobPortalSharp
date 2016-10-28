@@ -28,5 +28,6 @@ namespace JobPortalSharp.Data
         public DbSet<Suburb> Suburbs { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<EmployerType> EmployerTypes { get; set; }
+        public DbSet<JobSelection> JobSelections { get; set; }
     }
 }
