@@ -1,51 +1,48 @@
-﻿html,
-body {
-  height: 100%;
-  width: 100%;
+﻿.navbar-default {
+  background-color: #303030;
+  border-bottom: 3px solid black;
+  opacity: 0.6;
+}
+.navbar-default #navbar li a {
+  color: #FFF;
+}
+.navbar-default .navbar-nav > .active a,
+.navbar-default .navbar-nav > .active a:focus,
+.navbar-default .navbar-nav > .active a:hover {
+  background-color: #999999;
+}
+.navbar-default #navbar li a {
+  line-height: 5em;
+}
+.navbar-default .navbar-brand span {
+  line-height: 5em;
+}
+.carousel-wrapper {
   margin: 0;
-}
-button {
-  background-color: #303030 !important;
-  color: white;
-  border: none;
-}
-.search-box input {
-  border: 1px solid lightgray;
+  padding: 0;
   width: 100%;
-  line-height: 3em;
-  padding-left: 1em;
+  height: 700px;
+}
+.carousel-wrapper .carousel-inner {
+  overflow: initial;
+}
+.carousel-wrapper .carousel-inner .item {
+  position: absolute;
+}
+.carousel-wrapper .carousel-inner .item img {
+  margin: auto;
+  width: auto;
+  height: 700px !important;
+  max-height: 700px;
   max-width: none;
 }
-.result-row {
-  margin-top: 10px;
+.search-box {
+  padding: 30px 10px;
+  margin-top: -300px;
+  background-color: #212121;
+  position: relative;
 }
-label.error {
-  color: red;
-}
-.modal button.close {
-  background-color: transparent !important;
-}
-input[type=text] {
-  border-width: 1px;
-  border-color: gray;
-}
-.carousel-inner {
-  border: 2px solid black;
-}
-.carousel-inner .item {
-  background-color: black;
-}
-.carousel-inner .item img {
-  margin: 0 auto;
-}
-.job-categories {
-  text-align: center;
-}
-.job-categories li {
-  list-style-type: none;
-  display: inline;
-}
-.job-categories li + li:before {
-  content: '|';
+.search-box span {
+  color: lightgrey;
 }
 /*# sourceMappingURL=style.css.map */

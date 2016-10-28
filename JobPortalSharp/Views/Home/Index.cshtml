@@ -1,136 +1,205 @@
-﻿@model JobPortalSharp.Models.SearchViewModel
-@{
-    ViewBag.Title = "Home Page";
-}
+﻿@*@model JobPortalSharp.Models.SearchViewModel
+    @{
+        ViewBag.Title = "Home Page";
+    }
 
-@section FooterScripts {
+    @section FooterScripts {
 
-    <script type="text/javascript">
-        //var options = [];
+        <script type="text/javascript">
+            //var options = [];
 
-        //$('.dropdown-menu a').on('click', function (event) {
+            //$('.dropdown-menu a').on('click', function (event) {
 
-        //    var $target = $(event.currentTarget),
-        //        val = $target.attr('data-value'),
-        //        $inp = $target.find('input'),
-        //        idx;
+            //    var $target = $(event.currentTarget),
+            //        val = $target.attr('data-value'),
+            //        $inp = $target.find('input'),
+            //        idx;
 
-        //    if ((idx = options.indexOf(val)) > -1) {
-        //        options.splice(idx, 1);
-        //        setTimeout(function () { $inp.prop('checked', false) }, 0);
-        //    } else {
-        //        options.push(val);
-        //        setTimeout(function () { $inp.prop('checked', true) }, 0);
-        //    }
+            //    if ((idx = options.indexOf(val)) > -1) {
+            //        options.splice(idx, 1);
+            //        setTimeout(function () { $inp.prop('checked', false) }, 0);
+            //    } else {
+            //        options.push(val);
+            //        setTimeout(function () { $inp.prop('checked', true) }, 0);
+            //    }
 
-        //    $(event.target).blur();
+            //    $(event.target).blur();
 
-        //    console.log(options);
-        //    return false;
-        //});
+            //    console.log(options);
+            //    return false;
+            //});
 
-        //function initialize() {
-        //    var options = {
-        //        types: ['(cities)'],
-        //        componentRestrictions: { country: "au" }
-        //    };
-        //    var input = document.getElementById('l1');
-        //    var input2 = document.getElementById('l2');
-        //    var autocomplete = new google.maps.places.Autocomplete(input, options);
-        //    new google.maps.places.Autocomplete(input2);
-        //}
+            //function initialize() {
+            //    var options = {
+            //        types: ['(cities)'],
+            //        componentRestrictions: { country: "au" }
+            //    };
+            //    var input = document.getElementById('l1');
+            //    var input2 = document.getElementById('l2');
+            //    var autocomplete = new google.maps.places.Autocomplete(input, options);
+            //    new google.maps.places.Autocomplete(input2);
+            //}
 
-        //google.maps.event.addDomListener(window, 'load', initialize);
+            //google.maps.event.addDomListener(window, 'load', initialize);
 
-        $(function () {
-            $('#chk-adv-search').change(function () {
-                if ($(this).is(':checked')) {
-                    $('#pane-adv-search').show()
-                } else {
-                    $('#pane-adv-search').hide();
-                }
-            })
-        });
-    </script>
-}
+            $(function () {
+                $('#chk-adv-search').change(function () {
+                    if ($(this).is(':checked')) {
+                        $('#pane-adv-search').show()
+                    } else {
+                        $('#pane-adv-search').hide();
+                    }
+                })
+            });
+        </script>
+    }
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="images/banner-1.jpg" alt="Chania">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="images/banner-1.jpg" alt="Chania">
+            </div>
+
+            <div class="item">
+                <img src="images/banner-2.jpg" alt="Chania">
+            </div>
+
+            <div class="item">
+                <img src="images/banner-3.jpg" alt="Flower">
+            </div>
         </div>
 
-        <div class="item">
-            <img src="images/banner-2.jpg" alt="Chania">
-        </div>
-
-        <div class="item">
-            <img src="images/banner-3.jpg" alt="Flower">
-        </div>
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
-
-<div style="z-index: 100; position: relative;">
-    <div style="background-color: white; padding: 20px; max-width: 1200px;border:1px solid lightgray;box-shadow:0 0 10px gray;margin: auto; margin-top: 10px">
-        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
-        {
-            <div class="search-box row">
-                <div class="col-md-4">
-                    <input name="q" placeholder="keywords e.g. nurse" type="text" />
-                </div>
-                <div class="col-md-3">
-                    <input name="l1" placeholder="location 1" type="text" id="l1" />
-                    <input type="checkbox" style="margin-right: 10px; width: auto; margin-top: 0" />Including Surrounding Areas
-                </div>
-                <div class="col-md-3">
-                    <input name="l2" placeholder="location 2" type="text" id="l2" />
-                    <input type="checkbox" style="margin-right: 10px; width: auto; margin-top: 0" />Including Surrounding Areas
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" style="width:100%;line-height:3em">Find Job</button>
-                </div>
-            </div>
-            <div>
-                <input type="checkbox" id="chk-adv-search" />
-                <label>Advance Search</label>
-            </div>
-            <div id="pane-adv-search" style="display: none">
-                @Html.ListBoxFor(model => model.ers, Model.EmployerTypes, new { @class = "multiselect" })
-                @Html.ListBoxFor(model => model.ets, Model.EmploymentTypes, new { @class = "multiselect" })
-                <div style="margin-bottom: 50px">
-                    <input type="text" class="slider" />
-                </div>
-                <div class="form-control">
-                    <label>Closing Before</label>
-                    @Html.TextBoxFor(model => model.dt, new { @class = "datepicker-closing-before" })
-                </div>
-            </div>
-        }
-        <ul class="job-categories">
-            @foreach (var item in ViewBag.Industries)
+    <div style="z-index: 100; position: relative;">
+        <div style="background-color: white; padding: 20px; max-width: 1200px;border:1px solid lightgray;box-shadow:0 0 10px gray;margin: auto; margin-top: 10px">
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
             {
-                <li><a href="/jobs/category/@item.Id">@item.Name</a></li>
+                <div class="search-box row">
+                    <div class="col-md-4">
+                        <input name="q" placeholder="keywords e.g. nurse" type="text" />
+                    </div>
+                    <div class="col-md-3">
+                        <input name="l1" placeholder="location 1" type="text" id="l1" />
+                        <input type="checkbox" style="margin-right: 10px; width: auto; margin-top: 0" />Including Surrounding Areas
+                    </div>
+                    <div class="col-md-3">
+                        <input name="l2" placeholder="location 2" type="text" id="l2" />
+                        <input type="checkbox" style="margin-right: 10px; width: auto; margin-top: 0" />Including Surrounding Areas
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" style="width:100%;line-height:3em">Find Job</button>
+                    </div>
+                </div>
+                <div>
+                    <input type="checkbox" id="chk-adv-search" />
+                    <label>Advance Search</label>
+                </div>
+                <div id="pane-adv-search" style="display: none">
+                    @Html.ListBoxFor(model => model.ers, Model.EmployerTypes, new { @class = "multiselect" })
+                    @Html.ListBoxFor(model => model.ets, Model.EmploymentTypes, new { @class = "multiselect" })
+                    <div style="margin-bottom: 50px">
+                        <input type="text" class="slider" />
+                    </div>
+                    <div class="form-control">
+                        <label>Closing Before</label>
+                        @Html.TextBoxFor(model => model.dt, new { @class = "datepicker-closing-before" })
+                    </div>
+                </div>
             }
-        </ul>
+            <ul class="job-categories">
+                @foreach (var item in ViewBag.Industries)
+                {
+                    <li><a href="/jobs/category/@item.Id">@item.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>*@
+<div class="container-fluid carousel-wrapper">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="~/images/shutterstock_383746615.jpg" alt="Chania">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>The quick</h1>
+                        <p>brown fox jumps over the lazy dog</p>
+                        <div style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="~/images/shutterstock_324631328.jpg" alt="chania">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>The quick</h1>
+                        <p>brown fox jumps over the lazy dog</p>
+                        <div style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="~/images/shutterstock_325620971.jpg" alt="flower">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>The quick</h1>
+                        <p>brown fox jumps over the lazy dog</p>
+                        <div style="height: 400px"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="~/images/shutterstock_380861722.jpg" alt="flower">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>The quick</h1>
+                        <p>brown fox jumps over the lazy dog</p>
+                        <div style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
+<div class="search-box">
+    <div class="row">
+        <div class="col-sm-4">
+            <input type="text" class="form-control" placeholder="Keywords e.g. Computer Programmer" />
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" placeholder="Location 1" />
+            <input type="checkbox" />
+            <span>Including Surrounding Areas</span>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" placeholder="Location 2" />
+            <input type="checkbox" />
+            <span>Including Surrounding Areas</span>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary">Find Job</button>
+        </div>
+    </div>
+</div>
