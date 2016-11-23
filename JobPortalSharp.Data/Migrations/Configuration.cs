@@ -5,6 +5,7 @@ namespace JobPortalSharp.Data.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     public sealed class Configuration : DbMigrationsConfiguration<JobPortalSharp.Data.JobPortalSharpDbContext>
     {
@@ -15,6 +16,18 @@ namespace JobPortalSharp.Data.Migrations
 
         protected override void Seed(JobPortalSharp.Data.JobPortalSharpDbContext context)
         {
+            string[] roles = new string[] { "Employer", "Applicant" };
+
+            foreach (string role in roles)
+            {
+                var roleStore = new RoleStore<IdentityRole>(context);
+
+                if (!context.Roles.Any(r => r.Name == role))
+                {
+                    roleStore.CreateAsync(new IdentityRole(role));
+                }
+            }
+
             var rnd = new Random();
 
             if (context.Employers.Count() == 0)

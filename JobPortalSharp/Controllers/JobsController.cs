@@ -33,7 +33,7 @@ namespace JobPortalSharp.Controllers
         public ActionResult Category(int id, SearchViewModel model)
         {
             var pageNumber = model.p ?? 1;
-            var pageSize = model.p ?? 10;
+            var pageSize = model.ps ?? 10;
             var posts = db.JobPosts
                 .Include(x => x.Employer)
                 .Include(x => x.EmploymentType)
@@ -41,7 +41,7 @@ namespace JobPortalSharp.Controllers
                 .Where(x => x.IndustryId == id);
 
             model.ResultCount = posts.Count();
-            model.Posts = posts.Select(x => new JobPostDto
+            model.Posts = posts.OrderByDescending(x => x.PostDate).Select(x => new JobPostDto
             {
                 Details = x.Details,
                 EmployerId = x.EmployerId,

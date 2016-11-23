@@ -13,11 +13,11 @@ namespace JobPortalSharp.Models
         public string q { get; set; }
         public string l1 { get; set; }
         public string l2 { get; set; }
-        public int? page { get; set; }
+        public int? p { get; set; }
+        public int? ps { get; set; }
         public int ResultCount { get; set; }
         public decimal? sf { get; set; }
         public decimal? st { get; set; }
-        public int? p { get; set; }
         public int? ind { get; set; }
         public DateTime? dt { get; set; }
 

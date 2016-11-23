@@ -186,31 +186,60 @@ namespace JobPortalSharp.Controllers
         [HttpPost]
         public ActionResult Apply(int id, [System.Web.Http.FromBody] ApplyJobPost model)
         {
-            var obj = new JobApplication();
-            obj.JobPostId = id;
-            obj.ApplicationDate = DateTime.Now;
+            var header = new JobApplicationHeader();
+            header.ApplicationDate = DateTime.Now;
+            header.EmailAddress = model.EmailAddress;
+            header.Details = new List<JobApplicationDetail>();
+            header.Details.Add(new JobApplicationDetail
+            {
+                JobPostId = id
+            });
 
-            var appDataPath = Server.MapPath("~/App_Data");
+            SaveApplicationFiles(model, header);
+
+            db.JobApplicationHeaders.Add(header);
+            db.SaveChanges();
+            return new EmptyResult();
+        }
+
+        [HttpPost]
+        public ActionResult ApplyMultiple(int[] ids, [System.Web.Http.FromBody] ApplyJobPost model)
+        {
+            var header = new JobApplicationHeader();
+            header.ApplicationDate = DateTime.Now;
+            header.Details = new List<JobApplicationDetail>();
+            for (int i = 0; i < ids.Length; i++)
+            {
+                header.Details.Add(new JobApplicationDetail{
+                    JobPostId = ids[i]
+                });
+            }
+
+            SaveApplicationFiles(model, header);
+
+            db.JobApplicationHeaders.Add(header);
+            db.SaveChanges();
+            return new EmptyResult();
+        }
+
+        private void SaveApplicationFiles(ApplyJobPost model, JobApplicationHeader header)
+        {
+            var appDataPath = Server.MapPath("~/App_Data/application_files");
             if (model.CV != null)
             {
                 var cvSystemName = Guid.NewGuid().ToString() + ".dat";
                 model.CV.SaveAs(appDataPath + "/" + cvSystemName);
-                obj.CvSystemFileName = cvSystemName;
-                obj.CvFileName = Path.GetFileName(model.CV.FileName);
+                header.CvSystemFileName = cvSystemName;
+                header.CvFileName = Path.GetFileName(model.CV.FileName);
             }
 
             if (model.CoverLetter != null)
             {
                 var coverLetterSystemFileName = Guid.NewGuid().ToString() + ".dat";
                 model.CoverLetter.SaveAs(appDataPath + "/" + coverLetterSystemFileName);
-                obj.CoverLetterSystemFileName = coverLetterSystemFileName;
-                obj.CoverLetterFileName = Path.GetFileName(model.CoverLetter.FileName);
+                header.CoverLetterSystemFileName = coverLetterSystemFileName;
+                header.CoverLetterFileName = Path.GetFileName(model.CoverLetter.FileName);
             }
-
-            db.JobApplications.Add(obj);
-            db.SaveChanges();
-            return new EmptyResult();
         }
-
     }
 }

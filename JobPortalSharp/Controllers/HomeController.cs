@@ -41,7 +41,7 @@ namespace JobPortalSharp.Controllers
         public ActionResult Search(SearchViewModel model)
         {
             var pageNumber = model.p ?? 1;
-            var pageSize = model.p ?? 10;
+            var pageSize = model.ps ?? 10;
             var query = db.JobPosts.Include(x => x.Employer);
             if (string.IsNullOrWhiteSpace(model.q) == false)
             {

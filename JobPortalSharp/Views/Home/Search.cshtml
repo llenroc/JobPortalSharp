@@ -16,26 +16,62 @@
 @section FooterScripts {
     <script type="text/javascript">
         $(function () {
+            $('.selection').click(function () {
+                var id = $(this).closest('.result-row')[0].id;
+                if (!localStorage['job_selections']) {
+                    localStorage['job_selections'] = JSON.stringify([id]);
+                } else {
+                    var jobSelections = JSON.parse(localStorage['job_selections']);
+                    jobSelections.push(id);
+                    localStorage['job_selections'] = JSON.stringify(jobSelections);
+                }
+                refreshJobCart();
+                updateJobCartButtons();
+            });
             $('.result-row input[type=checkbox]').change(function (event) {
                 event.stopPropagation();
                 event.preventDefault();
                 return false;
             });
             refreshJobCart();
+            updateJobCartButtons();
         })
 
-        $('.btn-apply').click(function () {
-            var jobPostId = $(this).closest('.result-row')[0].id;
-            $('#modalJobApply').modal({
-                backdrop: 'static',
-                keyboard: false
-            }).find('form').attr('action', '/jobposts/apply/' + jobPostId);
+        $('#modalJobApply').on('show.bs.modal', function (e) {
+            var $btn = $(e.relatedTarget);
+            var $modal = $('#modalJobApply');
+            var $form = $modal.find('form');
+
+            $form.removeClass('single');
+            $form.removeClass('multiple');
+            $form[0].reset();
+            if ($btn.hasClass('btn-apply')) {
+                var jobPostId = $btn.closest('.result-row')[0].id;
+                $form.attr('action', '/jobposts/apply/' + jobPostId);
+                $form.addClass('single');
+            }
+            if ($btn.hasClass('btn-apply-multiple')) {
+                $form.attr('action', '/jobposts/applymultiple')
+                $form.addClass('multiple');
+            }
         })
 
         function sendApplication() {
-            var $form = $('#modalJobApply form');
+            var $modal = $('#modalJobApply');
+            var $form = $modal.find('form');
+            var jobSelections = [];
+
+            if ($form.hasClass('multiple')) {
+                jobSelections = JSON.parse(localStorage['job_selections']);
+            }
+            
             if ($form.valid()) {
-                var formData = new FormData($('#modalJobApply form')[0]);
+                var formData = new FormData($form[0]);
+
+                for (var i = 0; i < jobSelections.length; i++) {
+                    formData.append('ids', jobSelections[i])
+                }
+
                 $.ajax({
                     url: $form.attr('action'),
                     type: 'POST',
@@ -44,20 +80,15 @@
                     contentType: false,
                     processData: false,
                     success: function () {
-                        $('#modalJobApply').modal('toggle');
-                        $('#modalJobApply form')[0].reset();
+                        $modal.modal('hide');
+                        $form.validate().resetForm();
+                        $form[0].reset();
+                        localStorage['job_selections'] = '';
+                        refreshJobCart();
+                        updateJobCartButtons();
                     }
                 });
             }
-        }
-
-        function addToCart(id) {
-            $.post('/api/jobcart/add/' + id, function (e) {
-                $('#' + id).find('.selection').prop('checked', true);
-                var count = parseInt($('.job-cart .count').html()) + 1;
-                $('.job-cart .count').html(count);
-                refreshJobCart();
-            });
         }
 
         function removeFromCart(id) {
@@ -71,24 +102,30 @@
 
         function refreshJobCart() {
             var $jobCart = $('.job-cart');
-            
-            if ($jobCart.find('.count').html() == '' || $jobCart.find('.count').html() == '0') {
+            if (!localStorage['job_selections']) {
                 $jobCart.hide();
             } else {
+                var $cart = $('.job-cart');
+                var jobSelections = JSON.parse(localStorage['job_selections']);
+                $cart.find('.count').html(jobSelections.length);
                 $jobCart.show();
             }
         }
 
-        $('.result-row .selection').click(function (e) {
-            var id = $(this).closest('.result-row')[0].id;
-            if ($(this).is(':checked')) {
-                addToCart(id);
-            } else {
-                removeFromCart(id);
+        function updateJobCartButtons() {
+            var jobSelections = [];
+            if (localStorage['job_selections']) {
+                jobSelections = JSON.parse(localStorage['job_selections']);
             }
-            return false;
-        });
 
+            $('.result-row').each(function () {
+                if (jobSelections.indexOf(this.id) >= 0) {
+                    $(this).find('button.selection').attr('disabled', 'disabled');
+                } else {
+                    $(this).find('button.selection').removeAttr('disabled');
+                }
+            })
+        }
     </script>
 }
 
@@ -113,7 +150,7 @@
 <div class="job-cart">
     <span class="count">@ViewBag.JobSelectionCount</span>
     <span>Job(s) selected</span>
-    <button class="btn btn-default" data-toggle="modal" data-target="#modalJobApply">
+    <button class="btn btn-default btn-apply-multiple" data-toggle="modal" data-target="#modalJobApply">
         <span class="glyphicon glyphicon-send"></span> Send Application
     </button>
 </div>
@@ -125,7 +162,9 @@
     {
         <div class="row result-row" id="@post.Id">
             <div class="col-md-1 col-1">
-                <input type="checkbox" class="selection" />
+                <button class="btn btn-primary selection">
+                    <span class="glyphicon glyphicon-plus"></span> Add
+                </button>
             </div>
             <div class="col-md-7 col-2">
                 <h4>@post.Name</h4>
@@ -137,13 +176,13 @@
                 <p>Sydney</p>
                 <p>@post.EmploymentTypeName</p>
                 <p>@post.IndustryName</p>
-                <button class="btn-apply">Apply</button>
+                <button class="btn-apply" data-toggle="modal" data-target="#modalJobApply">Apply</button>
             </div>
             <hr />
         </div>
     }
     @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("Search",
-        new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, page = page }))
+        new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, p = page }))
 }
 else
 {
@@ -158,7 +197,8 @@ else
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Apply</h4>
             </div>
-            <form class="modal-body" method="post" enctype="multipart/form-data">
+            @using (Html.BeginForm("Apply", "JobPosts", FormMethod.Post, new { enctype = "multipart/form-data", @class = "modal-body" }))
+            {
                 <div class="row">
                     <label class="col-sm-4">First Name</label>
                     <input class="col-sm-8" type="text" required="required" id="FirstName" name="FirstName" style="border: 1px solid lightgray" />
@@ -179,8 +219,7 @@ else
                     <label class="col-sm-4">Cover letter (Optional)</label>
                     <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
                 </div>
-
-            </form>
+            }
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" onclick="sendApplication()">Send</button>

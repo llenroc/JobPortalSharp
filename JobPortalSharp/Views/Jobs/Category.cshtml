@@ -85,8 +85,8 @@
             <hr />
         </div>
     }
-    @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("Search",
-        new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, page = page }))
+    @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("Category",
+        new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, p = page }))
 }
 else
 {

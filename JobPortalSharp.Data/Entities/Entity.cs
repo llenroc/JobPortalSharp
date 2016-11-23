@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace JobPortalSharp.Data
 {
-    public class Entity
+    public class SimpleEntity
     {
         public int Id { get; set; }
         public virtual string Name { get; set; }
+    }
+
+    public class Entity : SimpleEntity
+    {
         public string Notes { get; set; }
         public string CreatedById { get; set; }
         public DateTime? CreatedDate { get; set; }

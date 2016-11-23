@@ -92,10 +92,11 @@
     <Compile Include="Entities\EmployerType.cs" />
     <Compile Include="Entities\EmploymentType.cs" />
     <Compile Include="Entities\Industry.cs" />
-    <Compile Include="Entities\JobApplication.cs" />
+    <Compile Include="Entities\JobApplicationHeader.cs" />
     <Compile Include="Entities\Employer.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\JobSelection.cs" />
+    <Compile Include="Entities\JobApplicationDetail.cs" />
     <Compile Include="JobPortalSharpDbContext.cs" />
     <Compile Include="Entities\JobPost.cs" />
     <Compile Include="Migrations\201610170848359_initial.cs" />
@@ -105,6 +106,10 @@
     <Compile Include="Migrations\201610281604039_migration1.cs" />
     <Compile Include="Migrations\201610281604039_migration1.Designer.cs">
       <DependentUpon>201610281604039_migration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611061523555_migration2.cs" />
+    <Compile Include="Migrations\201611061523555_migration2.Designer.cs">
+      <DependentUpon>201611061523555_migration2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610281604039_migration1.resx">
       <DependentUpon>201610281604039_migration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611061523555_migration2.resx">
+      <DependentUpon>201611061523555_migration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -17,7 +17,7 @@ namespace JobPortalSharp.Controllers
             var path = Server.MapPath("~/App_Data") + "/" + file;
             if (System.IO.File.Exists(path))
             {
-                var obj = db.JobApplications.Single(x => x.CvSystemFileName == file);
+                var obj = db.JobApplicationHeaders.Single(x => x.CvSystemFileName == file);
                 return new FilePathResult(path, "application/octet-stream")
                    {
                        FileDownloadName = obj.CvFileName

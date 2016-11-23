@@ -16,11 +16,11 @@ namespace JobPortalSharp.Controllers.api
     public class JobApplicationsController : ApiControllerBase
     {
         // GET: api/JobApplications
-        public IQueryable<JobApplication> GetApplications()
+        public IQueryable<JobApplicationHeader> GetApplications()
         {
             var userId = User.Identity.GetUserId();
             var employerId = db.Employers.Single(x => x.ApplicationUserId == userId).Id;
-            return db.JobApplications.Where(x => x.JobPost.EmployerId == employerId);
+            return db.JobApplicationHeaders.Where(x => x.JobPost.EmployerId == employerId);
         }
 
         [Route("api/jobcart/add/{id}")]

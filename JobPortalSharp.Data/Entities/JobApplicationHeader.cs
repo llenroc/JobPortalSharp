@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace JobPortalSharp.Data
 {
-    public class JobApplication
+    public class JobApplicationHeader
     {
         public int Id { get; set; }
-        public int JobPostId { get; set; }
         public JobPost JobPost { get; set; }
 
         [Display(Name = "Application Date")]
@@ -29,5 +28,7 @@ namespace JobPortalSharp.Data
         public string CvSystemFileName { get; set; }
         public string CoverLetterFileName { get; set; }
         public string CoverLetterSystemFileName { get; set; }
+
+        public ICollection<JobApplicationDetail> Details { get; set; }
     }
 }
