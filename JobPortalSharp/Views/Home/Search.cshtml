@@ -64,7 +64,7 @@
             if ($form.hasClass('multiple')) {
                 jobSelections = JSON.parse(localStorage['job_selections']);
             }
-            
+
             if ($form.valid()) {
                 var formData = new FormData($form[0]);
 
@@ -155,39 +155,90 @@
     </button>
 </div>
 
-@if (Model.Posts.Count() > 0)
+@if (string.IsNullOrWhiteSpace(Model.l1) == false || (string.IsNullOrWhiteSpace(Model.l1) && string.IsNullOrWhiteSpace(Model.l2)))
 {
-    <p>@Model.ResultCount results</p>
-    foreach (var post in Model.Posts)
+    <p>
+        @Model.rc results
+        @if (string.IsNullOrWhiteSpace(@Model.q) == false)
+        {
+            <span> for "@Model.q"</span>
+        }
+        @if (string.IsNullOrWhiteSpace(@Model.l1) == false)
+        {
+            <span> in "@Model.l1"</span>
+        }
+        @if (@Model.nb1)
+        {
+            <span> and nearby</span>
+        }
+    </p>
+    if (Model.rc > 0)
     {
-        <div class="row result-row" id="@post.Id">
-            <div class="col-md-1 col-1">
-                <button class="btn btn-primary selection">
-                    <span class="glyphicon glyphicon-plus"></span> Add
-                </button>
+        foreach (var post in Model.Results1)
+        {
+            <div class="row result-row" id="@post.Id">
+                <div class="col-md-1 col-1">
+                    <button class="btn btn-primary selection">
+                        <span class="glyphicon glyphicon-plus"></span> Add
+                    </button>
+                </div>
+                <div class="col-md-7 col-2">
+                    <h4>@post.Name</h4>
+                    @*<img src="/files/employerlogo/@post.EmployerId" style="height: 50px" />*@
+                    <span style="font-style: oblique; line-height: 50px">@post.EmployerName</span>
+                    <p>@post.Details</p>
+                </div>
+                <div class="col-md-4 col-3">
+                    <p>@post.AddressTown, @post.AddressState, @post.AddressCountry</p>
+                    <p>@post.EmploymentTypeName</p>
+                    <p>@post.IndustryName</p>
+                    <button class="btn-apply" data-toggle="modal" data-target="#modalJobApply">Apply</button>
+                </div>
+                <hr />
             </div>
-            <div class="col-md-7 col-2">
-                <h4>@post.Name</h4>
-                @*<img src="/files/employerlogo/@post.EmployerId" style="height: 50px" />*@
-                <span style="font-style: oblique; line-height: 50px">@post.EmployerName</span>
-                <p>@post.Details</p>
-            </div>
-            <div class="col-md-4 col-3">
-                <p>Sydney</p>
-                <p>@post.EmploymentTypeName</p>
-                <p>@post.IndustryName</p>
-                <button class="btn-apply" data-toggle="modal" data-target="#modalJobApply">Apply</button>
-            </div>
-            <hr />
-        </div>
+        }
+        @Html.PagedListPager((IPagedList)Model.Results1, page => Url.Action("Search",
+            new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, p1 = page }))
     }
-    @Html.PagedListPager((IPagedList)Model.Posts, page => Url.Action("Search",
-        new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, p = page }))
 }
-else
+
+@if (string.IsNullOrWhiteSpace(Model.l2) == false)
 {
-    <p>0 results</p>
+    if (Model.rc2 > 0)
+    {
+        <p>@Model.rc2 results</p>
+        foreach (var post in Model.Results2)
+        {
+            <div class="row result-row" id="@post.Id">
+                <div class="col-md-1 col-1">
+                    <button class="btn btn-primary selection">
+                        <span class="glyphicon glyphicon-plus"></span> Add
+                    </button>
+                </div>
+                <div class="col-md-7 col-2">
+                    <h4>@post.Name</h4>
+                    @*<img src="/files/employerlogo/@post.EmployerId" style="height: 50px" />*@
+                    <span style="font-style: oblique; line-height: 50px">@post.EmployerName</span>
+                    <p>@post.Details</p>
+                </div>
+                <div class="col-md-4 col-3">
+                    <p>@post.AddressTown, @post.AddressState, @post.AddressCountry</p>
+                    <p>@post.EmploymentTypeName</p>
+                    <p>@post.IndustryName</p>
+                    <button class="btn-apply" data-toggle="modal" data-target="#modalJobApply">Apply</button>
+                </div>
+                <hr />
+            </div>
+        }
+        @Html.PagedListPager((IPagedList)Model.Results2, page => Url.Action("Search",
+            new JobPortalSharp.Models.SearchViewModel { q = Model.q, l1 = Model.l1, l2 = Model.l2, p2 = page }))
+    }
+    else
+    {
+        <p>0 results</p>
+    }
 }
+
 
 <!-- Modal -->
 <div class="modal fade" id="modalJobApply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

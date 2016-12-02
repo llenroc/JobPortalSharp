@@ -3,6 +3,35 @@
     ViewBag.Title = "Register";
 }
 
+@section FooterScripts{
+    <script type="text/javascript">
+        var input = document.getElementById('AddressStreet');
+        var autocomplete = new google.maps.places.Autocomplete(input, []);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            $('#AddressTown, #AddressState, #AddressCountry, #AddressLongitude, #AddressLatitude').val('');
+            var place = autocomplete.getPlace();
+            $('#AddressLongitude').val(place.geometry.location.lng());
+            $('#AddressLatitude').val(place.geometry.location.lat());
+
+            var ac = place.address_components;
+            for (var i = 0; i < ac.length; i++) {
+                for (var j = 0; j < ac[i].types.length; j++) {
+                    if (ac[i].types[j] == 'locality' || ac[i].types[j] == 'administrative_area_level_2') {
+                        $('#AddressTown').val(ac[i].long_name);
+                        break;
+                    } else if (ac[i].types[j] == 'administrative_area_level_1') {
+                        $('#AddressState').val(ac[i].long_name);
+                        break;
+                    } else if (ac[i].types[j] == 'country') {
+                        $('#AddressCountry').val(ac[i].long_name);
+                        break;
+                    }
+                }
+            }
+        });
+    </script>
+}
+
 @using (Html.BeginForm("EmployerRegister", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -46,17 +75,33 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.CompanyAddress1, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.AddressStreet, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.CompanyAddress1, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.AddressStreet, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.CompanyAddress2, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.AddressTown, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.CompanyAddress2, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.AddressTown, new { @class = "form-control" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AddressState, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.AddressState, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AddressCountry, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.AddressCountry, new { @class = "form-control" })
+        </div>
+    </div>
+    
+    @Html.HiddenFor(m => m.AddressLongitude)
+    @Html.HiddenFor(m => m.AddressLatitude)
+    
     <div class="form-group">
         @Html.LabelFor(m => m.IndustryId, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -86,8 +131,4 @@
             <input type="submit" class="btn btn-default" value="Register" />
         </div>
     </div>
-}
-
-@section FooterScripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

@@ -30,7 +30,7 @@ input[type=text] {
   border-color: gray;
 }
 .carousel-inner {
-  border: 2px solid black;
+  border: 1px solid black;
 }
 .carousel-inner .item {
   background-color: black;
@@ -47,5 +47,15 @@ input[type=text] {
 }
 .job-categories li + li:before {
   content: '|';
+}
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a {
+  font-family: "Varela Round", Helvetica, sans-serif !important;
+  color: black;
+}
+.navbar-default {
+  background-color: white;
+  background-image: none;
+  box-shadow: none;
 }
 /*# sourceMappingURL=style.css.map */

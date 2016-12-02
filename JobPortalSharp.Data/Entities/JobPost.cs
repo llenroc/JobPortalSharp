@@ -44,6 +44,24 @@ namespace JobPortalSharp.Data
         public int IndustryId { get; set; }
         public Industry Industry { get; set; }
 
+        [Display(Name = "Location Same as Employer")]
+        public bool LocationSameAsEmployer { get; set; }
+
+        [Display(Name = "Street Address")]
+        public string AddressStreet { get; set; }
+
+        [Display(Name = "City or Town")]
+        public string AddressTown { get; set; }
+
+        [Display(Name = "State")]
+        public string AddressState { get; set; }
+
+        [Display(Name = "Country")]
+        public string AddressCountry { get; set; }
+
+        public double? AddressLongitude { get; set; }
+        public double? AddressLatitude { get; set; }
+
         public ICollection<JobApplicationHeader> Applications { get; set; }
     }
 }

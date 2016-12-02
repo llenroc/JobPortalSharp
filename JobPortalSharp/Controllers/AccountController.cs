@@ -213,12 +213,16 @@ namespace JobPortalSharp.Controllers
                     db.Employers.Add(new Employer
                     {
                         ApplicationUserId = user.Id,
-                        CompanyAddress1 = model.CompanyAddress1,
-                        CompanyAddress2 = model.CompanyAddress2,
                         CompanyDescription = model.CompanyDescription,
                         Name = model.CompanyName,
                         CompanyLogoFileName = Path.GetFileName(model.CompanyLogo.FileName),
-                        CompanyLogoSystemFileName = logoSystemName
+                        CompanyLogoSystemFileName = logoSystemName,
+                        AddressCountry = model.AddressCountry,
+                        AddressLatitude = model.AddressLatitude,
+                        AddressLongitude = model.AddressLongitude,
+                        AddressState = model.AddressState,
+                        AddressStreet = model.AddressStreet,
+                        AddressTown = model.AddressTown
                     });
                     await db.SaveChangesAsync();
 
@@ -501,7 +505,7 @@ namespace JobPortalSharp.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
+        //[HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {

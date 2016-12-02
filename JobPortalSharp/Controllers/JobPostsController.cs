@@ -12,6 +12,9 @@ using JobPortalSharp.Services;
 using JobPortalSharp.Models;
 using System.IO;
 using JobPortalSharp.Data.Dto;
+using RestSharp;
+using RestSharp.Authenticators;
+using System.Configuration;
 
 namespace JobPortalSharp.Controllers
 {
@@ -74,7 +77,10 @@ namespace JobPortalSharp.Controllers
             ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId");
             ViewBag.EmploymentTypeId = new SelectList(db.EmploymentTypes, "Id", "Name");
             ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Name");
-            return View();
+
+            var model = new JobPost() { LocationSameAsEmployer = true };
+
+            return View(model);
         }
 
         // POST: JobPosts/Create
@@ -200,6 +206,7 @@ namespace JobPortalSharp.Controllers
             db.JobApplicationHeaders.Add(header);
             db.SaveChanges();
             return new EmptyResult();
+            //todo: mailgun
         }
 
         [HttpPost]
@@ -219,6 +226,27 @@ namespace JobPortalSharp.Controllers
 
             db.JobApplicationHeaders.Add(header);
             db.SaveChanges();
+
+            foreach (var jobPostId in ids)
+            {
+                var jobPost = db.JobPosts.Include(x => x.Employer.ApplicationUser).Single(x => x.Id == jobPostId);
+                var client = new RestClient();
+                client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+
+                string path = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/mailgun.key");
+                var apiKey = System.IO.File.ReadAllText(path);
+                client.Authenticator = new HttpBasicAuthenticator("api", apiKey);
+                RestRequest request = new RestRequest();
+                request.AddParameter("domain", "jp.irdocs.net", ParameterType.UrlSegment);
+                request.Resource = "{domain}/messages";
+                request.AddParameter("from", "admin@jp.irdocs.net");
+                request.AddParameter("to", jobPost.Employer.ApplicationUser.Email);
+                request.AddParameter("subject", "Application for \"" + jobPost.Name + "\"");
+                request.AddParameter("html", "<div>Someone applied on these jobs:<p>Programmer <a href=\"localhost:24010/applications/1\">View Applications</a></p></div>");
+                request.Method = Method.POST;
+                client.Execute(request);
+            }
+
             return new EmptyResult();
         }
 

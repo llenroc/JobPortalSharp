@@ -24,8 +24,6 @@ namespace JobPortalSharp.Data
         public DbSet<Applicant> Applicants { get; set; }
         public DbSet<Industry> Industries { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
-        public DbSet<State> States { get; set; }
-        public DbSet<Suburb> Suburbs { get; set; }
         public DbSet<JobApplicationHeader> JobApplicationHeaders { get; set; }
         public DbSet<JobApplicationDetail> JobApplicationDetails { get; set; }
         public DbSet<EmployerType> EmployerTypes { get; set; }

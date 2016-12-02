@@ -149,11 +149,20 @@ namespace JobPortalSharp.Models
         public string CompanyDescription { get; set; } //information about the company
 
         [Required]
-        [Display(Name = "Company Address 1")]
-        public string CompanyAddress1 { get; set; }
+        [Display(Name = "Street Address")]
+        public string AddressStreet { get; set; }
 
-        [Display(Name = "Company Address 2")]
-        public string CompanyAddress2 { get; set; }
+        [Display(Name = "City or Town")]
+        public string AddressTown { get; set; }
+
+        [Display(Name = "State")]
+        public string AddressState { get; set; }
+
+        [Display(Name = "Country")]
+        public string AddressCountry { get; set; }
+
+        public double? AddressLongitude { get; set; }
+        public double? AddressLatitude { get; set; }
 
         [Display(Name = "Industry")]
         public int IndustryId { get; set; }
@@ -164,7 +173,10 @@ namespace JobPortalSharp.Models
         [Display(Name = "Company Logo")]
         public HttpPostedFileBase CompanyLogo { get; set; }
 
-        public ICollection<Industry> Industries { get; set; }
+        [Display(Name = "State")]
+        public int StateId { get; set; }
+        
+        public IEnumerable<Industry> Industries { get; set; }
     }
 
     public class ResetPasswordViewModel
