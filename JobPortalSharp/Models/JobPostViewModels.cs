@@ -37,6 +37,8 @@ namespace JobPortalSharp.Models
 
     public class ApplyJobPost
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public HttpPostedFileBase CV { get; set; }
         public HttpPostedFileBase CoverLetter { get; set; }

@@ -8,20 +8,22 @@
     <script type="text/javascript">
         function viewApplications(btn) {
             var jobTitle = $(btn).closest('tr').find('job-title').text();
+            var jobPostId = $(btn).closest('tr')[0].id;
             $.ajax({
                 type: 'GET',
-                url: '/api/jobapplications',
+                url: '/api/jobapplications/' + jobPostId,
                 cache: false,
                 success: function (data, status) {
                     $form = $('#modalApplications');
                     $form.find('.job-title').text(jobTitle);
                     $form.find('.modal-body').empty();
-                    var html = '<div class="col-sm-6">Application Date</div><div class="col-sm-2">CV</div><div class="col-sm-2">CL</div>';
+                    var html = '<table style="width: 100%; margin-left: 20px; margin-right: 20px"><tr><th>Application Date</th><th>Full Name</th><th>CV</th><th>CL</th>';
                     for (var i = 0; i < data.length; i++) {
-                        html += '<div class="col-sm-6">' + data[i].ApplicationDate.substr(0, 10) + '</div><div class="col-sm-2"><a href="/files/getfile?file=' + data[i].CvSystemFileName + '" download>Download</a></div>' +
-                            '<div class="col-sm-2">' + (data[i].CoverLetterSystemFileName == null ? 'None' : '<a class="btn btn-primary btn-sm" href="/files/getfile?file=' + data[i].CoverLetterSystemFileName + '" download>CL</a></div>');
-                        $form.find('.modal-body').append(html);
+                        html += '<tr><td>' + data[i].ApplicationDate.substr(0, 10) + '</td><td>' + data[i].FirstName + ' ' + data[i].LastName + '</td><td><a href="/files/getcv/' + data[i].Id + '" download>Download</a></td>' +
+                            '<td>' + (data[i].CoverLetterSystemFileName == null ? 'None' : '<a href="/files/getcl/' + data[i].Id + '" download>Download</a></td></tr>');
                     }
+                    html += '</table>'
+                    $form.find('.modal-body').append(html);
                     $form.modal();
                 },
                 error: function (status) {
@@ -61,14 +63,14 @@
                 @Html.DisplayNameFor(model => model.ExpirationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumOfApplications)
+                Applications
             </th>
             <th></th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
+            <tr id="@item.Id">
                 <td class="job-title">
                     @Html.ActionLink(item.Name, "Details", new { id = item.Id }, new { @style = "font-weight: bold" })
                 </td>
@@ -96,45 +98,46 @@
                 <td>
                     @if (item.NumOfApplications > 0)
                     {
-                        <span class="label label-primary label-as-badge" style="cursor: pointer" onclick="viewApplications(this)">
+                        <button class="btn btn-xs btn-success" onclick="viewApplications(this)">View Applications (@item.NumOfApplications)</button>
+                        @*<span class="label label-primary label-as-badge" style="cursor: pointer" onclick="viewApplications(this)">
                             @Html.DisplayFor(modelItem => item.NumOfApplications)
-                        </span>
-                    }
-                    else
-                    {
+                        </span>*@
+                        }
+                        else
+                        {
                         <span>None</span>
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
-    </table>
-}
-else
-{
-    <center>
-        <p>You have no posts yet.</p>
-        @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
-    </center>
-}
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+                }
+            </table>
+            }
+            else
+            {
+            <center>
+                <p>You have no posts yet.</p>
+                @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
+            </center>
+            }
 
-<!-- Modal -->
-<div class="modal fade" id="modalApplications" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Applications for <span class="job-title"></span></h4>
+            <!-- Modal -->
+            <div class="modal fade" id="modalApplications" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Applications for <span class="job-title"></span></h4>
+                        </div>
+                        <div class="modal-body row">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body row">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>

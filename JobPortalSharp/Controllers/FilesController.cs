@@ -12,15 +12,33 @@ namespace JobPortalSharp.Controllers
     {
         JobPortalSharpDbContext db = new JobPortalSharpDbContext();
 
-        public FilePathResult GetFile(string file)
+        public FilePathResult GetCv(int id)
         {
-            var path = Server.MapPath("~/App_Data") + "/" + file;
+            var jobApplication = db.JobApplicationHeaders.Single(x => x.Id == id);
+            var path = Server.MapPath("~/App_Data/application_files") + "/" + jobApplication.CvSystemFileName;
             if (System.IO.File.Exists(path))
             {
-                var obj = db.JobApplicationHeaders.Single(x => x.CvSystemFileName == file);
                 return new FilePathResult(path, "application/octet-stream")
                    {
-                       FileDownloadName = obj.CvFileName
+                       FileDownloadName = jobApplication.CvFileName
+                   };
+            }
+            else
+            {
+                throw new Exception("File not found.");
+            }
+
+        }
+
+        public FilePathResult GetCl(int id)
+        {
+            var jobApplication = db.JobApplicationHeaders.Single(x => x.Id == id);
+            var path = Server.MapPath("~/App_Data/application_files") + "/" + jobApplication.CoverLetterSystemFileName;
+            if (System.IO.File.Exists(path))
+            {
+                return new FilePathResult(path, "application/octet-stream")
+                   {
+                       FileDownloadName = jobApplication.CoverLetterFileName
                    };
             }
             else

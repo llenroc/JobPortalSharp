@@ -7,55 +7,32 @@
 
     <script type="text/javascript">
         function initializeGoogleApi() {
-            var inputL1 = document.getElementById('location1');
-            var inputL2 = document.getElementById('location2');
+            var inputL1 = document.getElementById('l1');
+            var inputL2 = document.getElementById('l2');
             var autocomplete1 = new google.maps.places.Autocomplete(inputL1, []);
             var autocomplete2 = new google.maps.places.Autocomplete(inputL2, []);
 
             google.maps.event.addListener(autocomplete1, 'place_changed', function () {
-                $('#l1').val($('#location1').val());
-
                 var place = autocomplete1.getPlace();
-                $('#lngL1').val(place.geometry.location.lng());
-                $('#latL1').val(place.geometry.location.lat());
+                $('#lng1').val(place.geometry.location.lng());
+                $('#lat1').val(place.geometry.location.lat());
+                console.log(2)
             });
 
             google.maps.event.addListener(autocomplete2, 'place_changed', function () {
-                $('#l2').val($('#location2').val());
-
                 var place = autocomplete2.getPlace();
-                $('#lngL2').val(place.geometry.location.lng());
-                $('#latL2').val(place.geometry.location.lat());
-                console.log('place_changed')
+                $('#lng2').val(place.geometry.location.lng());
+                $('#lat2').val(place.geometry.location.lat());
+                console.log(1)
             });
         }
 
         $(function () {
             initializeGoogleApi();
 
-            $('#chk-adv-search').change(function () {
-                if ($(this).is(':checked')) {
-                    $('#pane-adv-search').show()
-                } else {
-                    $('#pane-adv-search').hide();
-                }
-            })
-
-            $('.search-box-wrapper form').on('submit', function () {
-                if ($('#location1').val().trim() != '' && $('#location1').val() != $('#l1').val()) {
-                    $('#lngL1, #latL1').val('');
-                    $('#l1').val($('#location1').val());
-                }
-                if ($('#location2').val().trim() != '' && $('#location2').val() == $('#l2').val()) {
-                    $('#lngL2, #latL2').val('');
-                    $('#l2').val($('#location2').val());
-                }
-
-                return true;
-            });
-
-            $('#location1, #location2').on('change', function () {
-                $('#l1, #lng1, #lat1, #l2 #lng2, #lat2').val('');
+            $('#l1, #l2').on('change', function () {
+                $('#lng1, #lat1, #lng2, #lat2').val('');
+                console.log(3)
             })
         });
     </script>
@@ -97,51 +74,45 @@
 
 <div class="search-box-wrapper" style="z-index: 100; position: relative;">
     <div style="background-color: white; padding: 20px; max-width: 1200px;border:1px solid lightgray;box-shadow:0 0 10px gray;margin: auto; margin-top: 10px">
-        @using (Html.BeginForm("Search", "Home", Model, FormMethod.Get))
+        @using (Html.BeginForm("search", "jobposts", Model, FormMethod.Get))
         {
             <div class="search-box row">
                 <div class="col-md-4">
-                    @*<input name="q" placeholder="keywords e.g. nurse" type="text" />*@
                     @Html.TextBoxFor(m => m.q, new { placeholder = "keywords e.g. nurse" })
                 </div>
                 <div class="col-md-3">
-                    <input placeholder="location 1" type="text" name="location1" id="location1" />
-                    @Html.HiddenFor(m => m.l1)
-                    @Html.HiddenFor(m => m.lngL1)
-                    @Html.HiddenFor(m => m.latL1)
+                    @Html.TextBoxFor(m => m.l1, new { placeholder = "location 1" })
+                    @Html.HiddenFor(m => m.lng1)
+                    @Html.HiddenFor(m => m.lat1)
                     @Html.CheckBoxFor(m => m.nb1, new { style="margin-right: 10px; width: auto; margin-top: 0" })
                     <span>Including Surrounding Areas</span>
                 </div>
                 <div class="col-md-3">
-                    <input placeholder="location 2" type="text" name="location2" id="location2" />
-                    @Html.HiddenFor(m => m.l2)
-                    @Html.HiddenFor(m => m.lngL2)
-                    @Html.HiddenFor(m => m.latL2)
+                    @Html.TextBoxFor(m => m.l2, new { placeholder = "location 2" })
+                    @Html.HiddenFor(m => m.lng2)
+                    @Html.HiddenFor(m => m.lat2)
                     @Html.CheckBoxFor(m => m.nb2, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
                     <span>Including Surrounding Areas</span>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" style="width:100%;line-height:3em">Find Job</button>
+                    <button type="submit" class="btn btn-primary" style="width:100%;line-height:2.4em">Find Job</button>
                 </div>
             </div>
-            @*<div>
-                <input type="checkbox" id="chk-adv-search" />
-                <label>Advance Search</label>
-            </div>
-            <div id="pane-adv-search" style="display: none">
-                <div class="row">
-                    <label>Employer Type</label>
-                    @Html.ListBoxFor(model => model.ers, Model.EmployerTypes, new { @class = "multiselect" })
-                    @Html.ListBoxFor(model => model.ets, Model.EmploymentTypes, new { @class = "multiselect" })
-                </div>
-            </div>*@
         }
-        <ul class="job-categories" style="padding-top: 50px">
+
+        @if (User.IsInRole("Employer"))
+        {
+            <div style="text-align: center; margin-top: 20px;">
+                @Html.ActionLink("Post a Job Now", "create", "jobposts", null, new { @class = "btn btn-success btn-lg" })
+            </div>
+        }
+
+        @*<ul class="job-categories" style="padding-top: 50px">
             @foreach (var item in ViewBag.Industries)
             {
-                <li><a href="/jobs/category/@item.Id">@item.Name</a></li>
+                <li><a href="/jobposts/category/@item.Id">@item.Name</a></li>
             }
-        </ul>
+        </ul>*@
     </div>
 </div>
 

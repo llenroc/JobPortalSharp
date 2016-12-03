@@ -18,6 +18,7 @@ using System.Configuration;
 
 namespace JobPortalSharp.Controllers
 {
+    [Authorize]
     public class JobPostsController : Controller
     {
         private JobPortalSharpDbContext db = new JobPortalSharpDbContext();
@@ -189,6 +190,7 @@ namespace JobPortalSharp.Controllers
             base.Dispose(disposing);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Apply(int id, [System.Web.Http.FromBody] ApplyJobPost model)
         {
@@ -209,11 +211,15 @@ namespace JobPortalSharp.Controllers
             //todo: mailgun
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult ApplyMultiple(int[] ids, [System.Web.Http.FromBody] ApplyJobPost model)
         {
             var header = new JobApplicationHeader();
             header.ApplicationDate = DateTime.Now;
+            header.FirstName = model.FirstName;
+            header.LastName = model.LastName;
+            header.EmailAddress = model.EmailAddress;
             header.Details = new List<JobApplicationDetail>();
             for (int i = 0; i < ids.Length; i++)
             {
@@ -240,9 +246,17 @@ namespace JobPortalSharp.Controllers
                 request.AddParameter("domain", "jp.irdocs.net", ParameterType.UrlSegment);
                 request.Resource = "{domain}/messages";
                 request.AddParameter("from", "admin@jp.irdocs.net");
-                request.AddParameter("to", jobPost.Employer.ApplicationUser.Email);
+
+                if (jobPost.Employer.ApplicationUser == null) //system generated employer
+                {
+                    request.AddParameter("to", "rajeem_cariazo@yahoo.com");
+                }
+                else
+                {
+                    request.AddParameter("to", jobPost.Employer.ApplicationUser.Email);
+                }
                 request.AddParameter("subject", "Application for \"" + jobPost.Name + "\"");
-                request.AddParameter("html", "<div>Someone applied on these jobs:<p>Programmer <a href=\"localhost:24010/applications/1\">View Applications</a></p></div>");
+                request.AddParameter("html", "<div>Someone has recently applied on this job:<p><strong>Programmer </strong><a href=" + Request.Url.Authority + "/jobposts" + ">View My Job Posts</a></p></div>");
                 request.Method = Method.POST;
                 client.Execute(request);
             }
@@ -268,6 +282,24 @@ namespace JobPortalSharp.Controllers
                 header.CoverLetterSystemFileName = coverLetterSystemFileName;
                 header.CoverLetterFileName = Path.GetFileName(model.CoverLetter.FileName);
             }
+        }
+
+        [AllowAnonymous]
+        public ActionResult Search(SearchViewModel model)
+        {
+            ViewBag.EmployerTypes = db.EmployerTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            ViewBag.EmploymentTypes = db.EmploymentTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            return View(model);
         }
     }
 }

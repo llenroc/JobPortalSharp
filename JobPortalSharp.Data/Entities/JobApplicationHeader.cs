@@ -10,7 +10,6 @@ namespace JobPortalSharp.Data
     public class JobApplicationHeader
     {
         public int Id { get; set; }
-        public JobPost JobPost { get; set; }
 
         [Display(Name = "Application Date")]
         public DateTime? ApplicationDate { get; set; }

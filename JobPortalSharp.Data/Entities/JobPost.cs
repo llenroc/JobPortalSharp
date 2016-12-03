@@ -62,6 +62,6 @@ namespace JobPortalSharp.Data
         public double? AddressLongitude { get; set; }
         public double? AddressLatitude { get; set; }
 
-        public ICollection<JobApplicationHeader> Applications { get; set; }
+        public ICollection<JobApplicationDetail> Applications { get; set; }
     }
 }

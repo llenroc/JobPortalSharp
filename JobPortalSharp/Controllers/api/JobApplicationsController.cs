@@ -16,34 +16,11 @@ namespace JobPortalSharp.Controllers.api
     public class JobApplicationsController : ApiControllerBase
     {
         // GET: api/JobApplications
-        public IQueryable<JobApplicationHeader> GetApplications()
+        public IQueryable<JobApplicationHeader> GetApplications(int id)
         {
             var userId = User.Identity.GetUserId();
             var employerId = db.Employers.Single(x => x.ApplicationUserId == userId).Id;
-            return db.JobApplicationHeaders.Where(x => x.JobPost.EmployerId == employerId);
-        }
-
-        [Route("api/jobcart/add/{id}")]
-        public IHttpActionResult AddToCart(int id)
-        {
-            db.JobSelections.Add(new Data.Entities.JobSelection
-            {
-                CreatedById = RequestContext.Principal.Identity.GetUserId(),
-                CreatedDate = DateTime.Now,
-                Name = id.ToString()
-            });
-            db.SaveChanges();
-            return Ok();
-        }
-
-        [Route("api/jobcart/remove/{id}")]
-        public IHttpActionResult RemoveFromCart(int id)
-        {
-            var userId = RequestContext.Principal.Identity.GetUserId();
-            var strId = id.ToString();
-            db.JobSelections.Where(x => x.CreatedById == userId && x.Name == strId).ToList().ForEach(x => db.JobSelections.Remove(x));
-            db.SaveChanges();
-            return Ok();
+            return db.JobApplicationDetails.Where(x => x.JobPostId == id).Select(x => x.JobApplicationHeader);
         }
     }
 }

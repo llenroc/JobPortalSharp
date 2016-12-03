@@ -44,7 +44,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="~/">
-                    <span class="glyphicon glyphicon-expand" aria-hidden="true" style="color: #7dc246"></span> Job Listings Website
+                    <span class="glyphicon glyphicon-expand text-primary" aria-hidden="true"></span> Job Listings Website
                 </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse navbar-right">
@@ -52,7 +52,7 @@
                     <li><a href="~/">Home</a></li>
                     @if (User.Identity.IsAuthenticated == false)
                     {
-                        <li><a href="~/account/employerlogin">Employer Login</a></li>
+                        <li><a href="~/account/employerlogin">Employer</a></li>
                         @*<li><a href="~/account/login">Job Seeker</a></li>
                             <li><a href="~/account/login">Login</a></li>*@
                     }
@@ -81,6 +81,7 @@
     <script src="~/Scripts/bootstrap-slider.min.js"></script>
     <script src="~/Scripts/bootstrap-multiselect.js"></script>
     <script src="~/Scripts/jquery.dateFormat-1.0.js"></script>
+    <script src="~/Scripts/loadingoverlay.min.js"></script>
     <script src="~/Scripts/app.js"></script>
     @RenderSection("FooterScripts", false)
 </body>
