@@ -16,7 +16,7 @@
         var resultColumnDefs = [{
             'targets': 0,
             'data': function (row, type, val, meta) {
-                return '<button id="' + row.Id + '" type="button" class="btn btn-xs btn-primary selection" onclick="addToSelection(this.id)">Add</button>';
+                return '<button id="' + row.Id + '" type="button" class="btn btn-xs btn-primary selection" onclick="addToSelection(this.id)">Apply</button>';
             }
         },
         {
@@ -57,13 +57,21 @@
         })
 
         function addToSelection(id) {
-            if (!localStorage['job_selections']) {
-                localStorage['job_selections'] = JSON.stringify([id]);
+            if ($('#' + id).hasClass('btn-primary')) {
+                if (!localStorage['job_selections']) {
+                    localStorage['job_selections'] = JSON.stringify([id]);
+                } else {
+                    var jobSelections = JSON.parse(localStorage['job_selections']);
+                    jobSelections.push(id);
+                    localStorage['job_selections'] = JSON.stringify(jobSelections);
+                }
             } else {
                 var jobSelections = JSON.parse(localStorage['job_selections']);
-                jobSelections.push(id);
+                var index = jobSelections.indexOf(id);
+                jobSelections.splice(index, 1);
                 localStorage['job_selections'] = JSON.stringify(jobSelections);
             }
+            
             refreshJobCart();
             updateJobCartButtons();
         }
@@ -110,8 +118,12 @@
             } else {
                 var $cart = $('.job-cart');
                 var jobSelections = JSON.parse(localStorage['job_selections']);
-                $cart.find('.count').html(jobSelections.length);
-                $jobCart.show();
+                if (jobSelections.length > 0) {
+                    $cart.find('.count').html(jobSelections.length);
+                    $jobCart.show();
+                } else {
+                    $jobCart.hide();
+                }
             }
         }
 
@@ -123,9 +135,13 @@
 
             $('.result-table tr button.selection').each(function () {
                 if (jobSelections.indexOf(this.id) >= 0) {
-                    $(this).attr('disabled', 'disabled');
+                    $(this).html('Remove');
+                    $(this).addClass('btn-warning');
+                    $(this).removeClass('btn-primary');
                 } else {
-                    $(this).removeAttr('disabled');
+                    $(this).html('Apply');
+                    $(this).addClass('btn-primary');
+                    $(this).removeClass('btn-warning');
                 }
             })
         }

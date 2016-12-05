@@ -222,7 +222,8 @@ namespace JobPortalSharp.Controllers
                         AddressLongitude = model.AddressLongitude,
                         AddressState = model.AddressState,
                         AddressStreet = model.AddressStreet,
-                        AddressTown = model.AddressTown
+                        AddressTown = model.AddressTown,
+                        AddressPostalCode = model.AddressPostalCode
                     });
                     await db.SaveChangesAsync();
 
@@ -242,6 +243,8 @@ namespace JobPortalSharp.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+
+            model.Industries = db.Industries.ToList();
             return View(model);
         }
 

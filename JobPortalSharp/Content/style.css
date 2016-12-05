@@ -58,4 +58,7 @@ input[type=text] {
   background-image: none;
   box-shadow: none;
 }
+.asterisk:after {
+  content: "*";
+}
 /*# sourceMappingURL=style.css.map */

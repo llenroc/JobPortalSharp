@@ -39,6 +39,7 @@ namespace JobPortalSharp.Data
         public string AddressTown { get; set; }
         public string AddressState { get; set; }
         public string AddressCountry { get; set; }
+        public string AddressPostalCode { get; set; }
         public double? AddressLongitude { get; set; }
         public double? AddressLatitude { get; set; }
 

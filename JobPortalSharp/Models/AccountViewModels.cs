@@ -161,6 +161,9 @@ namespace JobPortalSharp.Models
         [Display(Name = "Country")]
         public string AddressCountry { get; set; }
 
+        [Display(Name = "Postal Code")]
+        public string AddressPostalCode { get; set; }
+
         public double? AddressLongitude { get; set; }
         public double? AddressLatitude { get; set; }
 
