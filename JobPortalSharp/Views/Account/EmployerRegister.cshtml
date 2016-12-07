@@ -114,7 +114,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.IndustryId, new { @class = "col-md-2 control-label asterisk" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.IndustryId, new SelectList(Model.Industries, "Id", "Name"), new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.IndustryId, Model.Industries, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">

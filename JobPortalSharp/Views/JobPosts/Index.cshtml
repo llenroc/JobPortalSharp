@@ -19,7 +19,7 @@
                     $form.find('.modal-body').empty();
                     var html = '<table style="width: 100%; margin-left: 20px; margin-right: 20px"><tr><th>Application Date</th><th>Full Name</th><th>CV</th><th>CL</th>';
                     for (var i = 0; i < data.length; i++) {
-                        html += '<tr><td>' + data[i].ApplicationDate.substr(0, 10) + '</td><td>' + data[i].FirstName + ' ' + data[i].LastName + '</td><td><a href="/files/getcv/' + data[i].Id + '" download>Download</a></td>' +
+                        html += '<tr><td>' + data[i].ApplicationDate.replace('T', ' ') + '</td><td>' + data[i].FirstName + ' ' + data[i].LastName + '</td><td><a href="/files/getcv/' + data[i].Id + '" download>Download</a></td>' +
                             '<td>' + (data[i].CoverLetterSystemFileName == null ? 'None' : '<a href="/files/getcl/' + data[i].Id + '" download>Download</a></td></tr>');
                     }
                     html += '</table>'

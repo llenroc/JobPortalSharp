@@ -16,12 +16,18 @@ namespace JobPortalSharp.Data
     public class Entity : SimpleEntity
     {
         public string Notes { get; set; }
+
         public string CreatedById { get; set; }
+        public ApplicationUser CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
+
         public string LastUpdatedById { get; set; }
+        public ApplicationUser LastUpdatedBy { get; set; }
         public DateTime? LastUpdatedDate { get; set; }
 
-        public ApplicationUser CreatedBy { get; set; }
-        public ApplicationUser LastUpdatedBy { get; set; }
+        public string DeletedById { get; set; }
+        public ApplicationUser DeletedBy { get; set; }
+        public DateTime? DeletedDate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

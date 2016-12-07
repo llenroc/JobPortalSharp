@@ -23,6 +23,15 @@ namespace JobPortalSharp.Data
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
 
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        public bool IsNewToTheWorkforce { get; set; }
+        public string LastJobTitle { get; set; }
+        public DateTime? LastJobDateStarted { get; set; }
+        public string LastJobCompanyName { get; set; }
+        public bool IsStillInLastJob { get; set; }
+
         public string CvFileName { get; set; }
         public string CvSystemFileName { get; set; }
         public string CoverLetterFileName { get; set; }

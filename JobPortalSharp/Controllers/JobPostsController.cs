@@ -77,7 +77,7 @@ namespace JobPortalSharp.Controllers
         {
             ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId");
             ViewBag.EmploymentTypeId = new SelectList(db.EmploymentTypes, "Id", "Name");
-            ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Name");
+            ViewBag.IndustryId = new SelectList(db.Industries.Include(x => x.Category).ToList(), "Id", "Name", "Category.Name", null, null);
 
             var model = new JobPost() { LocationSameAsEmployer = true };
 
@@ -105,7 +105,7 @@ namespace JobPortalSharp.Controllers
 
             ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId", jobPost.EmployerId);
             ViewBag.EmploymentTypeId = new SelectList(db.EmploymentTypes, "Id", "Name", jobPost.EmploymentTypeId);
-            ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Name", jobPost.IndustryId);
+            ViewBag.IndustryId = new SelectList(db.Industries.Include(x => x.Category).ToList(), "Id", "Name", "Category.Name", jobPost.IndustryId);
             return View(jobPost);
         }
 

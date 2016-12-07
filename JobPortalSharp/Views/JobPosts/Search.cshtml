@@ -81,17 +81,17 @@
             var $form = $modal.find('form');
             var jobSelections = [];
 
-            if ($form.hasClass('multiple')) {
-                jobSelections = JSON.parse(localStorage['job_selections']);
-            }
-
             if ($form.valid()) {
+                jobSelections = JSON.parse(localStorage['job_selections']);
                 var formData = new FormData($form[0]);
 
                 for (var i = 0; i < jobSelections.length; i++) {
                     formData.append('ids', jobSelections[i])
                 }
 
+                $('#modalJobApply form').LoadingOverlay('show', {
+                    zIndex: 9999
+                });
                 $.ajax({
                     url: $form.attr('action'),
                     type: 'POST',
@@ -106,6 +106,11 @@
                         localStorage['job_selections'] = '';
                         refreshJobCart();
                         updateJobCartButtons();
+                        $('#modalJobApply form').LoadingOverlay('hide', true);
+                    },
+                    error: function () {
+                        //todo: implement this
+                        $('#modalJobApply form').LoadingOverlay('hide', true);
                     }
                 });
             }
@@ -313,26 +318,50 @@
             </div>
             @using (Html.BeginForm("Apply", "JobPosts", FormMethod.Post, new { enctype = "multipart/form-data", @class = "modal-body" }))
             {
-            <div class="row">
-                <label class="col-sm-4">First Name</label>
-                <input class="col-sm-8" type="text" required="required" id="FirstName" name="FirstName" style="border: 1px solid lightgray" />
-            </div>
-            <div class="row">
-                <label class="col-sm-4">Last Name</label>
-                <input class="col-sm-8" type="text" required="required" id="LastName" name="LastName" style="border: 1px solid lightgray" />
-            </div>
-            <div class="row">
-                <label class="col-sm-4">Your Email Address</label>
-                <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" style="border: 1px solid lightgray" />
-            </div>
-            <div class="row">
-                <label class="col-sm-4">CV</label>
-                <input class="col-sm-8 cv" type="file" id="CV" name="CV" required="required" />
-            </div>
-            <div class="row">
-                <label class="col-sm-4">Cover letter (Optional)</label>
-                <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
-            </div>
+                <div style="border: 1px solid lightgrey; padding: 1em; margin-bottom: 10px">
+                    <div class="row">
+                        <label class="col-sm-4">First Name</label>
+                        <input class="col-sm-8" type="text" required="required" id="FirstName" name="FirstName" style="border: 1px solid lightgray" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">Last Name</label>
+                        <input class="col-sm-8" type="text" required="required" id="LastName" name="LastName" style="border: 1px solid lightgray" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">Your Email Address</label>
+                        <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" style="border: 1px solid lightgray" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">CV</label>
+                        <input class="col-sm-8 cv" type="file" id="CV" name="CV" required="required" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">Cover letter (Optional)</label>
+                        <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
+                    </div>
+                </div>
+                <div style="border: 1px solid lightgrey; padding: 1em">
+                    <div class="row">
+                        <label class="col-sm-4">I'm new to the workforce</label>
+                        <input class="col-sm-8" type="checkbox" id="IsNewToTheWorkforce" name="IsNewToTheWorkforce" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">Job Title</label>
+                        <input class="col-sm-8" type="text" id="LastJobTitle" name="LastJobTitle" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">Company Name</label>
+                        <input class="col-sm-8" type="text" id="LastJobCompanyName" name="LastJobCompanyName" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">Date Started</label>
+                        <input class="col-sm-8 datepicker" type="text" id="LastJobDateStarted" name="LastJobDateStarted" />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4">I'm still in role</label>
+                        <input class="col-sm-8" type="checkbox" id="IsStillInLastJob" name="IsStillInLastJob" />
+                    </div>
+                </div>
             }
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>

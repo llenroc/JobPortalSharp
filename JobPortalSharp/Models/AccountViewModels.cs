@@ -179,7 +179,7 @@ namespace JobPortalSharp.Models
         [Display(Name = "State")]
         public int StateId { get; set; }
         
-        public IEnumerable<Industry> Industries { get; set; }
+        public System.Web.Mvc.SelectList Industries { get; set; }
     }
 
     public class ResetPasswordViewModel

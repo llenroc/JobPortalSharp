@@ -22,20 +22,25 @@ namespace JobPortalSharp.Data.Migrations
                         MobileNumber = c.String(),
                         PhoneNumber = c.String(),
                         ExpectedSalary = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Name = c.String(),
                         Notes = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         CreatedDate = c.DateTime(),
                         LastUpdatedById = c.String(maxLength: 128),
                         LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
                 .ForeignKey("dbo.AspNetUsers", t => t.LastUpdatedById)
                 .Index(t => t.ApplicationUserId)
                 .Index(t => t.CreatedById)
-                .Index(t => t.LastUpdatedById);
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -102,26 +107,35 @@ namespace JobPortalSharp.Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         ApplicationUserId = c.String(maxLength: 128),
                         CompanyDescription = c.String(),
-                        CompanyName = c.Int(nullable: false),
-                        CompanyAddress1 = c.String(),
-                        CompanyAddress2 = c.String(),
+                        AddressStreet = c.String(),
+                        AddressTown = c.String(),
+                        AddressState = c.String(),
+                        AddressCountry = c.String(),
+                        AddressPostalCode = c.String(),
+                        AddressLongitude = c.Double(),
+                        AddressLatitude = c.Double(),
                         NumberOfEmployees = c.Int(nullable: false),
                         CompanyLogoFileName = c.String(),
                         CompanyLogoSystemFileName = c.String(),
-                        Name = c.String(),
                         Notes = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         CreatedDate = c.DateTime(),
                         LastUpdatedById = c.String(maxLength: 128),
                         LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
                 .ForeignKey("dbo.AspNetUsers", t => t.LastUpdatedById)
                 .Index(t => t.ApplicationUserId)
                 .Index(t => t.CreatedById)
-                .Index(t => t.LastUpdatedById);
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
             
             CreateTable(
                 "dbo.JobPosts",
@@ -138,14 +152,25 @@ namespace JobPortalSharp.Data.Migrations
                         EmployerId = c.Int(nullable: false),
                         EmploymentTypeId = c.Int(nullable: false),
                         IndustryId = c.Int(nullable: false),
+                        LocationSameAsEmployer = c.Boolean(nullable: false),
+                        AddressStreet = c.String(),
+                        AddressTown = c.String(),
+                        AddressState = c.String(),
+                        AddressCountry = c.String(),
+                        AddressLongitude = c.Double(),
+                        AddressLatitude = c.Double(),
                         Notes = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         CreatedDate = c.DateTime(),
                         LastUpdatedById = c.String(maxLength: 128),
                         LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
                 .ForeignKey("dbo.Employers", t => t.EmployerId, cascadeDelete: true)
                 .ForeignKey("dbo.EmploymentTypes", t => t.EmploymentTypeId, cascadeDelete: true)
                 .ForeignKey("dbo.Industries", t => t.IndustryId, cascadeDelete: true)
@@ -154,14 +179,28 @@ namespace JobPortalSharp.Data.Migrations
                 .Index(t => t.EmploymentTypeId)
                 .Index(t => t.IndustryId)
                 .Index(t => t.CreatedById)
-                .Index(t => t.LastUpdatedById);
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
             
             CreateTable(
-                "dbo.JobApplications",
+                "dbo.JobApplicationDetails",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         JobPostId = c.Int(nullable: false),
+                        JobApplicationHeaderId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.JobApplicationHeaders", t => t.JobApplicationHeaderId, cascadeDelete: true)
+                .ForeignKey("dbo.JobPosts", t => t.JobPostId, cascadeDelete: true)
+                .Index(t => t.JobPostId)
+                .Index(t => t.JobApplicationHeaderId);
+            
+            CreateTable(
+                "dbo.JobApplicationHeaders",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
                         ApplicationDate = c.DateTime(),
                         FirstName = c.String(),
                         LastName = c.String(),
@@ -171,63 +210,125 @@ namespace JobPortalSharp.Data.Migrations
                         CoverLetterFileName = c.String(),
                         CoverLetterSystemFileName = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.JobPosts", t => t.JobPostId, cascadeDelete: true)
-                .Index(t => t.JobPostId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.EmploymentTypes",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Id = c.Int(nullable: false),
                         Notes = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         CreatedDate = c.DateTime(),
                         LastUpdatedById = c.String(maxLength: 128),
                         LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
                 .ForeignKey("dbo.AspNetUsers", t => t.LastUpdatedById)
                 .Index(t => t.CreatedById)
-                .Index(t => t.LastUpdatedById);
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
             
             CreateTable(
                 "dbo.Industries",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Id = c.Int(nullable: false),
+                        CategoryId = c.Int(),
                         Notes = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         CreatedDate = c.DateTime(),
                         LastUpdatedById = c.String(maxLength: 128),
                         LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.IndustryCategories", t => t.CategoryId)
+                .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.LastUpdatedById)
+                .Index(t => t.CategoryId)
+                .Index(t => t.CreatedById)
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
+            
+            CreateTable(
+                "dbo.IndustryCategories",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        Notes = c.String(),
+                        CreatedById = c.String(maxLength: 128),
+                        CreatedDate = c.DateTime(),
+                        LastUpdatedById = c.String(maxLength: 128),
+                        LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
                 .ForeignKey("dbo.AspNetUsers", t => t.LastUpdatedById)
                 .Index(t => t.CreatedById)
-                .Index(t => t.LastUpdatedById);
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
             
             CreateTable(
                 "dbo.EmployerTypes",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Id = c.Int(nullable: false),
                         Notes = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         CreatedDate = c.DateTime(),
                         LastUpdatedById = c.String(maxLength: 128),
                         LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
                 .ForeignKey("dbo.AspNetUsers", t => t.LastUpdatedById)
                 .Index(t => t.CreatedById)
-                .Index(t => t.LastUpdatedById);
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
+            
+            CreateTable(
+                "dbo.JobSelections",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Notes = c.String(),
+                        CreatedById = c.String(maxLength: 128),
+                        CreatedDate = c.DateTime(),
+                        LastUpdatedById = c.String(maxLength: 128),
+                        LastUpdatedDate = c.DateTime(),
+                        DeletedById = c.String(maxLength: 128),
+                        DeletedDate = c.DateTime(),
+                        IsDeleted = c.Boolean(nullable: false),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.DeletedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.LastUpdatedById)
+                .Index(t => t.CreatedById)
+                .Index(t => t.LastUpdatedById)
+                .Index(t => t.DeletedById);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -239,100 +340,72 @@ namespace JobPortalSharp.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
-            CreateTable(
-                "dbo.States",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ShortName = c.String(),
-                        Name = c.String(),
-                        Lattitude = c.Double(),
-                        Longitude = c.Double(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Suburbs",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        StateId = c.Int(),
-                        Name = c.String(),
-                        Lattitude = c.Double(),
-                        Longitude = c.Double(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.States", t => t.StateId)
-                .Index(t => t.StateId);
-            InitializeDb();
         }
-
-        private void InitializeDb()
-        {
-            Sql("INSERT INTO EmployerTypes(Name) VALUES ('Direct Employer')");
-            Sql("INSERT INTO EmployerTypes(Name) VALUES ('Agency')");
-
-            Sql("INSERT INTO EmploymentTypes(Name) VALUES ('Permanent')");
-            Sql("INSERT INTO EmploymentTypes(Name) VALUES ('Part Time')");
-
-            Sql("INSERT INTO Industries(Name) VALUES('Agriculture')");
-            Sql("INSERT INTO Industries(Name) VALUES('Construction')");
-            Sql("INSERT INTO Industries(Name) VALUES('Mining')");
-            Sql("INSERT INTO Industries(Name) VALUES('IT')");
-            Sql("INSERT INTO Industries(Name) VALUES('Retail')");
-
-            Sql("INSERT INTO States(Name) VALUES('South Australia')");
-            Sql("INSERT INTO States(Name) VALUES('New South Wales')");
-            Sql("INSERT INTO States(Name) VALUES('Tasmania')");
-            Sql("INSERT INTO States(Name) VALUES('Queensland')");
-            Sql("INSERT INTO States(Name) VALUES('Victoria')");
-            Sql("INSERT INTO States(Name) VALUES('Western Australia')");
-            Sql("INSERT INTO States(Name) VALUES('Australian Capital Territory')");
-            Sql("INSERT INTO States(Name) VALUES('Northern Territory')");
-
-            Sql("INSERT INTO Suburbs(Name) VALUES('Suburb 1')");
-            Sql("INSERT INTO Suburbs(Name) VALUES('Suburb 2')");
-        }
-
+        
         public override void Down()
         {
-            DropForeignKey("dbo.Suburbs", "StateId", "dbo.States");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.JobSelections", "LastUpdatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.JobSelections", "DeletedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.JobSelections", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.EmployerTypes", "LastUpdatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.EmployerTypes", "DeletedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.EmployerTypes", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Employers", "LastUpdatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.JobPosts", "LastUpdatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.JobPosts", "IndustryId", "dbo.Industries");
             DropForeignKey("dbo.Industries", "LastUpdatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Industries", "DeletedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Industries", "CreatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.IndustryCategories", "LastUpdatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Industries", "CategoryId", "dbo.IndustryCategories");
+            DropForeignKey("dbo.IndustryCategories", "DeletedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.IndustryCategories", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.JobPosts", "EmploymentTypeId", "dbo.EmploymentTypes");
             DropForeignKey("dbo.EmploymentTypes", "LastUpdatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.EmploymentTypes", "DeletedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.EmploymentTypes", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.JobPosts", "EmployerId", "dbo.Employers");
+            DropForeignKey("dbo.JobPosts", "DeletedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.JobPosts", "CreatedById", "dbo.AspNetUsers");
-            DropForeignKey("dbo.JobApplications", "JobPostId", "dbo.JobPosts");
+            DropForeignKey("dbo.JobApplicationDetails", "JobPostId", "dbo.JobPosts");
+            DropForeignKey("dbo.JobApplicationDetails", "JobApplicationHeaderId", "dbo.JobApplicationHeaders");
+            DropForeignKey("dbo.Employers", "DeletedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Employers", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Employers", "ApplicationUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Applicants", "LastUpdatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Applicants", "DeletedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Applicants", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Applicants", "ApplicationUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropIndex("dbo.Suburbs", new[] { "StateId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.JobSelections", new[] { "DeletedById" });
+            DropIndex("dbo.JobSelections", new[] { "LastUpdatedById" });
+            DropIndex("dbo.JobSelections", new[] { "CreatedById" });
+            DropIndex("dbo.EmployerTypes", new[] { "DeletedById" });
             DropIndex("dbo.EmployerTypes", new[] { "LastUpdatedById" });
             DropIndex("dbo.EmployerTypes", new[] { "CreatedById" });
+            DropIndex("dbo.IndustryCategories", new[] { "DeletedById" });
+            DropIndex("dbo.IndustryCategories", new[] { "LastUpdatedById" });
+            DropIndex("dbo.IndustryCategories", new[] { "CreatedById" });
+            DropIndex("dbo.Industries", new[] { "DeletedById" });
             DropIndex("dbo.Industries", new[] { "LastUpdatedById" });
             DropIndex("dbo.Industries", new[] { "CreatedById" });
+            DropIndex("dbo.Industries", new[] { "CategoryId" });
+            DropIndex("dbo.EmploymentTypes", new[] { "DeletedById" });
             DropIndex("dbo.EmploymentTypes", new[] { "LastUpdatedById" });
             DropIndex("dbo.EmploymentTypes", new[] { "CreatedById" });
-            DropIndex("dbo.JobApplications", new[] { "JobPostId" });
+            DropIndex("dbo.JobApplicationDetails", new[] { "JobApplicationHeaderId" });
+            DropIndex("dbo.JobApplicationDetails", new[] { "JobPostId" });
+            DropIndex("dbo.JobPosts", new[] { "DeletedById" });
             DropIndex("dbo.JobPosts", new[] { "LastUpdatedById" });
             DropIndex("dbo.JobPosts", new[] { "CreatedById" });
             DropIndex("dbo.JobPosts", new[] { "IndustryId" });
             DropIndex("dbo.JobPosts", new[] { "EmploymentTypeId" });
             DropIndex("dbo.JobPosts", new[] { "EmployerId" });
+            DropIndex("dbo.Employers", new[] { "DeletedById" });
             DropIndex("dbo.Employers", new[] { "LastUpdatedById" });
             DropIndex("dbo.Employers", new[] { "CreatedById" });
             DropIndex("dbo.Employers", new[] { "ApplicationUserId" });
@@ -341,16 +414,18 @@ namespace JobPortalSharp.Data.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.Applicants", new[] { "DeletedById" });
             DropIndex("dbo.Applicants", new[] { "LastUpdatedById" });
             DropIndex("dbo.Applicants", new[] { "CreatedById" });
             DropIndex("dbo.Applicants", new[] { "ApplicationUserId" });
-            DropTable("dbo.Suburbs");
-            DropTable("dbo.States");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.JobSelections");
             DropTable("dbo.EmployerTypes");
+            DropTable("dbo.IndustryCategories");
             DropTable("dbo.Industries");
             DropTable("dbo.EmploymentTypes");
-            DropTable("dbo.JobApplications");
+            DropTable("dbo.JobApplicationHeaders");
+            DropTable("dbo.JobApplicationDetails");
             DropTable("dbo.JobPosts");
             DropTable("dbo.Employers");
             DropTable("dbo.AspNetUserRoles");

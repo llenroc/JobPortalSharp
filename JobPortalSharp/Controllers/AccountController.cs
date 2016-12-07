@@ -12,6 +12,8 @@ using JobPortalSharp.Models;
 using JobPortalSharp.Data;
 using JobPortalSharp.Services;
 using System.IO;
+using System.Data.Entity;
+using JobPortalSharp.Data.Entities;
 
 namespace JobPortalSharp.Controllers
 {
@@ -189,7 +191,7 @@ namespace JobPortalSharp.Controllers
         {
             var model = new EmployerRegisterViewModel
             {
-                Industries = db.Industries.ToList()
+                Industries = new SelectList(db.Industries.Include(x => x.Category), "Id", "Name", "Category.Name", null, null)
             };
             return View(model);
         }
@@ -243,8 +245,7 @@ namespace JobPortalSharp.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-
-            model.Industries = db.Industries.ToList();
+            model.Industries = new SelectList(db.Industries.Include(x => x.Category), "Id", "Name", "Category.Name", null, null);
             return View(model);
         }
 

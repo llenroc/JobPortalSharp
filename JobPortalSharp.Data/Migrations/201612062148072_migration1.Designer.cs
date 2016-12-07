@@ -13,7 +13,7 @@ namespace JobPortalSharp.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201610281604039_migration1"; }
+            get { return "201612062148072_migration1"; }
         }
         
         string IMigrationMetadata.Source
