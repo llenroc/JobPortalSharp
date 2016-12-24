@@ -45,11 +45,14 @@ namespace JobPortalSharp.Data.Migrations
 
             context.EmployerTypes.AddOrUpdate(x => x.Id,
                 new EmployerType { Id = 1, CreatedById = systemUserId, CreatedDate = DateTime.Now, Name = "Direct Employer" },
-                new EmployerType { Id = 2, CreatedById = systemUserId, CreatedDate = DateTime.Now, Name = "Agency" });
+                new EmployerType { Id = 2, CreatedById = systemUserId, CreatedDate = DateTime.Now, Name = "Agency" },
+                new EmployerType { Id = 3, CreatedById = systemUserId, CreatedDate = DateTime.Now, Name = "This Website" });
 
             context.EmploymentTypes.AddOrUpdate(x => x.Id,
-                new EmploymentType { Id = 1, Name = "Permanent" },
-                new EmploymentType { Id = 2, Name = "Part Time" });
+                new EmploymentType { Id = 1, Name = "Full Time" },
+                new EmploymentType { Id = 2, Name = "Part Time" },
+                new EmploymentType { Id = 3, Name = "Contractual" });
+            context.SaveChanges();
 
             SeedIndustryTables(context, systemUserId);
             SeedEmployers(context, rnd, systemUserId);
@@ -526,11 +529,13 @@ namespace JobPortalSharp.Data.Migrations
                 for (int i = 0; i < 100; i++)
                 {
                     var numOfEmployees = rnd.Next(0, 5);
+                    var employerTypes = context.EmployerTypes.ToList();
                     context.Employers.Add(
                         new Employer
                         {
                             Name = "company " + (i + 1).ToString(),
                             NumberOfEmployees = (NumberOfEmployees)numOfEmployees,
+                            EmployerTypeId = employerTypes[rnd.Next(0, employerTypes.Count)].Id,
                             CreatedDate = DateTime.Now,
                             CreatedById = systemUserId
                         });
@@ -544,29 +549,37 @@ namespace JobPortalSharp.Data.Migrations
             if (context.JobPosts.Count() == 0)
             {
                 var details = "The quick brown fox jumps over the lazy dog";
-                var industryCount = context.Industries.Count();
-                var employerTypeCount = context.EmployerTypes.Count();
-                var employerCount = context.Employers.Count();
+                var industries = context.Industries.ToList();
+                var employmentTypes = context.EmploymentTypes.ToList();
+                var employers = context.Employers.ToList();
                 var list = new List<JobPost>();
 
                 for (int i = 0; i < 1000; i++)
                 {
-                    var industryId = rnd.Next(1, industryCount);
                     context.JobPosts.Add(
                         new JobPost
                         {
                             Name = "job " + (i + 1).ToString(),
                             Details = details,
-                            IndustryId = rnd.Next(1, industryCount) * 10,
-                            EmployerId = rnd.Next(1, employerCount),
-                            EmploymentTypeId = rnd.Next(1, employerTypeCount),
+                            IndustryId = industries[rnd.Next(0, industries.Count)].Id,
+                            EmployerId = employers[rnd.Next(0, employers.Count)].Id,
+                            EmploymentTypeId = employmentTypes[rnd.Next(0, employmentTypes.Count)].Id,
                             CreatedDate = DateTime.Now,
-                            CreatedById = systemUserId
+                            CreatedById = systemUserId,
+                            ExpirationDate = RandomDay(rnd),
+                            PostDate = RandomDay(rnd)
                         });
                 }
 
                 context.SaveChanges();
             }
+        }
+
+        private static DateTime RandomDay(Random rnd)
+        {
+            DateTime start = new DateTime(1995, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(rnd.Next(range));
         }
     }
 }

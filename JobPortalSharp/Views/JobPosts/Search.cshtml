@@ -13,29 +13,9 @@
 
 @section FooterScripts {
     <script type="text/javascript">
-        var resultColumnDefs = [{
-            'targets': 0,
-            'data': function (row, type, val, meta) {
-                return '<button id="' + row.Id + '" type="button" class="btn btn-xs btn-primary selection" onclick="addToSelection(this.id)">Apply</button>';
-            }
-        },
-        {
-            'targets': 1,
-            'data': function (row, type, val, meta) {
-                return '<div><strong>' + row.Name + '</strong></div><div>' + row.EmployerName + '</div>';
-            }
-        },
-        {
-            'targets': 2,
-            'data': function (row, type, val, meta) {
-                return '<span class="glyphicon glyphicon-map-marker"></span>' + row.AddressTown + ', ' + row.AddressState + ', ' + row.AddressCountry;
-            }
-        },
-        {
-            'targets': 3,
-            'data': 'EmploymentTypeName'
-        }]
         var urlVars = getUrlVars();
+        var result1Start = 0;
+        var result2Start = 0;
 
         $('#modalJobApply').on('show.bs.modal', function (e) {
             var $btn = $(e.relatedTarget);
@@ -74,6 +54,133 @@
             
             refreshJobCart();
             updateJobCartButtons();
+        }
+
+        function clearSelections() {
+            localStorage.removeItem('job_selections');
+            $('.job-cart').hide();
+            updateJobCartButtons();
+        }
+
+        function generateUrlParams(loc) {
+            var url = '';
+            var sort1 = $('#result1 .job-sorting').val();
+            var sort2 = $('#result2 .job-sorting').val();
+
+            var ers = $('#ers').val();
+            if (ers != null) {
+                for (var i = 0; i < ers.length; i++) {
+                    url += '&ers=' + parseInt(ers[i]);
+                }
+            }
+
+            var ets = $('#ets').val();
+            if (ets != null) {
+                for (var i = 0; i < ets.length; i++) {
+                    url += '&ets=' + parseInt(ets[i]);
+                }
+            }
+
+            if (loc == 1) {
+                url = '?q=' + urlVars['q'] + '&l=' + urlVars['l1'] + '&lat=' + urlVars['lat1'] +
+                    '&lng=' + urlVars['lng1'] + '&nb=' + urlVars['nb1'] + '&length=10&start=' + result1Start + '&sort=' + sort1 + url;
+            } else {
+                url = '?q=' + urlVars['q'] + '&l=' + urlVars['l2'] + '&lat=' + urlVars['lat2'] +
+                    '&lng=' + urlVars['lng2'] + '&nb=' + urlVars['nb2'] + '&length=10&start=' + result2Start + '$sort=' + sort2 + url;
+            }
+
+            return url;
+        }
+
+        function initializeGoogleApi() {
+            var inputL1 = document.getElementById('l1');
+            var inputL2 = document.getElementById('l2');
+            var autocomplete1 = new google.maps.places.Autocomplete(inputL1, []);
+            var autocomplete2 = new google.maps.places.Autocomplete(inputL2, []);
+
+            google.maps.event.addListener(autocomplete1, 'place_changed', function () {
+                var place = autocomplete1.getPlace();
+                $('#lng1').val(place.geometry.location.lng());
+                $('#lat1').val(place.geometry.location.lat());
+                console.log(2)
+            });
+
+            google.maps.event.addListener(autocomplete2, 'place_changed', function () {
+                var place = autocomplete2.getPlace();
+                $('#lng2').val(place.geometry.location.lng());
+                $('#lat2').val(place.geometry.location.lat());
+                console.log(1)
+            });
+        }
+
+        function initializeNavButtons() {
+            $('#pnlResult .next').click(function () {
+                result1Start+=10;
+                loadResult();
+                updateNavButtons();
+            })
+            $('#pnlResult .prev').click(function () {
+                result1Start -= 10;
+                loadResult();
+                updateNavButtons();
+            })
+            updateNavButtons();
+        }
+
+        function loadInitialResult() {
+            if (urlVars['l1'] || (!urlVars['l1'] && !urlVars['l2'])) {
+                loadResult();
+            }
+
+            if (urlVars['l2']) {
+
+            }
+        }
+
+        function loadResult() {
+            $('#pnlResult').LoadingOverlay('show');
+            $.ajax({
+                type: 'GET',
+                url: '/api/jobposts/search' + generateUrlParams(1),
+                success: function (data) {
+                    $('#pnlResult').LoadingOverlay('hide', true);
+                    $('#result1 .result').empty();
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        var obj = data.data[i];
+                        $('#result1 .result').append(
+                            '<div class="result-row" data-job-post-id="' + obj.Id + '">' +
+                            '<div class="row">'+
+                            '<div class="col-md-2"><button id="' + obj.Id + '" type="button" class="btn btn-xs btn-primary selection" onclick="addToSelection(this.id)">Apply</button></div>' +
+                            '<div class="col-md-3">' + obj.Name + '</div>' +
+                            '<div class="col-md-3">' + obj.AddressTown + ',' + obj.AddressState + ',' + obj.AddressCountry + '</div>' +
+                            '<div class="col-md-2">' + obj.EmploymentTypeName + '</div>' +
+                            '<div class="col-md-2"><button class="btn btn-default" onclick=viewJobDetails(this)>View Details</button></div>' +
+                            '</div>' +
+                            '</div>');
+                    }
+                },
+                error: function () {
+                    $('#pnlResult').LoadingOverlay('hide', true);
+                    //todo
+                }
+            })
+        }
+
+        function refreshJobCart() {
+            var $jobCart = $('.job-cart');
+            if (!localStorage['job_selections']) {
+                $jobCart.hide();
+            } else {
+                var $cart = $('.job-cart');
+                var jobSelections = JSON.parse(localStorage['job_selections']);
+                if (jobSelections.length > 0) {
+                    $cart.find('.count').html(jobSelections.length);
+                    $jobCart.show();
+                } else {
+                    $jobCart.hide();
+                }
+            }
         }
 
         function sendApplication() {
@@ -116,29 +223,13 @@
             }
         }
 
-        function refreshJobCart() {
-            var $jobCart = $('.job-cart');
-            if (!localStorage['job_selections']) {
-                $jobCart.hide();
-            } else {
-                var $cart = $('.job-cart');
-                var jobSelections = JSON.parse(localStorage['job_selections']);
-                if (jobSelections.length > 0) {
-                    $cart.find('.count').html(jobSelections.length);
-                    $jobCart.show();
-                } else {
-                    $jobCart.hide();
-                }
-            }
-        }
-
         function updateJobCartButtons() {
             var jobSelections = [];
             if (localStorage['job_selections']) {
                 jobSelections = JSON.parse(localStorage['job_selections']);
             }
 
-            $('.result-table tr button.selection').each(function () {
+            $('button.selection').each(function () {
                 if (jobSelections.indexOf(this.id) >= 0) {
                     $(this).html('Remove');
                     $(this).addClass('btn-warning');
@@ -151,71 +242,30 @@
             })
         }
 
-        function loadInitialResult() {
-            if (urlVars['l1'] || (!urlVars['l1'] && !urlVars['l2'])) {
-                var tblResult1 = $('#tblResult1').DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "ajax": {
-                        'url': "/api/jobposts/search" + generateUrlParams(1),
-                        'dataSrc': 'data'
-                    },
-                    'columnDefs': resultColumnDefs,
-                    'dom': 'tp'
-                })
-                tblResult1.on('draw', updateJobCartButtons);
-            }
+        function updateNavButtons() {
+            var $result1 = $('#result1');
+            var $result2 = $('#result2');
 
-            if (urlVars['l2']) {
-                var tblResult2 = $('#tblResult2').DataTable({
-                    "processing": true,
-                    "serverSide": true,
-                    "ajax": {
-                        'url': "/api/jobposts/search" + generateUrlParams(2),
-                        'dataSrc': 'data'
-                    },
-                    'columnDefs': resultColumnDefs,
-                    'dom': 'tp'
-                })
-                tblResult2.on('draw', updateJobCartButtons);
-            }
+            $result1.find('.prev').prop('disabled', result1Start == 0);
+            $result2.find('.prev').prop('disabled', result2Start == 0);
         }
 
-        function generateUrlParams(loc) {
-            if (loc == 1) {
-                return '?q=' + urlVars['q'] + '&l=' + urlVars['l1'] + '&lat=' + urlVars['lat1'] +
-                    '&lng=' + urlVars['lng1'] + '&nb=' + urlVars['nb1'];
-            } else {
-                return '?q=' + urlVars['q'] + '&l=' + urlVars['l2'] + '&lat=' + urlVars['lat2'] +
-                    '&lng=' + urlVars['lng2'] + '&nb=' + urlVars['nb2'];
-            }
-        }
-
-        function clearSelections() {
-            localStorage.removeItem('job_selections');
-            $('.job-cart').hide();
-            updateJobCartButtons();
-        }
-
-        function initializeGoogleApi() {
-            var inputL1 = document.getElementById('l1');
-            var inputL2 = document.getElementById('l2');
-            var autocomplete1 = new google.maps.places.Autocomplete(inputL1, []);
-            var autocomplete2 = new google.maps.places.Autocomplete(inputL2, []);
-
-            google.maps.event.addListener(autocomplete1, 'place_changed', function () {
-                var place = autocomplete1.getPlace();
-                $('#lng1').val(place.geometry.location.lng());
-                $('#lat1').val(place.geometry.location.lat());
-                console.log(2)
-            });
-
-            google.maps.event.addListener(autocomplete2, 'place_changed', function () {
-                var place = autocomplete2.getPlace();
-                $('#lng2').val(place.geometry.location.lng());
-                $('#lat2').val(place.geometry.location.lat());
-                console.log(1)
-            });
+        function viewJobDetails(btn) {
+            var $resultRow = $(btn).closest('.result-row');
+            var jobPostId = $resultRow.attr('data-job-post-id');
+            $resultRow.LoadingOverlay('show');
+            $.ajax({
+                type: 'GET',
+                url: '/api/jobpost/' + jobPostId,
+                success: function (data) {
+                    $resultRow.LoadingOverlay('hide', true);
+                    $resultRow.append('<div><div>Due Date: ' + data.ExpirationDate + '</div><div>Post Date: ' + data.PostDate + '</div><div>' + data.Details + '</div>')
+                },
+                error: function () {
+                    $resultRow.LoadingOverlay('hide', true);
+                    //todo
+                }
+            })
         }
 
         $(function () {
@@ -233,139 +283,148 @@
                 }
             })
 
-            $('#ers, #ets').change(function () {
-                $('#pnlResult').LoadingOverlay('show');
+            $('#ers, #ets, .job-sorting').change(function () {
 
-                //$("#element").LoadingOverlay("hide", true);
+                loadResult();
             })
 
             refreshJobCart();
             updateJobCartButtons();
             loadInitialResult();
             initializeGoogleApi();
+            initializeNavButtons();
         })
     </script>
 }
 
-<div style="background-color: white; padding: 20px;">
-    @using (Html.BeginForm("search", "jobposts", FormMethod.Get))
-    {
-        <div class="search-box row">
-            <div class="col-md-4">
-                @Html.TextBoxFor(model => model.q, new { placeholder = "keywords e.g. nurse" })
+<div ng-app="app" ng-controller="ctrlSearch">
+    <div style="background-color: white; padding: 20px;">
+        @using (Html.BeginForm("search", "jobposts", FormMethod.Get))
+        {
+            <div class="search-box row">
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.q, new { placeholder = "keywords e.g. nurse" })
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.l1, new { placeholder = "location 1" })
+                    @Html.HiddenFor(m => m.lng1)
+                    @Html.HiddenFor(m => m.lat1)
+                    @Html.CheckBoxFor(m => m.nb1, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
+                    <span>Including Surrounding Areas</span>
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.l2, new { placeholder = "location 2" })
+                    @Html.HiddenFor(m => m.lng2)
+                    @Html.HiddenFor(m => m.lat2)
+                    @Html.CheckBoxFor(m => m.nb2, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
+                    <span>Including Surrounding Areas</span>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary" style="width:100%;line-height:2.4em">Find Job</button>
+                </div>
             </div>
-            <div class="col-md-3">
-                @Html.TextBoxFor(model => model.l1, new { placeholder = "location 1" })
-                @Html.HiddenFor(m => m.lng1)
-                @Html.HiddenFor(m => m.lat1)
-                @Html.CheckBoxFor(m => m.nb1, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
-                <span>Including Surrounding Areas</span>
+        }
+        <div>
+            <input type="checkbox" id="chk-adv-search" />
+            <label>Advance Search</label>
+        </div>
+        <div id="pane-adv-search" style="display: none">
+            @Html.ListBoxFor(model => model.ers, (IEnumerable<SelectListItem>)ViewBag.EmployerTypes, new { @class = "multiselect" })
+            @Html.ListBoxFor(model => model.ets, (IEnumerable<SelectListItem>)ViewBag.EmploymentTypes, new { @class = "multiselect" })
+        </div>
+    </div>
+
+    <div class="job-cart">
+        <span class="count">@ViewBag.JobSelectionCount</span>
+        <span>Job(s) selected</span>
+        <button class="btn btn-default btn-apply-multiple" data-toggle="modal" data-target="#modalJobApply">
+            <span class="glyphicon glyphicon-send"></span> Send Application
+        </button>
+        <button class="btn btn-danger" onclick="clearSelections()">
+            <span class="glyphicon glyphicon-erase"></span> Clear Selections
+        </button>
+    </div>
+
+    <div id="pnlResult">
+        <div id="result1">
+            <div class="row">
+                <select class="job-sorting col-md-offset-11">
+                    <option value="1">Deadline</option>
+                    <option value="2">Post Date</option>
+                </select>
             </div>
-            <div class="col-md-3">
-                @Html.TextBoxFor(model => model.l2, new { placeholder = "location 2" })
-                @Html.HiddenFor(m => m.lng2)
-                @Html.HiddenFor(m => m.lat2)
-                @Html.CheckBoxFor(m => m.nb2, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
-                <span>Including Surrounding Areas</span>
+            <div class="result" style="margin-bottom: 10px">
+
             </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary" style="width:100%;line-height:2.4em">Find Job</button>
+            <div>
+                <button class="prev">Previous</button>
+                <button class="next">Next</button>
             </div>
         </div>
-    }
-    <div>
-        <input type="checkbox" id="chk-adv-search" />
-        <label>Advance Search</label>
+        <div id="result2">
+            <div class="result"></div>
+        </div>
     </div>
-    <div id="pane-adv-search" style="display: none">
-        @Html.ListBoxFor(model => model.ers, (IEnumerable<SelectListItem>)ViewBag.EmployerTypes, new { @class = "multiselect" })
-        @Html.ListBoxFor(model => model.ets, (IEnumerable<SelectListItem>)ViewBag.EmploymentTypes, new { @class = "multiselect" })
-    </div>
-</div>
 
-<div class="job-cart">
-    <span class="count">@ViewBag.JobSelectionCount</span>
-    <span>Job(s) selected</span>
-    <button class="btn btn-default btn-apply-multiple" data-toggle="modal" data-target="#modalJobApply">
-        <span class="glyphicon glyphicon-send"></span> Send Application
-    </button>
-    <button class="btn btn-danger" onclick="clearSelections()">
-        <span class="glyphicon glyphicon-erase"></span> Clear Selections
-    </button>
-</div>
-
-<div id="pnlResult">
-    <table id="tblResult1" class="result-table table-striped table-hover table-responsive" style="width: 100%; margin-top: 20px">
-        <thead>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <table id="tblResult2" class="result-table table-striped table-hover table-responsive" style="width: 100%; margin-top: 20px">
-        <thead>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="modalJobApply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Apply</h4>
-            </div>
-            @using (Html.BeginForm("Apply", "JobPosts", FormMethod.Post, new { enctype = "multipart/form-data", @class = "modal-body" }))
-            {
-                <div style="border: 1px solid lightgrey; padding: 1em; margin-bottom: 10px">
-                    <div class="row">
-                        <label class="col-sm-4">First Name</label>
-                        <input class="col-sm-8" type="text" required="required" id="FirstName" name="FirstName" style="border: 1px solid lightgray" />
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4">Last Name</label>
-                        <input class="col-sm-8" type="text" required="required" id="LastName" name="LastName" style="border: 1px solid lightgray" />
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4">Your Email Address</label>
-                        <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" style="border: 1px solid lightgray" />
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4">CV</label>
-                        <input class="col-sm-8 cv" type="file" id="CV" name="CV" required="required" />
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4">Cover letter (Optional)</label>
-                        <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
-                    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalJobApply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Apply</h4>
                 </div>
-                <div style="border: 1px solid lightgrey; padding: 1em">
-                    <div class="row">
-                        <label class="col-sm-4">I'm new to the workforce</label>
-                        <input class="col-sm-8" type="checkbox" id="IsNewToTheWorkforce" name="IsNewToTheWorkforce" />
+                @using (Html.BeginForm("Apply", "JobPosts", FormMethod.Post, new { enctype = "multipart/form-data", @class = "modal-body" }))
+                {
+                    <div style="border: 1px solid lightgrey; padding: 1em; margin-bottom: 10px">
+                        <div class="row">
+                            <label class="col-sm-4">First Name</label>
+                            <input class="col-sm-8" type="text" required="required" id="FirstName" name="FirstName" style="border: 1px solid lightgray" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Last Name</label>
+                            <input class="col-sm-8" type="text" required="required" id="LastName" name="LastName" style="border: 1px solid lightgray" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Your Email Address</label>
+                            <input class="col-sm-8" type="email" required="required" id="EmailAddress" name="EmailAddress" style="border: 1px solid lightgray" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">CV</label>
+                            <input class="col-sm-8 cv" type="file" id="CV" name="CV" required="required" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Cover letter (Optional)</label>
+                            <input class="col-sm-8" type="file" id="CoverLetter" name="CoverLetter" />
+                        </div>
                     </div>
-                    <div class="row">
-                        <label class="col-sm-4">Job Title</label>
-                        <input class="col-sm-8" type="text" id="LastJobTitle" name="LastJobTitle" />
+                    <div style="border: 1px solid lightgrey; padding: 1em">
+                        <div class="row">
+                            <label class="col-sm-4">I'm new to the workforce</label>
+                            <input class="col-sm-8" type="checkbox" id="IsNewToTheWorkforce" name="IsNewToTheWorkforce" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Job Title</label>
+                            <input class="col-sm-8" type="text" id="LastJobTitle" name="LastJobTitle" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Company Name</label>
+                            <input class="col-sm-8" type="text" id="LastJobCompanyName" name="LastJobCompanyName" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Date Started</label>
+                            <input class="col-sm-8 datepicker" type="text" id="LastJobDateStarted" name="LastJobDateStarted" />
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">I'm still in role</label>
+                            <input class="col-sm-8" type="checkbox" id="IsStillInLastJob" name="IsStillInLastJob" />
+                        </div>
                     </div>
-                    <div class="row">
-                        <label class="col-sm-4">Company Name</label>
-                        <input class="col-sm-8" type="text" id="LastJobCompanyName" name="LastJobCompanyName" />
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4">Date Started</label>
-                        <input class="col-sm-8 datepicker" type="text" id="LastJobDateStarted" name="LastJobDateStarted" />
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-4">I'm still in role</label>
-                        <input class="col-sm-8" type="checkbox" id="IsStillInLastJob" name="IsStillInLastJob" />
-                    </div>
+                }
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="sendApplication()">Send</button>
                 </div>
-            }
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="sendApplication()">Send</button>
             </div>
         </div>
     </div>

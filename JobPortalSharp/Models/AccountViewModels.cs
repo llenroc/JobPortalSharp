@@ -170,6 +170,9 @@ namespace JobPortalSharp.Models
         [Display(Name = "Industry")]
         public int IndustryId { get; set; }
 
+        [Display(Name = "Employer Type")]
+        public int EmployerTypeId { get; set; }
+
         [Display(Name = "Number of Employees")]
         public NumberOfEmployees NumberOfEmployees { get; set; }
 
@@ -180,6 +183,7 @@ namespace JobPortalSharp.Models
         public int StateId { get; set; }
         
         public System.Web.Mvc.SelectList Industries { get; set; }
+        public IEnumerable<EmployerType> EmployerTypes { get; set; }
     }
 
     public class ResetPasswordViewModel

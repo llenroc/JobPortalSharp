@@ -6,6 +6,8 @@
 @section FooterScripts {
 
     <script type="text/javascript">
+        var urlVars = getUrlVars();
+
         function initializeGoogleApi() {
             var inputL1 = document.getElementById('l1');
             var inputL2 = document.getElementById('l2');
@@ -34,6 +36,10 @@
                 $('#lng1, #lat1, #lng2, #lat2').val('');
                 console.log(3)
             })
+
+            if (urlVars['acct_created']) {
+                alert('Account created. You are automatically logged in.')
+            }
         });
     </script>
 }

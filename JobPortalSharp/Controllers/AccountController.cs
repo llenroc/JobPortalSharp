@@ -191,7 +191,8 @@ namespace JobPortalSharp.Controllers
         {
             var model = new EmployerRegisterViewModel
             {
-                Industries = new SelectList(db.Industries.Include(x => x.Category), "Id", "Name", "Category.Name", null, null)
+                Industries = new SelectList(db.Industries.Include(x => x.Category), "Id", "Name", "Category.Name", null, null),
+                EmployerTypes = db.EmployerTypes.ToList()
             };
             return View(model);
         }
@@ -225,7 +226,8 @@ namespace JobPortalSharp.Controllers
                         AddressState = model.AddressState,
                         AddressStreet = model.AddressStreet,
                         AddressTown = model.AddressTown,
-                        AddressPostalCode = model.AddressPostalCode
+                        AddressPostalCode = model.AddressPostalCode,
+                        EmployerTypeId = model.EmployerTypeId
                     });
                     await db.SaveChangesAsync();
 
@@ -239,13 +241,14 @@ namespace JobPortalSharp.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { acct_created = 1 });
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
             model.Industries = new SelectList(db.Industries.Include(x => x.Category), "Id", "Name", "Category.Name", null, null);
+            model.EmployerTypes = db.EmployerTypes.ToList();
             return View(model);
         }
 

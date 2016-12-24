@@ -32,6 +32,18 @@
                 }
             }
         });
+
+        $(function () {
+            $('#CompanyDescription').on('change keyup paste', function () {
+                var remaining = 100 - $('#CompanyDescription').val().length;
+                $('#descInfo').text(remaining + ' characters remaining');
+            })
+            $('#CompanyDescription').keypress(function (e) {
+                if ($('#CompanyDescription').val().length > 99) {
+                    e.preventDefault();
+                }
+            })
+        })
     </script>
 }
 
@@ -118,6 +130,12 @@
         </div>
     </div>
     <div class="form-group">
+        @Html.LabelFor(m => m.EmployerTypeId, new { @class = "col-md-2 control-label asterisk" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.EmployerTypeId, new SelectList(Model.EmployerTypes, "Id", "Name"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
         @Html.LabelFor(m => m.NumberOfEmployees, new { @class = "col-md-2 control-label asterisk" })
         <div class="col-md-10">
             @Html.EnumDropDownListFor(m => m.NumberOfEmployees, new { @class = "form-control" } )
@@ -127,6 +145,9 @@
         @Html.LabelFor(m => m.CompanyDescription, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextAreaFor(m => m.CompanyDescription, new { @class = "form-control", style = "min-height: 200px;" })
+        </div>
+        <div class="col-md-offset-2">
+            <small id="descInfo"></small>
         </div>
     </div>
     <div class="form-group">

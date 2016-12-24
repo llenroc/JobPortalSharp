@@ -15,6 +15,14 @@ namespace JobPortalSharp.Controllers.api
     {
         private JobPortalSharpDbContext db = new JobPortalSharpDbContext();
 
+        [AllowAnonymous]
+        [Route("api/jobpost/{id}")]
+        public IHttpActionResult Get(int id)
+        {
+            var obj = db.JobPosts.Single(x => x.Id == id);
+            return Ok(obj);
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public object Search([FromUri]SearchViewModel2 model)
@@ -26,6 +34,16 @@ namespace JobPortalSharp.Controllers.api
             if (string.IsNullOrWhiteSpace(model.q) == false)
             {
                 query1 = query1.Where(x => x.Name.ToLower().Contains(model.q.ToLower()) || x.Employer.Name.ToLower().Contains(model.q.ToLower()));
+            }
+
+            if (model.ets != null && model.ets.Count() > 0)
+            {
+                query1 = query1.Where(x => model.ets.Any(y => y == x.EmploymentTypeId));
+            }
+
+            if (model.ers != null && model.ers.Count() > 0)
+            {
+                query1 = query1.Where(x => model.ers.Any(y => y == x.Employer.EmployerTypeId));
             }
 
             if (string.IsNullOrWhiteSpace(model.l) == false)
@@ -70,12 +88,21 @@ namespace JobPortalSharp.Controllers.api
                 }
             }
 
+            if (model.sort == 1)
+            {
+                query1 = query1.OrderByDescending(x => x.ExpirationDate);
+            }
+            else if (model.sort == 2)
+            {
+                query1 = query1.OrderByDescending(x => x.PostDate);
+            }
+
             model.rc = query1.Count();
 
-            return new
+            return Json(new
             {
                 draw = model.draw,
-                data = query1.OrderByDescending(x => x.PostDate).Select(x => new JobPostDto
+                data = query1.Select(x => new JobPostDto
                     {
                         AddressCountry = x.LocationSameAsEmployer ? x.Employer.AddressCountry : x.AddressCountry,
                         AddressTown = x.LocationSameAsEmployer ? x.Employer.AddressTown : x.AddressTown,
@@ -95,7 +122,7 @@ namespace JobPortalSharp.Controllers.api
                     .Take(model.length),
                 recordsTotal = model.rc,
                 recordsFiltered = model.rc
-            };
+            });
         }
 
         const double PIx = Math.PI;

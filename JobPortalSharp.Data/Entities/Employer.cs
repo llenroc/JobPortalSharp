@@ -34,6 +34,8 @@ namespace JobPortalSharp.Data
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public string CompanyDescription { get; set; } //information about the company
+        public int EmployerTypeId { get; set; }
+        public EmployerType EmployerType { get; set; }
         
         public string AddressStreet { get; set; }
         public string AddressTown { get; set; }

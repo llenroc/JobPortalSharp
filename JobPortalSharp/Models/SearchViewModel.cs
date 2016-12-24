@@ -40,10 +40,13 @@ namespace JobPortalSharp.Models
         public int? ind { get; set; } //industry
         public DateTime? dt { get; set; } //expiry filter
         public int rc { get; set; } //result count
+        public int sort { get; set; }
 
         public string l { get; set; } //location
         public double? lat { get; set; } //latitude
         public double? lng { get; set; } //longitude
         public bool nb { get; set; } //nearby
+        public IEnumerable<int> ers { get; set; }
+        public IEnumerable<int> ets { get; set; }
     }
 }

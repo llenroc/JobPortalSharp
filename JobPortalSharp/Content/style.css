@@ -19,6 +19,8 @@ button {
 }
 .result-row {
   margin-top: 10px;
+  border: 1px solid gray;
+  padding: 10px;
 }
 label.error {
   color: red;
