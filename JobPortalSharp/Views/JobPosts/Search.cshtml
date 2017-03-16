@@ -137,6 +137,26 @@
             }
         }
 
+        function extractAddr(obj) {
+            var addr = '';
+            if (obj.AddressTown != null) {
+                addr += obj.AddressTown + ',';
+            }
+            if (obj.AddressState != null) {
+                addr += obj.AddressState + ',';
+            }
+            if (obj.AddressCountry != null) {
+                addr += obj.AddressCountry;
+            }
+            if (addr.charAt(addr.length - 1) == ',') {
+                addr = addr.substr(0, addr.length - 1);
+            }
+            if (addr == '') {
+                addr = 'No Location';
+            }
+            return addr;
+        }
+
         function loadResult() {
             $('#pnlResult').LoadingOverlay('show');
             $.ajax({
@@ -148,12 +168,14 @@
 
                     for (var i = 0; i < data.data.length; i++) {
                         var obj = data.data[i];
+                        var addr = extractAddr(obj);
+                        
                         $('#result1 .result').append(
                             '<div class="result-row" data-job-post-id="' + obj.Id + '">' +
                             '<div class="row">'+
                             '<div class="col-md-2"><button id="' + obj.Id + '" type="button" class="btn btn-xs btn-primary selection" onclick="addToSelection(this.id)">Apply</button></div>' +
                             '<div class="col-md-3">' + obj.Name + '</div>' +
-                            '<div class="col-md-3">' + obj.AddressTown + ',' + obj.AddressState + ',' + obj.AddressCountry + '</div>' +
+                            '<div class="col-md-3">' + addr + '</div>' +
                             '<div class="col-md-2">' + obj.EmploymentTypeName + '</div>' +
                             '<div class="col-md-2"><button class="btn btn-default" onclick=viewJobDetails(this)>View Details</button></div>' +
                             '</div>' +
@@ -252,20 +274,24 @@
 
         function viewJobDetails(btn) {
             var $resultRow = $(btn).closest('.result-row');
-            var jobPostId = $resultRow.attr('data-job-post-id');
-            $resultRow.LoadingOverlay('show');
-            $.ajax({
-                type: 'GET',
-                url: '/api/jobpost/' + jobPostId,
-                success: function (data) {
-                    $resultRow.LoadingOverlay('hide', true);
-                    $resultRow.append('<div><div>Due Date: ' + data.ExpirationDate + '</div><div>Post Date: ' + data.PostDate + '</div><div>' + data.Details + '</div>')
-                },
-                error: function () {
-                    $resultRow.LoadingOverlay('hide', true);
-                    //todo
-                }
-            })
+            if ($resultRow.find('.job-details').length > 0) {
+                $resultRow.find('.job-details').toggle();
+            } else {
+                var jobPostId = $resultRow.attr('data-job-post-id');
+                $resultRow.LoadingOverlay('show');
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/jobpost/' + jobPostId,
+                    success: function (data) {
+                        $resultRow.LoadingOverlay('hide', true);
+                        $resultRow.append('<div class="job-details"><div>Due Date: ' + data.ExpirationDate + '</div><div>Post Date: ' + data.PostDate + '</div><div>' + data.Details + '</div>')
+                    },
+                    error: function () {
+                        $resultRow.LoadingOverlay('hide', true);
+                        //todo
+                    }
+                })
+            }
         }
 
         $(function () {
