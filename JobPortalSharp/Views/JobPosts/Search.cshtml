@@ -173,7 +173,7 @@
                         $('#result1 .result').append(
                             '<div class="result-row" data-job-post-id="' + obj.Id + '">' +
                             '<div class="row">'+
-                            '<div class="col-md-2"><button id="' + obj.Id + '" type="button" class="btn btn-xs btn-primary selection" onclick="addToSelection(this.id)">Apply</button></div>' +
+                            '<div class="col-md-2"><button id="' + obj.Id + '" type="button" class="btn btn-primary selection" onclick="addToSelection(this.id)">Apply</button></div>' +
                             '<div class="col-md-3">' + obj.Name + '</div>' +
                             '<div class="col-md-3">' + addr + '</div>' +
                             '<div class="col-md-2">' + obj.EmploymentTypeName + '</div>' +
@@ -284,7 +284,9 @@
                     url: '/api/jobpost/' + jobPostId,
                     success: function (data) {
                         $resultRow.LoadingOverlay('hide', true);
-                        $resultRow.append('<div class="job-details"><div>Due Date: ' + data.ExpirationDate + '</div><div>Post Date: ' + data.PostDate + '</div><div>' + data.Details + '</div>')
+                        $resultRow.append('<div class="job-details"><div>Due Date: ' +
+                            (new Date(data.ExpirationDate)).toDateString() + '</div><div>Post Date: ' + (new Date(data.PostDate)).toDateString() +
+                            '</div><div>' + data.Details + '</div>')
                     },
                     error: function () {
                         $resultRow.LoadingOverlay('hide', true);

@@ -54,18 +54,11 @@
                 @Html.DisplayNameFor(model => model.Salary)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SalaryRangeFrom)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalaryRangeTo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpirationDate)
-            </th>
-            <th>
                 Applications
             </th>
-            <th></th>
+            <th>
+                Status
+            </th>
         </tr>
 
         @foreach (var item in Model)
@@ -84,60 +77,66 @@
                     @Html.DisplayFor(modelItem => item.Salary)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SalaryRangeFrom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalaryRangeTo)
-                </td>
-                <td>
-                    @if (item.ExpirationDate.HasValue)
-                    {
-                        <span>@item.ExpirationDate.Value.ToString("yyyy-MM-dd")</span>
-                    }
-                </td>
-                <td>
                     @if (item.NumOfApplications > 0)
                     {
                         <button class="btn btn-xs btn-success" onclick="viewApplications(this)">View Applications (@item.NumOfApplications)</button>
-                        @*<span class="label label-primary label-as-badge" style="cursor: pointer" onclick="viewApplications(this)">
-                            @Html.DisplayFor(modelItem => item.NumOfApplications)
-                        </span>*@
-                        }
-                        else
-                        {
+                            @*<span class="label label-primary label-as-badge" style="cursor: pointer" onclick="viewApplications(this)">
+                                    @Html.DisplayFor(modelItem => item.NumOfApplications)
+                                </span>*@
+                    }
+                    else
+                    {
                         <span>None</span>
-                        }
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
-                }
-            </table>
-            }
-            else
-            {
-            <center>
-                <p>You have no posts yet.</p>
-                @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
-            </center>
-            }
+                    }
+                </td>
+                <td>
+                    @if (item.Paid)
+                    {
+                        <p>Paid</p>
+                    }
+                    else
+                    {
+                        <form action="/Payment/Charge" method="POST">
+                            <input type="hidden" value="@item.Id" name="JobPostId" />
+                            <article>
+                                <label>Amount: $5.00</label>
+                            </article>
+                            <script src="//checkout.stripe.com/v2/checkout.js"
+                                    class="stripe-button"
+                                    data-key="pk_test_22j1E1nssuovlAlgpJQQeKYb"
+                                    data-locale="auto"
+                                    data-description="Sample Charge"
+                                    data-amount="500">
+                            </script>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <center>
+        <p>You have no posts yet.</p>
+        @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
+    </center>
+}
 
-            <!-- Modal -->
-            <div class="modal fade" id="modalApplications" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Applications for <span class="job-title"></span></h4>
-                        </div>
-                        <div class="modal-body row">
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="modalApplications" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Applications for <span class="job-title"></span></h4>
             </div>
+            <div class="modal-body row">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

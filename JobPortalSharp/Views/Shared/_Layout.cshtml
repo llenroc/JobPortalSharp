@@ -13,7 +13,6 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Varela Round">
     <script src=""></script>
     @RenderSection("StyleSheets", false)
-
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&types=(cities)&language=en&sensor=false&libraries=places&key=AIzaSyBxF-hKvqYVS3Zp16Tph_XO8vlOoi_0_XA"></script>
     @RenderSection("HeaderScripts", false)
 </head>
@@ -53,29 +52,24 @@
                     @if (User.Identity.IsAuthenticated == false)
                     {
                         <li><a href="~/account/employerlogin">Employer</a></li>
-                        @*<li><a href="~/account/login">Job Seeker</a></li>
-                            <li><a href="~/account/login">Login</a></li>*@
                     }
-                    else if (User.IsInRole("Employer"))
+
+                    @if (User.IsInRole("Employer"))
                     {
                         <li><a href="~/jobposts">My Posts</a></li>
                     }
-                    else
+
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <li><a href="~/account/logoff">Logout</a></li>
                     }
                 </ul>
-
-
-
             </div>
         </div>
     </nav>
-
     <div class="container">
         @RenderBody()
     </div>
-
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

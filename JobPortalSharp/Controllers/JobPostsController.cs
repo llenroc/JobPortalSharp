@@ -44,6 +44,7 @@ namespace JobPortalSharp.Controllers
                     IndustryName = j.Industry.Name,
                     Name = j.Name,
                     NumOfApplications = j.Applications.Count,
+                    Paid = j.Paid,
                     Salary = j.Salary,
                     SalaryRangeFrom = j.SalaryRangeFrom,
                     SalaryRangeTo = j.SalaryRangeTo

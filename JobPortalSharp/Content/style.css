@@ -17,10 +17,15 @@ button {
   max-width: none;
   border-radius: 5px;
 }
-.result-row {
+.result {
   margin-top: 10px;
-  border: 1px solid gray;
+}
+.result-row {
+  border-color: gray;
+  border-top-style: solid;
+  border-top-width: 1px;
   padding: 10px;
+  line-height: 2em;
 }
 label.error {
   color: red;
@@ -64,4 +69,3 @@ input[type=text] {
 .asterisk:after {
   content: "*";
 }
-/*# sourceMappingURL=style.css.map */

@@ -567,7 +567,8 @@ namespace JobPortalSharp.Data.Migrations
                             CreatedDate = DateTime.Now,
                             CreatedById = systemUserId,
                             ExpirationDate = RandomDay(rnd),
-                            PostDate = RandomDay(rnd)
+                            PostDate = RandomDay(rnd),
+                            Paid = true
                         });
                 }
 

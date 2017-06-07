@@ -29,7 +29,11 @@ namespace JobPortalSharp.Controllers.api
         {
             const int LOC_RADIUS_KM = 10;
 
-            IEnumerable<JobPost> query1 = db.JobPosts.Include(x => x.Employer).Include(x => x.EmploymentType).Include(j => j.Industry);
+            IEnumerable<JobPost> query1 = db.JobPosts
+                .Include(x => x.Employer)
+                .Include(x => x.EmploymentType)
+                .Include(x => x.Industry)
+                .Where(x => x.Paid);
 
             if (string.IsNullOrWhiteSpace(model.q) == false)
             {

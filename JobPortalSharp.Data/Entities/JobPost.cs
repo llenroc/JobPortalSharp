@@ -62,6 +62,10 @@ namespace JobPortalSharp.Data
         public double? AddressLongitude { get; set; }
         public double? AddressLatitude { get; set; }
 
+        public bool Paid { get; set; }
+        public string StripeToken { get; set; }
+        public string StripeEmail { get; set; }
+
         public ICollection<JobApplicationDetail> Applications { get; set; }
     }
 }

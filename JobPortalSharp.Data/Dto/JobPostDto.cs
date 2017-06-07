@@ -20,6 +20,7 @@ namespace JobPortalSharp.Data.Dto
         public string AddressTown { get; set; }
         public string AddressState { get; set; }
         public string AddressCountry { get; set; }
+        public bool Paid { get; set; }
 
         [Display(Name = "From")]
         public decimal SalaryRangeFrom { get; set; }
