@@ -1,6 +1,7 @@
 ﻿@button-color: rgb(48,48,48);
 @grey-border: gray;
 @green: #7dc246;
+@dark-theme: #2C3E50;
 
 html, body {
     height: 100%;
@@ -14,15 +15,43 @@ button {
     border: none;
 }
 
+.placeholder(@rules) {
+
+    &::-webkit-input-placeholder {
+        @rules();
+    }
+    &:-moz-placeholder {
+        @rules();
+    }
+    &::-moz-placeholder {
+        @rules();
+    }
+    &:-ms-input-placeholder {
+        @rules();
+    }
+}
+
 .search-box {
-    input {
+    margin-top: 20px;
+
+    input[type=text] {
         border: 1px solid lightgray;
         width: 100%;
-        line-height: 3em;
-        padding-left: 1em;
+        line-height: 45px;
         max-width: none;
         border-radius: 5px;
+        padding: 0 15px;
+        vertical-align: middle;
+        font-size: 18px;
+
+        .placeholder({
+            font-size: 18px;
+        });
     }
+}
+
+.search-box .search-box-chk {
+    text-align: left;
 }
 
 .result {
@@ -79,18 +108,31 @@ input[type=text] {
 }
 
 .navbar-default .navbar-brand,
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav > li > a {
     font-family: "Varela Round",Helvetica,sans-serif !important;
-    color: black;
-    //font-size: 1.5em;
+    color: white;
 }
 
 .navbar-default {
-    background-color: white;
+    background-color: @dark-theme;
     background-image: none;
     box-shadow: none;
 }
 
 .asterisk:after {
-    content: "*"
+    content: "*";
+}
+
+header {
+    background-color: white;
+    color: @dark-theme;
+}
+
+.intro-text {
+    color: @dark-theme;
+}
+
+.first-element {
+    padding-top: 100px;
+    padding-bottom: 100px;
 }

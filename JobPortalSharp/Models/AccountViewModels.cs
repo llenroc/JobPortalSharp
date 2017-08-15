@@ -159,7 +159,7 @@ namespace JobPortalSharp.Models
         public string AddressState { get; set; }
 
         [Display(Name = "Country")]
-        public string AddressCountry { get; set; }
+        public int CountryId { get; set; }
 
         [Display(Name = "Postal Code")]
         public string AddressPostalCode { get; set; }
@@ -184,6 +184,7 @@ namespace JobPortalSharp.Models
         
         public System.Web.Mvc.SelectList Industries { get; set; }
         public IEnumerable<EmployerType> EmployerTypes { get; set; }
+        public IEnumerable<Country> Countries { get; set; }
     }
 
     public class ResetPasswordViewModel

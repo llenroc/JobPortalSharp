@@ -44,6 +44,28 @@ namespace JobPortalSharp.Controllers
             return View(model);
         }
 
+        public ActionResult Index2()
+        {
+            ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId");
+            ViewBag.Industries = db.Industries.ToList();
+
+            var model = new SearchViewModel();
+
+            model.EmployerTypes = db.EmployerTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            model.EmploymentTypes = db.EmploymentTypes.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            return View(model);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

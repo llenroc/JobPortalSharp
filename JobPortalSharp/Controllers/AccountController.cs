@@ -192,7 +192,9 @@ namespace JobPortalSharp.Controllers
             var model = new EmployerRegisterViewModel
             {
                 Industries = new SelectList(db.Industries.Include(x => x.Category), "Id", "Name", "Category.Name", null, null),
-                EmployerTypes = db.EmployerTypes.ToList()
+                EmployerTypes = db.EmployerTypes.ToList(),
+                CountryId = 90,
+                Countries = db.Countries.ToList()
             };
             return View(model);
         }
@@ -220,7 +222,7 @@ namespace JobPortalSharp.Controllers
                         Name = model.CompanyName,
                         CompanyLogoFileName = Path.GetFileName(model.CompanyLogo.FileName),
                         CompanyLogoSystemFileName = logoSystemName,
-                        AddressCountry = model.AddressCountry,
+                        CountryId = model.CountryId,
                         AddressLatitude = model.AddressLatitude,
                         AddressLongitude = model.AddressLongitude,
                         AddressState = model.AddressState,
@@ -249,6 +251,7 @@ namespace JobPortalSharp.Controllers
             // If we got this far, something failed, redisplay form
             model.Industries = new SelectList(db.Industries.Include(x => x.Category), "Id", "Name", "Category.Name", null, null);
             model.EmployerTypes = db.EmployerTypes.ToList();
+            model.Countries = db.Countries.ToList();
             return View(model);
         }
 

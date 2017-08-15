@@ -30,6 +30,7 @@ namespace JobPortalSharp.Data
         public DbSet<EmployerType> EmployerTypes { get; set; }
         public DbSet<JobSelection> JobSelections { get; set; }
         public DbSet<IndustryCategory> IndustryCategories { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,6 +41,7 @@ namespace JobPortalSharp.Data
             modelBuilder.Entity<EmploymentType>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<Industry>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             modelBuilder.Entity<IndustryCategory>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<Country>().Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
     }
 }

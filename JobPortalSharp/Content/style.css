@@ -9,13 +9,33 @@ button {
   color: white;
   border: none;
 }
-.search-box input {
+.search-box {
+  margin-top: 20px;
+}
+.search-box input[type=text] {
   border: 1px solid lightgray;
   width: 100%;
-  line-height: 3em;
-  padding-left: 1em;
+  line-height: 45px;
   max-width: none;
   border-radius: 5px;
+  padding: 0 15px;
+  vertical-align: middle;
+  font-size: 18px;
+}
+.search-box input[type=text]::-webkit-input-placeholder {
+  font-size: 18px;
+}
+.search-box input[type=text]:-moz-placeholder {
+  font-size: 18px;
+}
+.search-box input[type=text]::-moz-placeholder {
+  font-size: 18px;
+}
+.search-box input[type=text]:-ms-input-placeholder {
+  font-size: 18px;
+}
+.search-box .search-box-chk {
+  text-align: left;
 }
 .result {
   margin-top: 10px;
@@ -59,13 +79,24 @@ input[type=text] {
 .navbar-default .navbar-brand,
 .navbar-default .navbar-nav > li > a {
   font-family: "Varela Round", Helvetica, sans-serif !important;
-  color: black;
+  color: white;
 }
 .navbar-default {
-  background-color: white;
+  background-color: #2C3E50;
   background-image: none;
   box-shadow: none;
 }
 .asterisk:after {
   content: "*";
+}
+header {
+  background-color: white;
+  color: #2C3E50;
+}
+.intro-text {
+  color: #2C3E50;
+}
+.first-element {
+  padding-top: 100px;
+  padding-bottom: 100px;
 }

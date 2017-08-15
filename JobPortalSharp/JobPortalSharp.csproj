@@ -261,6 +261,7 @@
     <Content Include="App_Data\employer_logo\microsoft.jpg" />
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -419,6 +420,10 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\freelancer.css" />
+    <Content Include="Content\freelancer.min.css" />
     <Content Include="Content\style.css">
       <DependentUpon>style.less</DependentUpon>
     </Content>
@@ -426,6 +431,7 @@
       <DependentUpon>style.css</DependentUpon>
     </Content>
     <Content Include="css\bootstrap-slider.min.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\12365888_10200950183152433_6466535702338873428_o.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -554,6 +560,13 @@
     <Content Include="Images\loading.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\portfolio\cabin.png" />
+    <Content Include="Images\portfolio\cake.png" />
+    <Content Include="Images\portfolio\circus.png" />
+    <Content Include="Images\portfolio\game.png" />
+    <Content Include="Images\portfolio\safe.png" />
+    <Content Include="Images\portfolio\submarine.png" />
+    <Content Include="Images\profile.png" />
     <Content Include="Images\u2365-r.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -638,12 +651,21 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\freelancer.less" />
+    <Content Include="Content\mixins.less" />
+    <Content Include="Content\variables.less" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Properties\PublishProfiles\file_system.pubxml" />
     <None Include="Properties\PublishProfiles\jobportalsharp.pubxml" />
     <None Include="Properties\PublishProfiles\riversecret.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\contact_me.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
@@ -718,12 +740,16 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\freelancer.js" />
+    <Content Include="Scripts\freelancer.min.js" />
+    <Content Include="Scripts\jqBootstrapValidation.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.dateFormat-1.0.js" />
     <Content Include="Scripts\jquery.geocomplete.js" />
     <Content Include="Scripts\jquery.geocomplete.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -854,6 +880,8 @@
     <Content Include="Views\JobPosts\ViewJobPost.cshtml" />
     <Content Include="Views\Jobs\Category.cshtml" />
     <Content Include="Views\Payment\Confirmation.cshtml" />
+    <Content Include="Views\Home\Index2.cshtml" />
+    <Content Include="Views\Shared\_Layout2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\application_files\" />

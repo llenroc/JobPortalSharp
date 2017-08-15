@@ -1,0 +1,26 @@
+﻿header {
+    background-color: white;
+    color: #2C3E50;
+}
+
+.intro-text {
+    color: #2C3E50;
+}
+
+.search-box {
+    margin: 10px 0;
+}
+
+.search-box input[type=text] {
+    width: 100%;
+    font-size: 2em;
+    border-color: grey;
+    border-width: 1px;
+    border-style: solid;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.search-box .search-box-chk {
+    text-align: left;
+}

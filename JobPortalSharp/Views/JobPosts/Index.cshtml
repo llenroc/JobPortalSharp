@@ -34,94 +34,99 @@
     </script>
 }
 
-@if (Model.Count() > 0)
-{
-    <p>
-        @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
-    </p>
-    <table class="table table-striped table-hover">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmploymentTypeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IndustryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Salary)
-            </th>
-            <th>
-                Applications
-            </th>
-            <th>
-                Status
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
+<div class="first-element">
+    <div class="col-sm-offset-1 col-sm-10">
+        @if (Model.Count() > 0)
         {
-            <tr id="@item.Id">
-                <td class="job-title">
-                    @Html.ActionLink(item.Name, "Details", new { id = item.Id }, new { @style = "font-weight: bold" })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmploymentTypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IndustryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Salary)
-                </td>
-                <td>
-                    @if (item.NumOfApplications > 0)
-                    {
-                        <button class="btn btn-xs btn-success" onclick="viewApplications(this)">View Applications (@item.NumOfApplications)</button>
-                            @*<span class="label label-primary label-as-badge" style="cursor: pointer" onclick="viewApplications(this)">
-                                    @Html.DisplayFor(modelItem => item.NumOfApplications)
-                                </span>*@
-                    }
-                    else
-                    {
-                        <span>None</span>
-                    }
-                </td>
-                <td>
-                    @if (item.Paid)
-                    {
-                        <p>Paid</p>
-                    }
-                    else
-                    {
-                        <form action="/Payment/Charge" method="POST">
-                            <input type="hidden" value="@item.Id" name="JobPostId" />
-                            <article>
-                                <label>Amount: $5.00</label>
-                            </article>
-                            <script src="//checkout.stripe.com/v2/checkout.js"
-                                    class="stripe-button"
-                                    data-key="pk_test_22j1E1nssuovlAlgpJQQeKYb"
-                                    data-locale="auto"
-                                    data-description="Sample Charge"
-                                    data-amount="500">
-                            </script>
-                        </form>
-                    }
-                </td>
-            </tr>
+            <p style="margin-top: 50px;">
+                @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
+            </p>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmploymentTypeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IndustryName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Salary)
+                    </th>
+                    <th>
+                        Applications
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr id="@item.Id">
+                        <td class="job-title">
+                            @Html.ActionLink(item.Name, "Details", new { id = item.Id }, new { @style = "font-weight: bold" })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmploymentTypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IndustryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Salary)
+                        </td>
+                        <td>
+                            @if (item.NumOfApplications > 0)
+                            {
+                                <button class="btn btn-xs btn-success" onclick="viewApplications(this)">View Applications (@item.NumOfApplications)</button>
+                                @*<span class="label label-primary label-as-badge" style="cursor: pointer" onclick="viewApplications(this)">
+                                        @Html.DisplayFor(modelItem => item.NumOfApplications)
+                                    </span>*@
+                            }
+                            else
+                            {
+                                <span>None</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Paid)
+                            {
+                                <p>Paid</p>
+                            }
+                            else
+                            {
+                                <form action="/Payment/Charge" method="POST">
+                                    <input type="hidden" value="@item.Id" name="JobPostId" />
+                                    <article>
+                                        <label>Amount: $5.00</label>
+                                    </article>
+                                    <script src="//checkout.stripe.com/v2/checkout.js"
+                                            class="stripe-button"
+                                            data-key="pk_test_22j1E1nssuovlAlgpJQQeKYb"
+                                            data-locale="auto"
+                                            data-description="Sample Charge"
+                                            data-amount="500">
+                                    </script>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
         }
-    </table>
-}
-else
-{
-    <center>
-        <p>You have no posts yet.</p>
-        @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
-    </center>
-}
+        else
+        {
+            <center>
+                <p>You have no posts yet.</p>
+                @Html.ActionLink("Post a new job", "Create", null, new { @class = "btn btn-primary" })
+            </center>
+        }
+    </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="modalApplications" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

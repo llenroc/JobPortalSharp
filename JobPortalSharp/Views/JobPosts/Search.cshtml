@@ -17,7 +17,7 @@
         var result1Start = 0;
         var result2Start = 0;
 
-        $('#modalJobApply').on('show.bs.modal', function (e) {
+        $('#modalJobApply').on('shown.bs.modal', function (e) {
             var $btn = $(e.relatedTarget);
             var $modal = $('#modalJobApply');
             var $form = $modal.find('form');
@@ -236,6 +236,7 @@
                         refreshJobCart();
                         updateJobCartButtons();
                         $('#modalJobApply form').LoadingOverlay('hide', true);
+                        alert('application sent');
                     },
                     error: function () {
                         //todo: implement this
@@ -325,7 +326,7 @@
     </script>
 }
 
-<div ng-app="app" ng-controller="ctrlSearch">
+<div class="first-element col-sm-offset-1 col-sm-10" ng-app="app" ng-controller="ctrlSearch">
     <div style="background-color: white; padding: 20px;">
         @using (Html.BeginForm("search", "jobposts", FormMethod.Get))
         {
