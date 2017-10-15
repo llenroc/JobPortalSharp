@@ -8,9 +8,36 @@ namespace JobPortalSharp.Data.Migrations
     using JobPortalSharp.Data.Entities;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using System.IO;
+    using Newtonsoft.Json;
+
+    class SeederJob
+    {
+        public string id { get; set; }
+        public string title { get; set; }
+        public string location { get; set; }
+        public string type { get; set; }
+        public string description { get; set; }
+        public string how_to_apply { get; set; }
+        public string company { get; set; }
+        public string company_url { get; set; }
+        public string company_logo { get; set; }
+        public string url { get; set; }
+    }
+
+    public class EnumUtils
+    {
+        public static T GenerateRandom<T>(Random rnd)
+        {
+            Array values = Enum.GetValues(typeof(T));
+            return (T)values.GetValue(rnd.Next(values.Length));
+        }
+    }
 
     public sealed class Configuration : DbMigrationsConfiguration<JobPortalSharp.Data.JobPortalSharpDbContext>
     {
+        private static string lipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
@@ -56,8 +83,16 @@ namespace JobPortalSharp.Data.Migrations
 
             SeedIndustryTables(context, systemUserId);
             SeedCountries(context, rnd, systemUserId);
-            SeedEmployers(context, rnd, systemUserId);
-            SeedJobPosts(context, rnd, systemUserId);
+
+            var path = System.Web.HttpContext.Current.Server.MapPath("~/Content/jobs_from_github.json");
+            using (StreamReader r = new StreamReader(path))
+            {
+                string json = r.ReadToEnd();
+                List<SeederJob> jobs = JsonConvert.DeserializeObject<List<SeederJob>>(json);
+
+                SeedEmployers(context, rnd, systemUserId, jobs);
+                SeedJobPosts(context, rnd, systemUserId, jobs);
+            }
         }
 
         private static void SeedIndustryTables(JobPortalSharpDbContext context, string systemUserId)
@@ -521,57 +556,54 @@ namespace JobPortalSharp.Data.Migrations
                 new Industry { CreatedById = systemUserId, CreatedDate = DateTime.Now, Id = 4250, CategoryId = 290, Name = "Other" });
         }
 
-        private static void SeedEmployers(JobPortalSharpDbContext context, Random rnd, string systemUserId)
+        private static void SeedEmployers(JobPortalSharpDbContext context, Random rnd, string systemUserId, IList<SeederJob> jobs)
         {
             if (context.Employers.Count() == 0)
             {
-                var list = new List<Employer>();
-
-                for (int i = 0; i < 100; i++)
+                var employerTypes = context.EmployerTypes.ToList();
+                foreach (var job in jobs)
                 {
-                    var numOfEmployees = rnd.Next(0, 5);
-                    var employerTypes = context.EmployerTypes.ToList();
-                    context.Employers.Add(
-                        new Employer
+                    if (!context.Employers.Any(x => x.Name == job.company))
+                    {
+                        context.Employers.Add(new Employer
                         {
-                            Name = "company " + (i + 1).ToString(),
-                            NumberOfEmployees = (NumberOfEmployees)numOfEmployees,
+                            Name = job.company,
+                            CompanyDescription = lipsum,
+                            NumberOfEmployees = EnumUtils.GenerateRandom<NumberOfEmployees>(rnd),
+                            ApplicationUserId = systemUserId,
+                            CountryId = 1880,
+                            AddressState = job.location,
                             EmployerTypeId = employerTypes[rnd.Next(0, employerTypes.Count)].Id,
-                            CreatedDate = DateTime.Now,
-                            CreatedById = systemUserId,
-                            CountryId = 90
                         });
+                        context.SaveChanges();
+                    }
                 }
-                context.SaveChanges();
             }
         }
 
-        private static void SeedJobPosts(JobPortalSharpDbContext context, Random rnd, string systemUserId)
+        private static void SeedJobPosts(JobPortalSharpDbContext context, Random rnd, string systemUserId, IList<SeederJob> jobs)
         {
             if (context.JobPosts.Count() == 0)
             {
-                var details = "The quick brown fox jumps over the lazy dog";
                 var industries = context.Industries.ToList();
                 var employmentTypes = context.EmploymentTypes.ToList();
                 var employers = context.Employers.ToList();
-                var list = new List<JobPost>();
 
-                for (int i = 0; i < 1000; i++)
+                foreach(var job in jobs)
                 {
-                    context.JobPosts.Add(
-                        new JobPost
-                        {
-                            Name = "job " + (i + 1).ToString(),
-                            Details = details,
-                            IndustryId = industries[rnd.Next(0, industries.Count)].Id,
-                            EmployerId = employers[rnd.Next(0, employers.Count)].Id,
-                            EmploymentTypeId = employmentTypes[rnd.Next(0, employmentTypes.Count)].Id,
-                            CreatedDate = DateTime.Now,
-                            CreatedById = systemUserId,
-                            ExpirationDate = RandomDay(rnd),
-                            PostDate = RandomDay(rnd),
-                            Paid = true
-                        });
+                    context.JobPosts.Add(new JobPost
+                    {
+                        Name = job.title,
+                        Details = job.description,
+                        IndustryId = industries[rnd.Next(0, industries.Count)].Id,
+                        EmploymentTypeId = employmentTypes[rnd.Next(0, employmentTypes.Count)].Id,
+                        EmployerId = context.Employers.Single(x => x.Name == job.company).Id,
+                        CreatedDate = DateTime.Now,
+                        CreatedById = systemUserId,
+                        ExpirationDate = RandomDay(rnd),
+                        PostDate = RandomDay(rnd),
+                        Paid = true
+                    });
                 }
 
                 context.SaveChanges();
@@ -782,7 +814,7 @@ namespace JobPortalSharp.Data.Migrations
 
         private static DateTime RandomDay(Random rnd)
         {
-            DateTime start = new DateTime(1995, 1, 1);
+            DateTime start = new DateTime(2017, 1, 1);
             int range = (DateTime.Today - start).Days;
             return start.AddDays(rnd.Next(range));
         }
