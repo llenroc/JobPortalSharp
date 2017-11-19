@@ -23,16 +23,16 @@ button {
   font-size: 18px;
 }
 .search-box input[type=text]::-webkit-input-placeholder {
-  font-size: 18px;
+  @rules ();
 }
 .search-box input[type=text]:-moz-placeholder {
-  font-size: 18px;
+  @rules ();
 }
 .search-box input[type=text]::-moz-placeholder {
-  font-size: 18px;
+  @rules ();
 }
 .search-box input[type=text]:-ms-input-placeholder {
-  font-size: 18px;
+  @rules ();
 }
 .search-box .search-box-chk {
   text-align: left;
@@ -99,4 +99,13 @@ header {
 .first-element {
   padding-top: 100px;
   padding-bottom: 100px;
+}
+@media (min-width: 768px) {
+  header .container {
+    padding-top: 100px !important;
+    padding-bottom: 100px;
+  }
+  header .intro-text .name {
+    font-size: 2em;
+  }
 }

@@ -18,16 +18,23 @@ button {
 .placeholder(@rules) {
 
     &::-webkit-input-placeholder {
-        @rules();
+        @rules
+        ();
     }
+
     &:-moz-placeholder {
-        @rules();
+        @rules
+        ();
     }
+
     &::-moz-placeholder {
-        @rules();
+        @rules
+        ();
     }
+
     &:-ms-input-placeholder {
-        @rules();
+        @rules
+        ();
     }
 }
 
@@ -44,9 +51,11 @@ button {
         vertical-align: middle;
         font-size: 18px;
 
-        .placeholder({
+        .placeholder( {
             font-size: 18px;
-        });
+        }
+
+        );
     }
 }
 
@@ -135,4 +144,15 @@ header {
 .first-element {
     padding-top: 100px;
     padding-bottom: 100px;
+}
+
+@media (min-width: 768px) {
+    header .container {
+        padding-top: 100px !important;
+        padding-bottom: 100px;
+    }
+
+    header .intro-text .name {
+        font-size: 2em;
+    }
 }
