@@ -99,6 +99,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\JobSelection.cs" />
     <Compile Include="Entities\JobApplicationDetail.cs" />
+    <Compile Include="Entities\Settings.cs" />
     <Compile Include="JobPortalSharpDbContext.cs" />
     <Compile Include="Entities\JobPost.cs" />
     <Compile Include="Migrations\201612062105242_initial.cs" />
@@ -120,6 +121,10 @@
     <Compile Include="Migrations\201706290730002_migration4.cs" />
     <Compile Include="Migrations\201706290730002_migration4.Designer.cs">
       <DependentUpon>201706290730002_migration4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711190648024_migration5.cs" />
+    <Compile Include="Migrations\201711190648024_migration5.Designer.cs">
+      <DependentUpon>201711190648024_migration5.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -147,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706290730002_migration4.resx">
       <DependentUpon>201706290730002_migration4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711190648024_migration5.resx">
+      <DependentUpon>201711190648024_migration5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

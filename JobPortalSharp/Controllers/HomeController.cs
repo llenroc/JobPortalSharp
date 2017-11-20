@@ -41,6 +41,13 @@ namespace JobPortalSharp.Controllers
                 Value = x.Id.ToString()
             }).ToList();
 
+            model.WebsiteTitle = db.Settings.Single(x => x.Name == "application.title").Value;
+            model.FooterText = db.Settings.Single(x => x.Name == "application.footer").Value;
+            model.HomePageWelcomeMessage = db.Settings.Single(x => x.Name == "homepage.welcomemessage").Value;
+            model.HomePageWelcomeMessageSubtext = db.Settings.Single(x => x.Name == "homepage.welcomemessage.subtext").Value;
+            model.HomePageBottomText = db.Settings.Single(x => x.Name == "homepage.bottomtext").Value;
+            model.AboutText = db.Settings.Single(x => x.Name == "about.text").Value;
+
             return View(model);
         }
 

@@ -26,6 +26,13 @@ namespace JobPortalSharp.Models
         public IEnumerable<int> ets { get; set; }
         public IEnumerable<SelectListItem> EmployerTypes { get; set; }
         public IEnumerable<SelectListItem> EmploymentTypes { get; set; }
+
+        public string WebsiteTitle { get; set; }
+        public string HomePageWelcomeMessage { get; set; }
+        public string HomePageWelcomeMessageSubtext { get; set; }
+        public string HomePageBottomText { get; set; }
+        public string AboutText { get; set; }
+        public string FooterText { get; set; }
     }
 
     public class SearchViewModel2

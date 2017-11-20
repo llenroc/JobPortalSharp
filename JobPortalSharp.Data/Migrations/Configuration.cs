@@ -93,6 +93,15 @@ namespace JobPortalSharp.Data.Migrations
                 SeedEmployers(context, rnd, systemUserId, jobs);
                 SeedJobPosts(context, rnd, systemUserId, jobs);
             }
+
+            context.Settings.AddOrUpdate(x => x.Name,
+                new Settings { CreatedById = systemUserId, Name = "application.title", Value = "JOB LISTING WEBSITE" },
+                new Settings { CreatedById = systemUserId, Name = "application.footer", Value = "Copyright 2017" },
+                new Settings { CreatedById = systemUserId, Name = "homepage.welcomemessage", Value = "FIND BETTER" },
+                new Settings { CreatedById = systemUserId, Name = "homepage.welcomemessage.subtext", Value = "Find the best jobs, employers, and career advice." },
+                new Settings { CreatedById = systemUserId, Name = "homepage.image", Value = "Sample text." },
+                new Settings { CreatedById = systemUserId, Name = "homepage.bottomtext", Value = "Sample text." },
+                new Settings { CreatedById = systemUserId, Name = "about.text", Value = "" });
         }
 
         private static void SeedIndustryTables(JobPortalSharpDbContext context, string systemUserId)

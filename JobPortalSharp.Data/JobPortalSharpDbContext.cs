@@ -31,6 +31,7 @@ namespace JobPortalSharp.Data
         public DbSet<JobSelection> JobSelections { get; set; }
         public DbSet<IndustryCategory> IndustryCategories { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Settings> Settings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
