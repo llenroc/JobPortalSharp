@@ -60,7 +60,10 @@
                     {
                         <li class="page-scroll"><a href="~/jobposts">My Posts</a></li>
                     }
-
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li><a href="/admin">Administration</a></li>
+                    }
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="page-scroll"><a href="~/account/logoff" id="jps-logout">Logout</a></li>

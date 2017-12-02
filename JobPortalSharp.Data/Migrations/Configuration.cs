@@ -47,7 +47,7 @@ namespace JobPortalSharp.Data.Migrations
         {
             var rnd = new Random();
 
-            string[] roles = new string[] { "Employer", "Applicant", "System" };
+            string[] roles = new string[] { "Employer", "Applicant", "System", "Administrator" };
 
             foreach (string role in roles)
             {
@@ -59,16 +59,24 @@ namespace JobPortalSharp.Data.Migrations
                 }
             }
 
-            var hash = new PasswordHasher();
-            string password = hash.HashPassword("password"); //todo: fix this
-            context.Users.AddOrUpdate(u => u.UserName, new ApplicationUser
-            {
-                UserName = "System",
-                PasswordHash = password
-            });
-            context.SaveChanges();
+            var store = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(store);
 
-            var systemUserId = context.Users.Single(x => x.UserName == "System").Id;
+            if (!context.Users.Any(u => u.UserName == "system@example.com"))
+            {
+                var user = new ApplicationUser { UserName = "system@example.com", Email = "system@example.com" };
+                manager.Create(user, "sl@pSh0ck");
+                manager.AddToRole(user.Id, "System");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "admin@example.com"))
+            {
+                var user = new ApplicationUser { UserName = "admin@example.com", Email = "admin@example.com" };
+                var test = manager.Create(user, "sl@pSh0ck");
+                manager.AddToRole(user.Id, "System");
+            }
+
+            var systemUserId = context.Users.Single(x => x.UserName == "system@example.com").Id;
 
             context.EmployerTypes.AddOrUpdate(x => x.Id,
                 new EmployerType { Id = 1, CreatedById = systemUserId, CreatedDate = DateTime.Now, Name = "Direct Employer" },
