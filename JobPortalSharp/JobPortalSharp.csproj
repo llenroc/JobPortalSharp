@@ -570,7 +570,6 @@
     <Content Include="Images\portfolio\game.png" />
     <Content Include="Images\portfolio\safe.png" />
     <Content Include="Images\portfolio\submarine.png" />
-    <Content Include="Images\profile.png" />
     <Content Include="Images\u2365-r.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -666,6 +665,7 @@
     <Content Include="Content\jobs_from_github.json" />
     <None Include="Properties\PublishProfiles\file_system.pubxml" />
     <None Include="Properties\PublishProfiles\jobportalsharp.pubxml" />
+    <None Include="Properties\PublishProfiles\jobswtf.pubxml" />
     <None Include="Properties\PublishProfiles\riversecret.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />

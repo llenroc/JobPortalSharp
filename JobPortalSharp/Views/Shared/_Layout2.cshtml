@@ -49,12 +49,9 @@
                     <li class="page-scroll">
                         <a href="~/">Home</a>
                     </li>
-                    <li class="page-scroll">
-                        <a href="#about">About</a>
-                    </li>
                     @if (User.Identity.IsAuthenticated == false)
                     {
-                        <li class="page-scroll"><a href="~/account/employerlogin">Employer</a></li>
+                        <li class="page-scroll"><a href="~/account/employerlogin">Login</a></li>
                     }
                     @if (User.IsInRole("Employer"))
                     {
