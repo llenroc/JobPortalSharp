@@ -73,7 +73,7 @@ namespace JobPortalSharp.Data.Migrations
             {
                 var user = new ApplicationUser { UserName = "admin@example.com", Email = "admin@example.com" };
                 var test = manager.Create(user, "sl@pSh0ck");
-                manager.AddToRole(user.Id, "System");
+                manager.AddToRole(user.Id, "Administrator");
             }
 
             var systemUserId = context.Users.Single(x => x.UserName == "system@example.com").Id;
