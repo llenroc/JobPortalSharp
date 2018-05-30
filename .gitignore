@@ -287,3 +287,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/JobPortalSharp/App_Data/employer_logo
+/JobPortalSharp/App_Data/application_files
