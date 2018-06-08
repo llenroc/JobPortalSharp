@@ -25,66 +25,55 @@ namespace JobPortalSharp.Controllers.api
 
         [HttpGet]
         [AllowAnonymous]
-        public object Search([FromUri]SearchViewModel2 model)
+        public object Search([FromUri]SearchViewModel model)
         {
-            const int LOC_RADIUS_KM = 10;
+            const int LOC_RADIUS_KM = 50;
 
-            IEnumerable<JobPost> query1 = db.JobPosts
+            IEnumerable<JobPost> query = db.JobPosts
                 .Include(x => x.Employer)
                 .Include(x => x.EmploymentType)
                 .Include(x => x.Industry)
-                .Where(x => x.Paid);
+                .Where(x => x.Paid);//todo: this is inefficient
 
             if (string.IsNullOrWhiteSpace(model.q) == false)
             {
-                query1 = query1.Where(x => x.Name.ToLower().Contains(model.q.ToLower()) || x.Employer.Name.ToLower().Contains(model.q.ToLower()));
+                query = query.Where(x => x.Name.ToLower().Contains(model.q.ToLower()) || x.Employer.Name.ToLower().Contains(model.q.ToLower()) || x.Details.Contains(model.q.ToLower()));
             }
 
             if (model.ets != null && model.ets.Count() > 0)
             {
-                query1 = query1.Where(x => model.ets.Any(y => y == x.EmploymentTypeId));
+                query = query.Where(x => model.ets.Any(y => y == x.EmploymentTypeId));
             }
 
             if (model.ers != null && model.ers.Count() > 0)
             {
-                query1 = query1.Where(x => model.ers.Any(y => y == x.Employer.EmployerTypeId));
+                query = query.Where(x => model.ers.Any(y => y == x.Employer.EmployerTypeId));
             }
 
             if (string.IsNullOrWhiteSpace(model.l) == false)
             {
                 var loc = model.l.ToLower();
-                query1 = query1
-                    .Where(x =>
-                        (
-                            x.LocationSameAsEmployer &&
-                            (
-                                x.Employer.AddressStreet.ToLower().Contains(loc) ||
-                                x.Employer.AddressTown.ToLower().Contains(loc) ||
-                                x.Employer.AddressState.ToLower().Contains(loc) ||
-                                x.Employer.AddressCountry.ToLower().Contains(loc)
-                            )
-                        )
-                        ||
-                        (
-                            x.LocationSameAsEmployer == false &&
-                            (
-                                x.AddressStreet.ToLower().Contains(loc) ||
-                                x.AddressTown.ToLower().Contains(loc) ||
-                                x.AddressState.ToLower().Contains(loc) ||
-                                x.AddressCountry.ToLower().Contains(loc)
-                            )
-                        )
-                    );
+                query = query.Where(x => 
+                    x.LocationSameAsEmployer ? (x.Employer.AddressTown.ToLower().Contains(loc)) : x.AddressTown.ToLower().Contains(loc));
             }
 
+            query = query.ToList();
+            
             if (model.nb)
             {
                 if (model.lng != null && model.lat != null)
                 {
-                    var nearbyJobs = GetJobWithLocations()
-                        .Except(query1)
-                        .Where(x => DistanceBetweenPlaces(x.AddressLongitude.Value, x.AddressLatitude.Value, model.lng.Value, model.lat.Value) >= LOC_RADIUS_KM);
-                    query1 = query1.Concat(nearbyJobs);
+                    var nearbyJobs = db.JobPosts
+                        .Include(x => x.Employer)
+                        .ToList()
+                        .Except(query)
+                        .Where(x => DistanceBetweenPlaces(
+                            x.LocationSameAsEmployer ? x.Employer.AddressLongitude.Value : x.AddressLongitude.Value, 
+                            x.LocationSameAsEmployer ? x.Employer.AddressLatitude.Value : x.AddressLatitude.Value, 
+                            model.lng.Value, 
+                            model.lat.Value) <= LOC_RADIUS_KM);
+
+                    query = query.Concat(nearbyJobs);
                 }
                 else
                 {
@@ -94,34 +83,34 @@ namespace JobPortalSharp.Controllers.api
 
             if (model.sort == 1)
             {
-                query1 = query1.OrderByDescending(x => x.ExpirationDate);
+                query = query.OrderByDescending(x => x.ExpirationDate);
             }
             else if (model.sort == 2)
             {
-                query1 = query1.OrderByDescending(x => x.PostDate);
+                query = query.OrderByDescending(x => x.PostDate);
             }
 
-            model.rc = query1.Count();
+            model.rc = query.Count();
 
             return Json(new
             {
                 draw = model.draw,
-                data = query1.Select(x => new JobPostDto
-                    {
-                        AddressCountry = x.LocationSameAsEmployer ? x.Employer.AddressCountry : x.AddressCountry,
-                        AddressTown = x.LocationSameAsEmployer ? x.Employer.AddressTown : x.AddressTown,
-                        AddressState = x.LocationSameAsEmployer ? x.Employer.AddressState : x.AddressState,
-                        Details = x.Details,
-                        EmployerId = x.EmployerId,
-                        EmployerName = x.Employer.Name,
-                        EmploymentTypeName = x.EmploymentType.Name,
-                        IndustryName = x.Industry.Name,
-                        Id = x.Id,
-                        Name = x.Name,
-                        Salary = x.Salary,
-                        SalaryRangeFrom = x.SalaryRangeFrom,
-                        SalaryRangeTo = x.SalaryRangeTo
-                    })
+                data = query.Select(x => new JobPostDto
+                {
+                    AddressCountry = x.LocationSameAsEmployer ? x.Employer.AddressCountry : x.AddressCountry,
+                    AddressTown = x.LocationSameAsEmployer ? x.Employer.AddressTown : x.AddressTown,
+                    AddressState = x.LocationSameAsEmployer ? x.Employer.AddressState : x.AddressState,
+                    Details = x.Details,
+                    EmployerId = x.EmployerId,
+                    EmployerName = x.Employer.Name,
+                    EmploymentTypeName = x.EmploymentType.Name,
+                    IndustryName = x.Industry.Name,
+                    Id = x.Id,
+                    Name = x.Name,
+                    Salary = x.Salary,
+                    SalaryRangeFrom = x.SalaryRangeFrom,
+                    SalaryRangeTo = x.SalaryRangeTo
+                })
                     .Skip(model.start)
                     .Take(model.length),
                 recordsTotal = model.rc,
@@ -177,6 +166,20 @@ namespace JobPortalSharp.Controllers.api
                 .Include(j => j.Industry)
                 .Where(j => j.LocationSameAsEmployer == false).ToList()
                 .Concat(tmp);
+        }
+
+        private IEnumerable<LocationEntityDto> GetJobWithLocations2()
+        {
+            return db.JobPosts.Include(x => x.Employer).Select(x => new LocationEntityDto
+            {
+                Id = x.Id,
+                AddressCountry = x.LocationSameAsEmployer ? x.Employer.AddressCountry : x.AddressCountry,
+                AddressLatitude = x.LocationSameAsEmployer ? x.Employer.AddressLatitude : x.AddressLatitude,
+                AddressLongitude = x.LocationSameAsEmployer ? x.Employer.AddressLatitude : x.AddressLatitude,
+                AddressState = x.LocationSameAsEmployer ? x.Employer.AddressState : x.AddressState,
+                AddressStreet = x.LocationSameAsEmployer ? x.Employer.AddressStreet : x.AddressStreet,
+                AddressTown = x.LocationSameAsEmployer ? x.Employer.AddressTown : x.AddressTown
+            });
         }
     }
 }

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JobPortalSharp.Data</RootNamespace>
     <AssemblyName>JobPortalSharp.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -87,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Dto\EmployeeDto.cs" />
     <Compile Include="Dto\JobPostDto.cs" />
+    <Compile Include="Dto\LocationEntityDto.cs" />
     <Compile Include="Entities\Applicant.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\AreaClasses.cs" />

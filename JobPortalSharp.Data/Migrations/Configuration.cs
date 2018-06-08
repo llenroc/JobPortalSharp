@@ -25,6 +25,13 @@ namespace JobPortalSharp.Data.Migrations
         public string url { get; set; }
     }
 
+    class SeederCity
+    {
+        public string name { get; set; }
+        public double lat { get; set; }
+        public double lng { get; set; }
+    }
+
     public class EnumUtils
     {
         public static T GenerateRandom<T>(Random rnd)
@@ -92,14 +99,24 @@ namespace JobPortalSharp.Data.Migrations
             SeedIndustryTables(context, systemUserId);
             SeedCountries(context, rnd, systemUserId);
 
-            var path = System.Web.HttpContext.Current.Server.MapPath("~/Content/jobs_from_github.json");
-            using (StreamReader r = new StreamReader(path))
+            if (context.Employers.Count() == 0)
             {
-                string json = r.ReadToEnd();
-                List<SeederJob> jobs = JsonConvert.DeserializeObject<List<SeederJob>>(json);
+                var citiesPath = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/seeders/cities.json");
+                var jobsPath = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/seeders/jobs.json");
 
-                SeedEmployers(context, rnd, systemUserId, jobs);
-                SeedJobPosts(context, rnd, systemUserId, jobs);
+                using (StreamReader rsJobs = new StreamReader(jobsPath))
+                {
+                    string jsonJobs = rsJobs.ReadToEnd();
+                    var jobs = JsonConvert.DeserializeObject<List<SeederJob>>(jsonJobs);
+                    using (StreamReader rsCities = new StreamReader(citiesPath))
+                    {
+                        string jsonCities = rsCities.ReadToEnd();
+                        var cities = JsonConvert.DeserializeObject<List<SeederCity>>(jsonCities);
+
+                        SeedEmployers(context, rnd, systemUserId, jobs, cities);
+                    }
+                    SeedJobPosts(context, rnd, systemUserId, jobs);
+                }
             }
 
             context.Settings.AddOrUpdate(x => x.Name,
@@ -573,7 +590,7 @@ namespace JobPortalSharp.Data.Migrations
                 new Industry { CreatedById = systemUserId, CreatedDate = DateTime.Now, Id = 4250, CategoryId = 290, Name = "Other" });
         }
 
-        private static void SeedEmployers(JobPortalSharpDbContext context, Random rnd, string systemUserId, IList<SeederJob> jobs)
+        private static void SeedEmployers(JobPortalSharpDbContext context, Random rnd, string systemUserId, IList<SeederJob> jobs, IList<SeederCity> cities)
         {
             if (context.Employers.Count() == 0)
             {
@@ -582,6 +599,7 @@ namespace JobPortalSharp.Data.Migrations
                 {
                     if (!context.Employers.Any(x => x.Name == job.company))
                     {
+                        var city = cities[rnd.Next(0, cities.Count)];
                         context.Employers.Add(new Employer
                         {
                             Name = job.company,
@@ -589,7 +607,9 @@ namespace JobPortalSharp.Data.Migrations
                             NumberOfEmployees = EnumUtils.GenerateRandom<NumberOfEmployees>(rnd),
                             ApplicationUserId = systemUserId,
                             CountryId = 1880,
-                            AddressState = job.location,
+                            AddressTown = city.name,
+                            AddressLatitude = city.lat,
+                            AddressLongitude = city.lng,
                             EmployerTypeId = employerTypes[rnd.Next(0, employerTypes.Count)].Id,
                         });
                         context.SaveChanges();
@@ -606,7 +626,7 @@ namespace JobPortalSharp.Data.Migrations
                 var employmentTypes = context.EmploymentTypes.ToList();
                 var employers = context.Employers.ToList();
 
-                foreach(var job in jobs)
+                foreach (var job in jobs)
                 {
                     context.JobPosts.Add(new JobPost
                     {
@@ -619,7 +639,8 @@ namespace JobPortalSharp.Data.Migrations
                         CreatedById = systemUserId,
                         ExpirationDate = RandomDay(rnd),
                         PostDate = RandomDay(rnd),
-                        Paid = true
+                        Paid = true,
+                        LocationSameAsEmployer = true
                     });
                 }
 

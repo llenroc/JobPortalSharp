@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JobPortalSharp</RootNamespace>
     <AssemblyName>JobPortalSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -258,6 +258,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Data\seeders\cities.json" />
     <Content Include="App_Data\employer_logo\amazon.jpg" />
     <Content Include="App_Data\employer_logo\facebook.jpg" />
     <Content Include="App_Data\employer_logo\google.jpg" />
@@ -606,7 +607,7 @@
     <Content Include="Content\style.css.map">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Include="App_Data\Australian.Suburbs.and.Geocodes.csv">
+    <Content Include="App_Data\seeders\suburbs.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\DataTables\css\semanticui.scss" />
@@ -662,7 +663,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\jobs_from_github.json" />
+    <Content Include="App_Data\seeders\jobs.json" />
     <None Include="Properties\PublishProfiles\file_system.pubxml" />
     <None Include="Properties\PublishProfiles\jobportalsharp.pubxml" />
     <None Include="Properties\PublishProfiles\jobswtf.pubxml" />

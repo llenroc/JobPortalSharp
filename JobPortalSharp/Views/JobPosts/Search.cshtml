@@ -1,4 +1,5 @@
-﻿@model JobPortalSharp.Models.SearchViewModel
+﻿@model JobPortalSharp.Models.FilterViewModel
+
 @{
     ViewBag.Title = "Home Page";
 }
@@ -14,8 +15,9 @@
 @section FooterScripts {
     <script type="text/javascript">
         var urlVars = getUrlVars();
-        var result1Start = 0;
-        var result2Start = 0;
+        var start1 = 0;
+        var start2 = 0;
+        test_list = [];
 
         $('#modalJobApply').on('shown.bs.modal', function (e) {
             var $btn = $(e.relatedTarget);
@@ -51,7 +53,7 @@
                 jobSelections.splice(index, 1);
                 localStorage['job_selections'] = JSON.stringify(jobSelections);
             }
-            
+
             refreshJobCart();
             updateJobCartButtons();
         }
@@ -62,10 +64,9 @@
             updateJobCartButtons();
         }
 
-        function generateUrlParams(loc) {
+        function generateUrlParams(result) {
             var url = '';
-            var sort1 = $('#result1 .job-sorting').val();
-            var sort2 = $('#result2 .job-sorting').val();
+            var sort = result == 1 ? $('#result1 .job-sorting').val() : $('#result2 .job-sorting').val();
 
             var ers = $('#ers').val();
             if (ers != null) {
@@ -81,12 +82,12 @@
                 }
             }
 
-            if (loc == 1) {
-                url = '?q=' + urlVars['q'] + '&l=' + urlVars['l1'] + '&lat=' + urlVars['lat1'] +
-                    '&lng=' + urlVars['lng1'] + '&nb=' + urlVars['nb1'] + '&length=10&start=' + result1Start + '&sort=' + sort1 + url;
+            if (result == 1) {
+                url = '?q=' + $('#q').val() + '&l=' + $('#l1').val() + '&lat=' + $('#lat1').val() +
+                    '&lng=' + $('#lng1').val() + '&nb=' + $('#nb1')[0].checked + '&length=10&start=' + start1 + '&sort=' + sort;
             } else {
-                url = '?q=' + urlVars['q'] + '&l=' + urlVars['l2'] + '&lat=' + urlVars['lat2'] +
-                    '&lng=' + urlVars['lng2'] + '&nb=' + urlVars['nb2'] + '&length=10&start=' + result2Start + '$sort=' + sort2 + url;
+                url = '?q=' + $('#q').val() + '&l=' + $('#l2').val() + '&lat=' + $('#lat2').val() +
+                    '&lng=' + $('#lng2').val() + '&nb=' + $('#nb2')[0].checked + '&length=10&start=' + start2 + '&sort=' + sort;
             }
 
             return url;
@@ -102,39 +103,49 @@
                 var place = autocomplete1.getPlace();
                 $('#lng1').val(place.geometry.location.lng());
                 $('#lat1').val(place.geometry.location.lat());
-                console.log(2)
+                for (var i = 0; i < place.address_components.length; i++) {
+                    if ($.inArray('locality', place.address_components[i].types) >= 0) {
+                        $('#l1').val(place.address_components[i].short_name);
+                        break;
+                    }
+                }
             });
 
             google.maps.event.addListener(autocomplete2, 'place_changed', function () {
                 var place = autocomplete2.getPlace();
                 $('#lng2').val(place.geometry.location.lng());
                 $('#lat2').val(place.geometry.location.lat());
-                console.log(1)
+                for (var i = 0; i < place.address_components.length; i++) {
+                    if ($.inArray('locality', place.address_components[i].types) >= 0) {
+                        $('#l2').val(place.address_components[i].short_name);
+                        break;
+                    }
+                }
             });
         }
 
         function initializeNavButtons() {
-            $('#pnlResult .next').click(function () {
-                result1Start+=10;
-                loadResult();
+            $('#result1 .next').click(function () {
+                start1 += 10;
+                loadResult(1);
                 updateNavButtons();
             })
-            $('#pnlResult .prev').click(function () {
-                result1Start -= 10;
-                loadResult();
+            $('#result1 .prev').click(function () {
+                start1 -= 10;
+                loadResult(1);
+                updateNavButtons();
+            })
+            $('#result2 .next').click(function () {
+                start1 += 10;
+                loadResult(2);
+                updateNavButtons();
+            })
+            $('#result2 .prev').click(function () {
+                start1 -= 10;
+                loadResult(2);
                 updateNavButtons();
             })
             updateNavButtons();
-        }
-
-        function loadInitialResult() {
-            if (urlVars['l1'] || (!urlVars['l1'] && !urlVars['l2'])) {
-                loadResult();
-            }
-
-            if (urlVars['l2']) {
-
-            }
         }
 
         function extractAddr(obj) {
@@ -157,36 +168,84 @@
             return addr;
         }
 
-        function loadResult() {
-            $('#pnlResult').LoadingOverlay('show');
-            $.ajax({
-                type: 'GET',
-                url: '/api/jobposts/search' + generateUrlParams(1),
-                success: function (data) {
-                    $('#pnlResult').LoadingOverlay('hide', true);
-                    $('#result1 .result').empty();
+        function loadInitialResult() {
+            $('#q').val(urlVars['q']);
+            $('#l1').val(urlVars['l1']);
+            $('#lat1').val(urlVars['lat1']);
+            $('#lng1').val(urlVars['lng1']);
+            $('#nb1')[0].checked = urlVars['nb1'];
+            $('#l2').val(urlVars['l2']);
+            $('#lat2').val(urlVars['lat2']);
+            $('#lng2').val(urlVars['lng2']);
+            $('#nb2')[0].checked = urlVars['nb2'];
+            loadResult();
+        }
 
-                    for (var i = 0; i < data.data.length; i++) {
-                        var obj = data.data[i];
-                        var addr = extractAddr(obj);
-                        
-                        $('#result1 .result').append(
-                            '<div class="result-row" data-job-post-id="' + obj.Id + '">' +
-                            '<div class="row">'+
-                            '<div class="col-md-2"><button id="' + obj.Id + '" type="button" class="btn btn-primary selection" onclick="addToSelection(this.id)">Apply</button></div>' +
-                            '<div class="col-md-3">' + obj.Name + '</div>' +
-                            '<div class="col-md-3">' + addr + '</div>' +
-                            '<div class="col-md-2">' + obj.EmploymentTypeName + '</div>' +
-                            '<div class="col-md-2"><button class="btn btn-default" onclick=viewJobDetails(this)>View Details</button></div>' +
-                            '</div>' +
-                            '</div>');
+        function loadResult(panel) {
+            if (panel == undefined || panel == 1) {
+                $('#result1').LoadingOverlay('show');
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/jobposts/search' + generateUrlParams(1),
+                    success: function (data) {
+                        $('#result1').LoadingOverlay('hide', true);
+                        $('#result1 .result').empty();
+
+                        for (var i = 0; i < data.data.length; i++) {
+                            var obj = data.data[i];
+                            var addr = extractAddr(obj);
+
+                            $('#result1 .result').append(
+                                '<div class="result-row" data-job-post-id="' + obj.Id + '">' +
+                                '<div class="row">' +
+                                '<div class="col-md-2"><button id="' + obj.Id + '" type="button" class="btn btn-primary selection" onclick="addToSelection(this.id)">Apply</button></div>' +
+                                '<div class="col-md-3">' + obj.Name + '</div>' +
+                                '<div class="col-md-3">' + addr + '</div>' +
+                                '<div class="col-md-2">' + obj.EmploymentTypeName + '</div>' +
+                                '<div class="col-md-2"><button class="btn btn-default" onclick=viewJobDetails(this)>View Details</button></div>' +
+                                '</div>' +
+                                '</div>');
+                        }
+                    },
+                    error: function () {
+                        $('#result2').LoadingOverlay('hide', true);
+                        //todo
                     }
-                },
-                error: function () {
-                    $('#pnlResult').LoadingOverlay('hide', true);
-                    //todo
-                }
-            })
+                })
+            }
+
+            if ((panel == undefined && $('#l2').val()) || panel == 2) {
+                $('#result2').show();
+                $('#result2').LoadingOverlay('show');
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/jobposts/search' + generateUrlParams(2),
+                    success: function (data) {
+                        $('#result2').LoadingOverlay('hide', true);
+                        $('#result2 .result').empty();
+
+                        for (var i = 0; i < data.data.length; i++) {
+                            var obj = data.data[i];
+                            var addr = extractAddr(obj);
+
+                            $('#result2 .result').append(
+                                '<div class="result-row" data-job-post-id="' + obj.Id + '">' +
+                                '<div class="row">' +
+                                '<div class="col-md-2"><button id="' + obj.Id + '" type="button" class="btn btn-primary selection" onclick="addToSelection(this.id)">Apply</button></div>' +
+                                '<div class="col-md-3">' + obj.Name + '</div>' +
+                                '<div class="col-md-3">' + addr + '</div>' +
+                                '<div class="col-md-2">' + obj.EmploymentTypeName + '</div>' +
+                                '<div class="col-md-2"><button class="btn btn-default" onclick=viewJobDetails(this)>View Details</button></div>' +
+                                '</div>' +
+                                '</div>');
+                        }
+                    },
+                    error: function () {
+                        $('#result2').LoadingOverlay('hide', true);
+                        //todo
+                    }
+                })
+            }
         }
 
         function refreshJobCart() {
@@ -203,6 +262,12 @@
                     $jobCart.hide();
                 }
             }
+        }
+
+        function search() {
+            start1 = 0;
+            start2 = 0;
+            loadResult();
         }
 
         function sendApplication() {
@@ -269,8 +334,8 @@
             var $result1 = $('#result1');
             var $result2 = $('#result2');
 
-            $result1.find('.prev').prop('disabled', result1Start == 0);
-            $result2.find('.prev').prop('disabled', result2Start == 0);
+            $result1.find('.prev').prop('disabled', start1 == 0);
+            $result2.find('.prev').prop('disabled', start2 == 0);
         }
 
         function viewJobDetails(btn) {
@@ -319,47 +384,52 @@
 
             refreshJobCart();
             updateJobCartButtons();
-            loadInitialResult();
             initializeGoogleApi();
             initializeNavButtons();
+            loadInitialResult();
+            history.pushState(null, "", location.href.split("?")[0]);
         })
     </script>
 }
 
 <div class="first-element col-sm-offset-1 col-sm-10" ng-app="app" ng-controller="ctrlSearch">
     <div style="background-color: white; padding: 20px;">
-        @using (Html.BeginForm("search", "jobposts", FormMethod.Get))
-        {
+        <div class="search-box row">
             <div class="search-box row">
                 <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.q, new { placeholder = "keywords e.g. nurse" })
+                    <input type="text" id="q" name="q" placeholder="keywords e.g. nurse" />
                 </div>
                 <div class="col-md-3">
-                    @Html.TextBoxFor(model => model.l1, new { placeholder = "location 1" })
-                    @Html.HiddenFor(m => m.lng1)
-                    @Html.HiddenFor(m => m.lat1)
-                    @Html.CheckBoxFor(m => m.nb1, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
-                    <span>Including Surrounding Areas</span>
+                    <input type="text" id="l1" name="l1" placeholder="location" />
+                    <input type="hidden" id="lng1" name="lng1" />
+                    <input type="hidden" id="lat1" name="lat1" />
+                    <div class="search-box-chk">
+                        <input type="checkbox" id="nb1" name="nb1" style="margin-right: 10px; width: auto; margin-top: 0" />
+                        <span>Including Surrounding Areas</span>
+                    </div>
                 </div>
                 <div class="col-md-3">
-                    @Html.TextBoxFor(model => model.l2, new { placeholder = "location 2" })
-                    @Html.HiddenFor(m => m.lng2)
-                    @Html.HiddenFor(m => m.lat2)
-                    @Html.CheckBoxFor(m => m.nb2, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
-                    <span>Including Surrounding Areas</span>
+                    <input type="text" id="l2" name="l2" placeholder="location" />
+                    <input type="hidden" id="lng2" name="lng2" />
+                    <input type="hidden" id="lat2" name="lat2" />
+                    <div class="search-box-chk">
+                        <input type="checkbox" id="nb2" name="nb2" style="margin-right: 10px; width: auto; margin-top: 0" />
+                        <span>Including Surrounding Areas</span>
+                    </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary" style="width:100%;line-height:2.4em">Find Job</button>
+                    <button class="btn btn-primary" style="width:100%;line-height:2.4em" onclick="search()">Find Job</button>
                 </div>
             </div>
-        }
+        </div>
         <div>
             <input type="checkbox" id="chk-adv-search" />
             <label>Advance Search</label>
         </div>
         <div id="pane-adv-search" style="display: none">
-            @Html.ListBoxFor(model => model.ers, (IEnumerable<SelectListItem>)ViewBag.EmployerTypes, new { @class = "multiselect" })
-            @Html.ListBoxFor(model => model.ets, (IEnumerable<SelectListItem>)ViewBag.EmploymentTypes, new { @class = "multiselect" })
+            @Html.ListBox("ers", (IEnumerable<SelectListItem>)ViewBag.EmployerTypes, new { @class = "multiselect" })
+            @Html.ListBox("ets", (IEnumerable<SelectListItem>)ViewBag.EmploymentTypes, new { @class = "multiselect" })
+
         </div>
     </div>
 
@@ -382,16 +452,24 @@
                     <option value="2">Post Date</option>
                 </select>
             </div>
-            <div class="result" style="margin-bottom: 10px">
-
-            </div>
+            <div class="result" style="margin-bottom: 10px"></div>
             <div>
                 <button class="prev">Previous</button>
                 <button class="next">Next</button>
             </div>
         </div>
-        <div id="result2">
-            <div class="result"></div>
+        <div id="result2" style="display:none">
+            <div class="row">
+                <select class="job-sorting col-md-offset-11">
+                    <option value="1">Deadline</option>
+                    <option value="2">Post Date</option>
+                </select>
+            </div>
+            <div class="result" style="margin-bottom: 10px"></div>
+            <div>
+                <button class="prev">Previous</button>
+                <button class="next">Next</button>
+            </div>
         </div>
     </div>
 

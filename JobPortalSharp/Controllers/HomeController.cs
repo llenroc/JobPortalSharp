@@ -27,7 +27,7 @@ namespace JobPortalSharp.Controllers
             ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId");
             ViewBag.Industries = db.Industries.ToList();
 
-            var model = new SearchViewModel();
+            var model = new HomeViewModel();
 
             model.EmployerTypes = db.EmployerTypes.Select(x => new SelectListItem
             {
@@ -56,7 +56,7 @@ namespace JobPortalSharp.Controllers
             ViewBag.EmployerId = new SelectList(db.Employers, "Id", "ApplicationUserId");
             ViewBag.Industries = db.Industries.ToList();
 
-            var model = new SearchViewModel();
+            var model = new HomeViewModel();
 
             model.EmployerTypes = db.EmployerTypes.Select(x => new SelectListItem
             {

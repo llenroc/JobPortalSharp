@@ -15,6 +15,7 @@ namespace JobPortalSharp.Data
         Annually
     }
 
+    //todo: country id
     public class JobPost : Entity
     {
         [Display(Name = "Job Title")]
@@ -67,5 +68,10 @@ namespace JobPortalSharp.Data
         public string StripeEmail { get; set; }
 
         public ICollection<JobApplicationDetail> Applications { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is JobPost && ((JobPost)obj).Id == this.Id;
+        }
     }
 }

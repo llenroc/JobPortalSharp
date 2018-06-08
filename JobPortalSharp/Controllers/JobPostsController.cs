@@ -286,7 +286,7 @@ namespace JobPortalSharp.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Search(SearchViewModel model)
+        public ActionResult Search()
         {
             ViewBag.EmployerTypes = db.EmployerTypes.Select(x => new SelectListItem
             {
@@ -300,7 +300,7 @@ namespace JobPortalSharp.Controllers
                 Value = x.Id.ToString()
             }).ToList();
 
-            return View(model);
+            return View();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model JobPortalSharp.Models.SearchViewModel
+﻿@model JobPortalSharp.Models.HomeViewModel
 @{
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
@@ -16,14 +16,24 @@
                 var place = autocomplete1.getPlace();
                 $('#lng1').val(place.geometry.location.lng());
                 $('#lat1').val(place.geometry.location.lat());
-                console.log(2)
+                for (var i = 0; i < place.address_components.length; i++) {
+                    if ($.inArray('locality', place.address_components[i].types) >= 0) {
+                        $('#l1').val(place.address_components[i].short_name);
+                        break;
+                    }
+                }
             });
 
             google.maps.event.addListener(autocomplete2, 'place_changed', function () {
                 var place = autocomplete2.getPlace();
                 $('#lng2').val(place.geometry.location.lng());
                 $('#lat2').val(place.geometry.location.lat());
-                console.log(1)
+                for (var i = 0; i < place.address_components.length; i++) {
+                    if ($.inArray('locality', place.address_components[i].types) >= 0) {
+                        $('#l2').val(place.address_components[i].short_name);
+                        break;
+                    }
+                }
             });
         }
 
@@ -55,27 +65,27 @@
                 </div>
             </div>
         </div>
-        @using (Html.BeginForm("search", "jobposts", Model, FormMethod.Get))
+        @using (Html.BeginForm("search", "jobposts", FormMethod.Get))
         {
             <div class="search-box row">
                 <div class="col-md-4">
-                    @Html.TextBoxFor(m => m.q, new { placeholder = "keywords e.g. nurse" })
+                    <input type="text" name="q" placeholder="keywords e.g. nurse" />
                 </div>
                 <div class="col-md-3">
-                    @Html.TextBoxFor(m => m.l1, new { placeholder = "location 1" })
-                    @Html.HiddenFor(m => m.lng1)
-                    @Html.HiddenFor(m => m.lat1)
+                    <input type="text" id="l1" name="l1" placeholder="location" />
+                    <input type="hidden" id="lng1" name="lng1" />
+                    <input type="hidden" id="lat1" name="lat1" />
                     <div class="search-box-chk">
-                        @Html.CheckBoxFor(m => m.nb1, new { style = "margin-right: 10px; width: auto; margin-top: 0" })
+                        <input type="checkbox" name="nb1" style="margin-right: 10px; width: auto; margin-top: 0" />
                         <span>Including Surrounding Areas</span>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    @Html.TextBoxFor(m => m.l2, new { placeholder = "location 2" })
-                    @Html.HiddenFor(m => m.lng2)
-                    @Html.HiddenFor(m => m.lat2)
+                    <input type="text" id="l2" name="l2" placeholder="location" />
+                    <input type="hidden" id="lng2" name="lng2" />
+                    <input type="hidden" id="lat2" name="lat2" />
                     <div class="search-box-chk">
-                        @Html.CheckBoxFor(m => m.nb2)
+                        <input type="checkbox" name="nb2" style="margin-right: 10px; width: auto; margin-top: 0" />
                         <span>Including Surrounding Areas</span>
                     </div>
                 </div>

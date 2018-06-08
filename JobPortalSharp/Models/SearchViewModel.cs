@@ -12,36 +12,10 @@ namespace JobPortalSharp.Models
     {
         public string q { get; set; }
 
-        public string l1 { get; set; } //location
-        public double? lat1 { get; set; } //latitude
-        public double? lng1 { get; set; } //longitude
-        public bool nb1 { get; set; } //nearby
-
-        public string l2 { get; set; } //location
-        public double? lat2 { get; set; } //latitude
-        public double? lng2 { get; set; } //longitude
-        public bool nb2 { get; set; } //nearby
-
-        public IEnumerable<int> ers { get; set; }
-        public IEnumerable<int> ets { get; set; }
-        public IEnumerable<SelectListItem> EmployerTypes { get; set; }
-        public IEnumerable<SelectListItem> EmploymentTypes { get; set; }
-
-        public string WebsiteTitle { get; set; }
-        public string HomePageWelcomeMessage { get; set; }
-        public string HomePageWelcomeMessageSubtext { get; set; }
-        public string HomePageBottomText { get; set; }
-        public string AboutText { get; set; }
-        public string FooterText { get; set; }
-    }
-
-    public class SearchViewModel2
-    {
-        public string q { get; set; }
-
         public int draw { get; set; }
-        public int start { get; set; }
         public int length { get; set; }
+        public int start { get; set; }
+
         public decimal? sf { get; set; } //salary from
         public decimal? st { get; set; } //salary to
         public int? ind { get; set; } //industry
@@ -53,7 +27,26 @@ namespace JobPortalSharp.Models
         public double? lat { get; set; } //latitude
         public double? lng { get; set; } //longitude
         public bool nb { get; set; } //nearby
+
         public IEnumerable<int> ers { get; set; }
         public IEnumerable<int> ets { get; set; }
+    }
+    public class HomeViewModel
+    {
+        public string WebsiteTitle { get; set; }
+        public string HomePageWelcomeMessage { get; set; }
+        public string HomePageWelcomeMessageSubtext { get; set; }
+        public string HomePageBottomText { get; set; }
+        public string AboutText { get; set; }
+        public string FooterText { get; set; }
+
+        public IEnumerable<SelectListItem> EmployerTypes { get; set; }
+        public IEnumerable<SelectListItem> EmploymentTypes { get; set; }
+    }
+
+    public class FilterViewModel
+    {
+        public IEnumerable<SelectListItem> EmployerTypes { get; set; }
+        public IEnumerable<SelectListItem> EmploymentTypes { get; set; }
     }
 }
