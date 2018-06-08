@@ -258,7 +258,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\seeders\cities.json" />
+    <None Include="App_Data\seeders\cities.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="App_Data\employer_logo\amazon.jpg" />
     <Content Include="App_Data\employer_logo\facebook.jpg" />
     <Content Include="App_Data\employer_logo\google.jpg" />
@@ -607,9 +609,6 @@
     <Content Include="Content\style.css.map">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Include="App_Data\seeders\suburbs.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
@@ -663,7 +662,9 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="App_Data\seeders\jobs.json" />
+    <Content Include="App_Data\seeders\jobs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\file_system.pubxml" />
     <None Include="Properties\PublishProfiles\jobportalsharp.pubxml" />
     <None Include="Properties\PublishProfiles\jobswtf.pubxml" />
