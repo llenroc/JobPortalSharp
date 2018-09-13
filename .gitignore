@@ -289,3 +289,4 @@ __pycache__/
 *.xsd.cs
 /JobPortalSharp/App_Data/employer_logo
 /JobPortalSharp/App_Data/application_files
+/JobPortalSharp/Web.Secret.config

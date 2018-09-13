@@ -239,10 +239,7 @@ namespace JobPortalSharp.Controllers
                 var jobPost = db.JobPosts.Include(x => x.Employer.ApplicationUser).Single(x => x.Id == jobPostId);
                 var client = new RestClient();
                 client.BaseUrl = new Uri("https://api.mailgun.net/v3");
-
-                string path = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/mailgun.key");
-                var apiKey = System.IO.File.ReadAllText(path);
-                client.Authenticator = new HttpBasicAuthenticator("api", apiKey);
+                client.Authenticator = new HttpBasicAuthenticator("api", ConfigurationManager.AppSettings["mailgunApiKey"]);
                 RestRequest request = new RestRequest();
                 request.AddParameter("domain", "jp.irdocs.net", ParameterType.UrlSegment);
                 request.Resource = "{domain}/messages";
