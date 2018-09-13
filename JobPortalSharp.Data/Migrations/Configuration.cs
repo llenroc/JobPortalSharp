@@ -595,17 +595,24 @@ namespace JobPortalSharp.Data.Migrations
             if (context.Employers.Count() == 0)
             {
                 var employerTypes = context.EmployerTypes.ToList();
-                foreach (var job in jobs)
+                for (var i = 0; i < jobs.Count;  i++)
                 {
+                    var job = jobs[i];
                     if (!context.Employers.Any(x => x.Name == job.company))
                     {
+                        var store = new UserStore<ApplicationUser>(context);
+                        var manager = new UserManager<ApplicationUser>(store);
+                        var user = new ApplicationUser { UserName = "employer" + (i + 1).ToString() + "@example.com", Email = "employer" + (i + 1).ToString() + "@example.com" };
+                        manager.Create(user, "sl@pSh0ck");
+                        manager.AddToRole(user.Id, "Employer");
+
                         var city = cities[rnd.Next(0, cities.Count)];
                         context.Employers.Add(new Employer
                         {
                             Name = job.company,
                             CompanyDescription = lipsum,
                             NumberOfEmployees = EnumUtils.GenerateRandom<NumberOfEmployees>(rnd),
-                            ApplicationUserId = systemUserId,
+                            ApplicationUserId = user.Id,
                             CountryId = 1880,
                             AddressTown = city.name,
                             AddressLatitude = city.lat,
